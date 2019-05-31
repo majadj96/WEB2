@@ -263,11 +263,27 @@
     <Compile Include="Migrations\201905311036423_AddedTypeOfLine.Designer.cs">
       <DependentUpon>201905311036423_AddedTypeOfLine.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201905311410314_AddedAllExceptUser.cs" />
+    <Compile Include="Migrations\201905311410314_AddedAllExceptUser.Designer.cs">
+      <DependentUpon>201905311410314_AddedAllExceptUser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201905311420169_appUserModify.cs" />
+    <Compile Include="Migrations\201905311420169_appUserModify.Designer.cs">
+      <DependentUpon>201905311420169_appUserModify.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
+    <Compile Include="Models\Day.cs" />
+    <Compile Include="Models\Departure.cs" />
+    <Compile Include="Models\Line.cs" />
+    <Compile Include="Models\Station.cs" />
+    <Compile Include="Models\Ticket.cs" />
     <Compile Include="Models\TypeOfLine.cs" />
+    <Compile Include="Models\TypeOfTicket.cs" />
+    <Compile Include="Models\TypeOfUser.cs" />
+    <Compile Include="Models\Vehicle.cs" />
     <Compile Include="Persistence\ApplicationDbContext.cs" />
     <Compile Include="Persistence\Repository\IRepository.cs" />
     <Compile Include="Persistence\Repository\Repository.cs" />
@@ -377,6 +393,12 @@
     <EmbeddedResource Include="Migrations\201905311036423_AddedTypeOfLine.resx">
       <DependentUpon>201905311036423_AddedTypeOfLine.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905311410314_AddedAllExceptUser.resx">
+      <DependentUpon>201905311410314_AddedAllExceptUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905311420169_appUserModify.resx">
+      <DependentUpon>201905311420169_appUserModify.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -392,7 +414,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>52295</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>

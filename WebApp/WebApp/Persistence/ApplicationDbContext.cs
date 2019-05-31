@@ -13,6 +13,19 @@ namespace WebApp.Persistence
     {
 
         DbSet<TypeOfLine> typeOfLine { get; set; }
+        DbSet<Line> line { get; set; }
+        DbSet<Station> station { get; set; }
+
+        DbSet<Vehicle> vehicle { get; set; }
+
+        DbSet<Day> day { get; set; }
+
+
+        DbSet<Departure> departure { get; set; }
+
+        DbSet<TypeOfUser> typeOfUser { get; set; }
+        DbSet<TypeOfTicket> typeOfTicket { get; set; }
+        DbSet<Ticket> ticket { get; set; }
 
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
