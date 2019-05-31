@@ -16,6 +16,27 @@ namespace WebApp.Persistence.UnitOfWork
         {
             _context = context;
         }
+        [Dependency]
+        public IDepartureRepository Departures { get; set; }
+        [Dependency]
+        public ILineRepository Lines { get; set; }
+        [Dependency]
+        public IStationRepository Stations { get; set; }
+        [Dependency]
+        public ITicketRepository Tickets { get; set; }
+        [Dependency]
+        public IVehicleRepository Vehicles { get; set; }
+
+        [Dependency]
+        public ITypeOfLineRepository TypesOfLine { get; set; }
+        [Dependency]
+        public ITypeOfTicketRepository TypesOfTicket { get; set; }
+        [Dependency]
+        public ITypeOfUserRepository TypesOfUser { get; set; }
+        [Dependency]
+        public IDayRepository Days { get; set; }
+
+
 
         public int Complete()
         {
