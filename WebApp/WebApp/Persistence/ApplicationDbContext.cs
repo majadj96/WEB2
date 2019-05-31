@@ -36,5 +36,19 @@ namespace WebApp.Persistence
         {
             return new ApplicationDbContext();
         }
+
+        public System.Data.Entity.DbSet<WebApp.Models.Line> Lines { get; set; }
+
+        public System.Data.Entity.DbSet<WebApp.Models.Departure> Departures { get; set; }
+
+        public System.Data.Entity.DbSet<WebApp.Models.Day> Days { get; set; }
+
+        public System.Data.Entity.DbSet<WebApp.Models.Station> Stations { get; set; }
+
+        public System.Data.Entity.DbSet<WebApp.Models.Vehicle> Vehicles { get; set; }
+
+        public System.Data.Entity.DbSet<WebApp.Models.Ticket> Tickets { get; set; }
+
+        public System.Data.Entity.DbSet<WebApp.Models.TypeOfTicket> TypeOfTickets { get; set; }
     }
 }
