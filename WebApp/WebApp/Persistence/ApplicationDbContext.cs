@@ -11,6 +11,9 @@ namespace WebApp.Persistence
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
+
+        DbSet<TypeOfLine> typeOfLine { get; set; }
+
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {
