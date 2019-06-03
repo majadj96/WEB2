@@ -255,6 +255,8 @@
     <Compile Include="Controllers\DeparturesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LinesController.cs" />
+    <Compile Include="Controllers\PriceListsController.cs" />
+    <Compile Include="Controllers\PricesController.cs" />
     <Compile Include="Controllers\StationsController.cs" />
     <Compile Include="Controllers\TicketsController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
@@ -278,6 +280,10 @@
     <Compile Include="Migrations\201905311420169_appUserModify.Designer.cs">
       <DependentUpon>201905311420169_appUserModify.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201906030759055_PriceMigration.cs" />
+    <Compile Include="Migrations\201906030759055_PriceMigration.Designer.cs">
+      <DependentUpon>201906030759055_PriceMigration.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -285,6 +291,8 @@
     <Compile Include="Models\Day.cs" />
     <Compile Include="Models\Departure.cs" />
     <Compile Include="Models\Line.cs" />
+    <Compile Include="Models\Price.cs" />
+    <Compile Include="Models\PriceList.cs" />
     <Compile Include="Models\Station.cs" />
     <Compile Include="Models\Ticket.cs" />
     <Compile Include="Models\TypeOfLine.cs" />
@@ -297,6 +305,8 @@
     <Compile Include="Persistence\Repository\IDayRepository.cs" />
     <Compile Include="Persistence\Repository\IDepartureRepository.cs" />
     <Compile Include="Persistence\Repository\ILineRepository.cs" />
+    <Compile Include="Persistence\Repository\IPriceListRepository.cs" />
+    <Compile Include="Persistence\Repository\IPriceRepository.cs" />
     <Compile Include="Persistence\Repository\IRepository.cs" />
     <Compile Include="Persistence\Repository\IStationRepository.cs" />
     <Compile Include="Persistence\Repository\ITicketRepository.cs" />
@@ -305,6 +315,8 @@
     <Compile Include="Persistence\Repository\ITypeOfUserRepository.cs" />
     <Compile Include="Persistence\Repository\IVehicleRepository.cs" />
     <Compile Include="Persistence\Repository\LineRepository.cs" />
+    <Compile Include="Persistence\Repository\PriceListRepository.cs" />
+    <Compile Include="Persistence\Repository\PriceRepository.cs" />
     <Compile Include="Persistence\Repository\Repository.cs" />
     <Compile Include="Persistence\Repository\StationRepository.cs" />
     <Compile Include="Persistence\Repository\TicketRepository.cs" />
@@ -423,6 +435,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201905311420169_appUserModify.resx">
       <DependentUpon>201905311420169_appUserModify.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906030759055_PriceMigration.resx">
+      <DependentUpon>201906030759055_PriceMigration.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -20,6 +20,10 @@ namespace WebApp.Persistence.UnitOfWork
         ITypeOfUserRepository TypesOfUser { get; set; }
         IDayRepository Days { get; set; }
 
+        IPriceRepository Prices { get; set; }
+
+        IPriceListRepository PriceLists { get; set; }
+
         int Complete();
     }
 }

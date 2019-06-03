@@ -36,7 +36,11 @@ namespace WebApp.Persistence.UnitOfWork
         [Dependency]
         public IDayRepository Days { get; set; }
 
+        [Dependency]
+        public IPriceRepository Prices { get; set; }
 
+        [Dependency]
+        public IPriceListRepository PriceLists { get; set; }
 
         public int Complete()
         {
