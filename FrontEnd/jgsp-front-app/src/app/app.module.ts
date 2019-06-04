@@ -12,6 +12,7 @@ import { PriceListComponent } from './price-list/price-list.component';
 import { UnregistredComponent } from './unregistred/unregistred.component';
 import { HeaderComponent } from './header/header.component';
 import { LogoutComponent } from './logout/logout.component';
+import { ScheduleComponent } from './components/schedule/schedule.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { LogoutComponent } from './logout/logout.component';
     PriceListComponent,
     UnregistredComponent,
     HeaderComponent,
-    LogoutComponent
+    LogoutComponent,
+    ScheduleComponent
   ],
   imports: [
     BrowserModule,

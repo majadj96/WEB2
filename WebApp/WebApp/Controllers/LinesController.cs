@@ -66,7 +66,7 @@ namespace WebApp.Controllers
                 if (d.IDDay == day.IDDay)
                 {
                     i++;
-                    dep += " " + d.Time.ToString();
+                    dep +=d.Time.ToString()+" ";
                     if(i == 5)
                     {
                         dep += "\n";
@@ -74,7 +74,8 @@ namespace WebApp.Controllers
                     }
                 }
             }
-
+            if(line.Departures.Count>0)
+            dep = dep.Substring(0, dep.Length - 1);
             List<Departure> deps = new List<Departure>();
             deps = db.Departures.GetAll().Where(u => u.IDDay == day.IDDay).ToList();
             

@@ -41,4 +41,9 @@
       </form>
       <hr>
 
-      <label align="center">{{times}}</label>
+      <table align="center"> 
+      <ul>
+  <li *ngFor="let time of parser">{{time}}</li>
+</ul>
+</table>
+      <!-- <label *ngFor="let time of parser">{{time}}</label> -->

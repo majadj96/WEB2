@@ -11,6 +11,8 @@ import { Ticket } from './price';
 })
 export class PriceListComponent implements OnInit {
 public isPriceDataLoaded: boolean;
+public isOneHour: boolean;
+
 selectedTicket;
 selectedUser;
 email;
@@ -32,10 +34,14 @@ dat:Date;
 ticket:Ticket={IDticket:1, BoughtTime:this.dat,CheckIn:this.dat,TypeOfTicket:1,UserName:"guest"};
 
 role;
-prikaz;
 
-  constructor(public priceService: PriceService) {
+emailForm = this.fb.group({
+  email: ['', Validators.required],
+});
+
+  constructor(public priceService: PriceService,private fb: FormBuilder) {
     this.isPriceDataLoaded=false;
+    this.isOneHour=false;
   }
 
   ngOnInit() {
@@ -57,7 +63,7 @@ prikaz;
 
     if(this.role==null){
       alert("Niste se registrovali mozete kupiti samo vremensku kartu!");
-      this.prikaz="ok";
+      this.isOneHour=true;
     }
     else{
       alert("registrovani ste"+this.role);

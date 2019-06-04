@@ -72,15 +72,18 @@
 </table>
 
 <hr>
-
-<table align="center" border='1'>
+<form [formGroup]="emailForm" (ngSubmit)="buyOneHour()">
+<table *ngIf="isOneHour" align="center" border='1'>
     <tr>
-        <input type="email" [(ngModel)]="selectedTicket" required placeholder="Email to get ticket" >
+        <input type="email" formControlName="email" [(ngModel)]="email" required placeholder="Email to get ticket" >
         </tr>
-    <tr>
-<button  (click)="buyOneHour()">Buy one-hour ticket here!</button>
-</tr>
+        <tr>
+            <th colspan="2">   <button type="submit" [disabled]="!emailForm.valid">Buy one-hour ticket here!</button>
+            </th>
+            </tr>
+
 </table>
+</form>
 
       <!-- <button (click)="selected1()">LALA</button>      
       <button (click)="lala()">lala</button> -->
