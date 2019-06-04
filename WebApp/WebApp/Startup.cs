@@ -4,6 +4,7 @@ using System.Linq;
 using Microsoft.Owin;
 using Microsoft.Owin.Cors;
 using Owin;
+using WebApp.Models;
 
 [assembly: OwinStartup(typeof(WebApp.Startup))]
 
@@ -16,6 +17,7 @@ namespace WebApp
             app.UseCors(CorsOptions.AllowAll);
             ConfigureAuth(app);
             app.MapSignalR();
+            
         }
     }
 }

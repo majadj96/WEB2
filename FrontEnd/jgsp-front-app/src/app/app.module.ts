@@ -9,6 +9,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { RegisterComponent } from './register/register.component';
 import { StartComponent } from './start/start.component';
 import { PriceListComponent } from './price-list/price-list.component';
+import { ScheduleComponent } from './components/schedule/schedule.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { PriceListComponent } from './price-list/price-list.component';
     LoginComponent,
     RegisterComponent,
     StartComponent,
-    PriceListComponent
+    PriceListComponent,
+    ScheduleComponent
   ],
   imports: [
     BrowserModule,

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -20,6 +21,7 @@ namespace WebApp.Models
 
         public string Time { get; set; }
 
-        public List<Line> Lines { get; set; }
+        [JsonIgnore]
+        public virtual List<Line> Lines { get; set; }
     }
 }
