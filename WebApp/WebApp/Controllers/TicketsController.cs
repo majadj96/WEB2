@@ -22,6 +22,8 @@ namespace WebApp.Controllers
         {
             this.db = db;
         }
+
+        public TicketsController() { }
         // GET: api/Tickets
         public IEnumerable<Ticket> GetTickets()
         {

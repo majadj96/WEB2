@@ -1,17 +1,20 @@
-<h2>LOGIN</h2>
-<p>{{message}}</p>
-
+<h2 align="center">Log in</h2>
+<hr>
 <form [formGroup]="loginForm" (ngSubmit)="login()">
-  <label>
-    Username:
-    <input type="text" formControlName="username" required>
-  </label>
+    <table align="center" border='1'>
 
-  <label>
-    Password:
-    <input type="text" formControlName="password" required>
-  </label>
-
-  <button type="submit" [disabled]="!loginForm.valid" *ngIf="!authService.isLoggedIn">Login</button>
-  <button (click)="logout()" *ngIf="authService.isLoggedIn">Logout</button>
+        <tr>
+            <th>Username:</th>
+            <td> <input type="text" formControlName="username" required></td>
+          </tr>
+          <tr>
+              <th>Password:</th>
+              <td> <input type="password" formControlName="password" required></td>
+            </tr>
+  
+            <tr>
+                <th colspan="2">   <button type="submit" [disabled]="!loginForm.valid" *ngIf="!authService.isLoggedIn">Login</button>
+                </th>
+                </tr>
+</table>
 </form>

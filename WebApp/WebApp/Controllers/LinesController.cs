@@ -18,11 +18,22 @@ namespace WebApp.Controllers
     {
         //private ApplicationDbContext db = new ApplicationDbContext();
         private IUnitOfWork db;
+
+        public LinesController()
+        {
+
+        }
+
+      
         public LinesController(IUnitOfWork db)
         {
             this.db = db;
         }
+        [Route("StaGod")]
+        public void PostRegUser(ApplicationUser appUs)
+        {
 
+        }
         // GET: api/Lines
         public IEnumerable<Line> GetLines()
         {

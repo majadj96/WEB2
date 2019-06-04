@@ -19,7 +19,7 @@ using WebApp.Results;
 
 namespace WebApp.Controllers
 {
-    [Authorize]
+   // [Authorize]
     [RoutePrefix("api/Account")]//pocetak
     public class AccountController : ApiController
     {
@@ -36,6 +36,7 @@ namespace WebApp.Controllers
             UserManager = userManager;
             AccessTokenFormat = accessTokenFormat;
         }
+    
 
         public ApplicationUserManager UserManager
         {

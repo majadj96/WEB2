@@ -1,0 +1,96 @@
+<h2 align="center">Register</h2>
+<hr>
+<!-- 
+<form [formGroup]="registerForm" (ngSubmit)="register()">
+    <label>
+        First name:
+        <input type="text" formControlName="FirstName" required>
+      </label>
+      <label>
+          Last name:
+          <input type="text" formControlName="LastName" required>
+        </label>
+  <label>
+    Username:
+    <input type="text" formControlName="username" required>
+  </label>
+
+  <label>
+    Password:
+    <input type="text" formControlName="password" required>
+  </label>
+  <label>
+    Retype password:
+      <input type="text" formControlName="reppass" required>
+    </label>
+
+  <button type="submit">Register</button>
+</form> -->
+
+<form [formGroup]="registerForm" (ngSubmit)="register()">
+<table align="center" border='1'>
+		<tr align="center">
+			<th  id="Naslov" colspan=2>Please fill out the form!</th>
+    </tr>
+    
+    <tr>
+        <th>Email:</th>
+        <td> <input type="email" formControlName="username" required placeholder="email@email.com" ></td>
+      </tr>
+      <tr>
+          <th>Password:</th>
+          <td> <input type="text" formControlName="password" required placeholder="8 character minimum"></td>
+        </tr>
+        <tr>
+            <th>Repeat password:</th>
+            <td> <input type="text" formControlName="reppass" required placeholder="type password again"></td>
+          </tr>
+
+    	<tr>
+			<th colspan="2">Personal informations</th>
+		</tr>	
+		<tr>
+			<th>First name:</th>
+			<td> <input type="text" formControlName="FirstName" required placeholder="eg. John"></td>
+		</tr>	
+		
+		<tr>
+			<th>Last name:</th>
+			<td><input type="text" formControlName="LastName" required placeholder="eg. Mark"></td>
+		</tr>
+	
+        <tr>
+            <th>Date of birth</th>
+            <td><input type="date" formControlName="BirthDate" required></td>
+          </tr>
+              <tr>
+                  <th>Address:</th>
+                  <td><input type="text" formControlName="Address" placeholder="eg. Street 88"></td>
+                </tr>
+      <tr>
+
+			<th>You are:</th>
+			<td>
+          <input type="radio" ng-model="myVar" value="student">Student
+          <input type="radio" ng-model="myVar" value="pensioner">Pensioner
+			</td>
+		</tr>
+  
+  
+    <tr ng-show="myVar">
+        <th>Document:  </th>
+        <td>
+            <input #file type="file" accept='image/*' (change)="preview(file.files)"/>
+            <img [src]="imgURL" height="200" *ngIf="imgURL">
+
+            </td>
+      </tr>	
+ 
+		<tr>
+		<th colspan="2"><button type="submit">Register</button></th>
+		</tr>
+		
+    </table>
+  </form>
+
+  

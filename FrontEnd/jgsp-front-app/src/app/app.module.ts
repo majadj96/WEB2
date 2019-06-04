@@ -6,11 +6,17 @@ import { LoginComponent } from './auth/login/login.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
+import { RegisterComponent } from './register/register.component';
+import { StartComponent } from './start/start.component';
+import { PriceListComponent } from './price-list/price-list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent
+    LoginComponent,
+    RegisterComponent,
+    StartComponent,
+    PriceListComponent
   ],
   imports: [
     BrowserModule,

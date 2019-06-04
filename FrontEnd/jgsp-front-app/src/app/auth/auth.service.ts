@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, pipe, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { User } from './user';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -13,7 +14,7 @@ export class AuthService {
 
   loginUrl: string = 'http://localhost:52295/oauth/token';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,private route:Router) { }
 
   login(user: User): Observable<any> {
     return this.http.post<any>(this.loginUrl, `username=`+ user.username +`&password=`+ user.password + `&grant_type=password`, { 'headers': { 'Content-type': 'x-www-form-urlencoded' } }).pipe(
@@ -36,7 +37,7 @@ export class AuthService {
         localStorage.setItem('jwt', jwt)//u localstorage google chroma
         localStorage.setItem('role', role);//u localstorage google chroma
         this.isLoggedIn=  true;
-
+        this.route.navigate(['/start']);
       }),
 
       catchError(this.handleError<any>('login'))

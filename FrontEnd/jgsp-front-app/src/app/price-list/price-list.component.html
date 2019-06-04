@@ -1,0 +1,50 @@
+
+<h2 align="center">Price list</h2>
+<hr>
+<form (ngSubmit)="showPrices()">
+    <table align="center" border='1'>
+       <tr>
+          <th>Type of ticket:</th>
+          <td>
+              <select id="ticket" [(ngModel)]="selectedTicket">
+              <option value="one-hour">One-hour ticket</option>
+              <option value="day">Day ticket</option>
+              <option value="mounth">Mounth ticket</option>
+              <option value="year">Year ticket</option>
+              </select>
+          </td>
+        </tr>
+        <tr>
+            <th>Type of passanger:</th>
+            <td>
+                <select [(ngModel)]="selectedTicket" name="combo_passanger">
+                <option value="regular">Regular</option>
+                <option value="student">Student</option>
+                <option value="pensioner">Pensioner</option>
+                </select>
+            </td>
+          </tr>
+       
+        <tr >
+        <th colspan="2"><button type="submit">Show</button></th>
+        </tr>
+        
+        </table>
+      </form>
+      <hr>
+      
+
+     
+
+
+       <select [(ngModel)]="selectedTicket">
+          <option *ngFor="let item of dataTicket" [ngValue]="item">{{item.name}}</option>
+        </select>
+        <select [(ngModel)]="selectedUser">
+            <option *ngFor="let item1 of dataUser" [ngValue]="item1">{{item1.name}}</option>
+          </select>
+        <button (click)="selected1()">LALA</button>      
+          <button (click)="showPrices()">GET</button>
+          <button (click)="lala()">lala</button>
+
+          <label>{{prices}}</label>

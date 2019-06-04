@@ -12,10 +12,7 @@ namespace WebApp.Persistence.UnitOfWork
     {
         private readonly DbContext _context;
       
-        public DemoUnitOfWork(DbContext context)
-        {
-            _context = context;
-        }
+    
         [Dependency]
         public IDepartureRepository Departures { get; set; }
         [Dependency]
@@ -42,6 +39,10 @@ namespace WebApp.Persistence.UnitOfWork
         [Dependency]
         public IPriceListRepository PriceLists { get; set; }
 
+        public DemoUnitOfWork(DbContext context)
+        {
+            _context = context;
+        }
         public int Complete()
         {
             return _context.SaveChanges();

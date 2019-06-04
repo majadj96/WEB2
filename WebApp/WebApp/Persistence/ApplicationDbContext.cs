@@ -27,6 +27,12 @@ namespace WebApp.Persistence
         DbSet<TypeOfTicket> typeOfTicket { get; set; }
         DbSet<Ticket> ticket { get; set; }
 
+        DbSet<Price> price { get; set; }
+
+        DbSet<PriceList> priceList { get; set; }
+
+
+
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {
@@ -37,8 +43,10 @@ namespace WebApp.Persistence
             return new ApplicationDbContext();
         }
 
-        public System.Data.Entity.DbSet<WebApp.Models.Price> Prices { get; set; }
+       // public System.Data.Entity.DbSet<WebApp.Models.Price> Prices { get; set; }
 
-        public System.Data.Entity.DbSet<WebApp.Models.PriceList> PriceLists { get; set; }
+       // public System.Data.Entity.DbSet<WebApp.Models.PriceList> PriceLists { get; set; }
+
+       // public System.Data.Entity.DbSet<WebApp.Models.ApplicationUser> ApplicationUsers { get; set; }
     }
 }

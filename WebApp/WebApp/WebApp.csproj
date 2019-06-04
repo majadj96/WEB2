@@ -255,8 +255,8 @@
     <Compile Include="Controllers\DeparturesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LinesController.cs" />
+    <Compile Include="Controllers\PriceController.cs" />
     <Compile Include="Controllers\PriceListsController.cs" />
-    <Compile Include="Controllers\PricesController.cs" />
     <Compile Include="Controllers\StationsController.cs" />
     <Compile Include="Controllers\TicketsController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
@@ -283,6 +283,14 @@
     <Compile Include="Migrations\201906030759055_PriceMigration.cs" />
     <Compile Include="Migrations\201906030759055_PriceMigration.Designer.cs">
       <DependentUpon>201906030759055_PriceMigration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201906040723419_maja.cs" />
+    <Compile Include="Migrations\201906040723419_maja.Designer.cs">
+      <DependentUpon>201906040723419_maja.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201906040833104_kaka.cs" />
+    <Compile Include="Migrations\201906040833104_kaka.Designer.cs">
+      <DependentUpon>201906040833104_kaka.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
@@ -438,6 +446,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201906030759055_PriceMigration.resx">
       <DependentUpon>201906030759055_PriceMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906040723419_maja.resx">
+      <DependentUpon>201906040723419_maja.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906040833104_kaka.resx">
+      <DependentUpon>201906040833104_kaka.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

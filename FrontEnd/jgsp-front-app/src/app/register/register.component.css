@@ -14,7 +14,7 @@ table{
     line-height: 1.8;
     color: black;
 }
-
+/* tr:nth-child(odd){background-color: black; color: white} */
 h2{
     font: 30px Montserrat, sans-serif;
     color:#3eb0f1;
