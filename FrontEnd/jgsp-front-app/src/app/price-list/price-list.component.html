@@ -1,4 +1,4 @@
-
+<!-- 
 <h2 align="center">Price list</h2>
 <hr>
 <form (ngSubmit)="showPrices()">
@@ -34,17 +34,53 @@
       <hr>
       
 
-     
+       -->
 
-
+       <h2 align="center">Price list</h2>
+        <hr>
+       <table align="center" border='1'>
+          <tr>
+              <th>Type of ticket:</th>
+              <td>
        <select [(ngModel)]="selectedTicket">
           <option *ngFor="let item of dataTicket" [ngValue]="item">{{item.name}}</option>
         </select>
+        </td>
+        <tr>
+            <th>Type of passanger:</th>
+            <td>
         <select [(ngModel)]="selectedUser">
             <option *ngFor="let item1 of dataUser" [ngValue]="item1">{{item1.name}}</option>
           </select>
-        <button (click)="selected1()">LALA</button>      
-          <button (click)="showPrices()">GET</button>
-          <button (click)="lala()">lala</button>
+          </td>
+          <tr>
+          <th></th>
+          <td><button (click)="showPrices()">Show</button> </td>
+        </tr>
+         
+      </table>
+<hr>
 
-          <label>{{prices}}</label>
+<table *ngIf="isPriceDataLoaded" align="center" border='1'>
+      <tr>
+          <th>Price: </th>
+          <td><label>{{prices}}</label></td>
+        </tr>
+        <tr>
+            <td colspan="2"><button (click)="buyTicket()">Buy</button></td>
+          </tr>
+</table>
+
+<hr>
+
+<table align="center" border='1'>
+    <tr>
+        <input type="email" [(ngModel)]="selectedTicket" required placeholder="Email to get ticket" >
+        </tr>
+    <tr>
+<button  (click)="buyOneHour()">Buy one-hour ticket here!</button>
+</tr>
+</table>
+
+      <!-- <button (click)="selected1()">LALA</button>      
+      <button (click)="lala()">lala</button> -->

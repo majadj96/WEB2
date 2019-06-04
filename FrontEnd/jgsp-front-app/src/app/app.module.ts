@@ -10,6 +10,7 @@ import { RegisterComponent } from './register/register.component';
 import { StartComponent } from './start/start.component';
 import { PriceListComponent } from './price-list/price-list.component';
 import { ScheduleComponent } from './components/schedule/schedule.component';
+import { UnregistredComponent } from './unregistred/unregistred.component';
 
 @NgModule({
   declarations: [
@@ -17,8 +18,7 @@ import { ScheduleComponent } from './components/schedule/schedule.component';
     LoginComponent,
     RegisterComponent,
     StartComponent,
-    PriceListComponent,
-    ScheduleComponent
+    PriceListComponent
   ],
   imports: [
     BrowserModule,
