@@ -10,6 +10,8 @@ import { RegisterComponent } from './register/register.component';
 import { StartComponent } from './start/start.component';
 import { PriceListComponent } from './price-list/price-list.component';
 import { UnregistredComponent } from './unregistred/unregistred.component';
+import { HeaderComponent } from './header/header.component';
+import { LogoutComponent } from './logout/logout.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +20,9 @@ import { UnregistredComponent } from './unregistred/unregistred.component';
     RegisterComponent,
     StartComponent,
     PriceListComponent,
-    UnregistredComponent
+    UnregistredComponent,
+    HeaderComponent,
+    LogoutComponent
   ],
   imports: [
     BrowserModule,

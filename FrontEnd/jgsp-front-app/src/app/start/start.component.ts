@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-start',
@@ -7,8 +8,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class StartComponent {
 
-  constructor() { }
+  
+  
+  constructor(private route: ActivatedRoute) {
 
+  }
   ngOnInit() {
   }
 
