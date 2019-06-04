@@ -43,10 +43,18 @@ namespace WebApp.Persistence
             return new ApplicationDbContext();
         }
 
-       // public System.Data.Entity.DbSet<WebApp.Models.Price> Prices { get; set; }
+        //protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        //{
 
-       // public System.Data.Entity.DbSet<WebApp.Models.PriceList> PriceLists { get; set; }
+        //    //modelBuilder.Entity<Line>()
+        //    //            .HasMany<Departure>(s => s.Departures)
+        //    //            .WithMany(c => c.Lines);
 
-       // public System.Data.Entity.DbSet<WebApp.Models.ApplicationUser> ApplicationUsers { get; set; }
+        //}
+        // public System.Data.Entity.DbSet<WebApp.Models.Price> Prices { get; set; }
+
+        // public System.Data.Entity.DbSet<WebApp.Models.PriceList> PriceLists { get; set; }
+
+        // public System.Data.Entity.DbSet<WebApp.Models.ApplicationUser> ApplicationUsers { get; set; }
     }
 }

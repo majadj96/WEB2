@@ -14,6 +14,7 @@ using WebApp.Persistence.UnitOfWork;
 
 namespace WebApp.Controllers
 {
+    [RoutePrefix("api/Line")]
     public class LinesController : ApiController
     {
         //private ApplicationDbContext db = new ApplicationDbContext();
@@ -34,6 +35,54 @@ namespace WebApp.Controllers
         {
 
         }
+
+        [Route("GetScheduleLines")]
+        public IEnumerable<Line> GetScheduleLines(string typeOfLine)
+        {
+
+            if (typeOfLine == null)
+            {
+                var type = db.TypesOfLine.GetAll().FirstOrDefault(u => u.typeOfLine == "City");
+                return db.Lines.GetAll().Where(u => u.IDtypeOfLine == type.IDtypeOfLine);
+            }
+            else
+            {
+                var type = db.TypesOfLine.GetAll().FirstOrDefault(u => u.typeOfLine == typeOfLine);
+                return db.Lines.GetAll().Where(u => u.IDtypeOfLine == type.IDtypeOfLine);
+            }
+        }
+
+        [Route("GetSchedule")]
+        public string GetSchedule(string typeOfLine, string typeOfDay, string Number)
+        {
+            var type = db.TypesOfLine.GetAll().FirstOrDefault(u => u.typeOfLine == typeOfLine);
+            var day = db.Days.GetAll().FirstOrDefault(u => u.KindOfDay == typeOfDay);
+            var line = db.Lines.GetAll().FirstOrDefault(u => u.Number == Number);
+
+            string dep = "";
+            int i = 0;
+            foreach(Departure d in line.Departures)
+            {
+                if (d.IDDay == day.IDDay)
+                {
+                    i++;
+                    dep += " " + d.Time.ToString();
+                    if(i == 5)
+                    {
+                        dep += "\n";
+                        i = 0;
+                    }
+                }
+            }
+
+            List<Departure> deps = new List<Departure>();
+            deps = db.Departures.GetAll().Where(u => u.IDDay == day.IDDay).ToList();
+            
+
+
+            return dep;
+        }
+
         // GET: api/Lines
         public IEnumerable<Line> GetLines()
         {

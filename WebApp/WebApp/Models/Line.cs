@@ -16,7 +16,7 @@ namespace WebApp.Models
 
         public List<Station> Stations { get; set; }
 
-        public List<Departure> Departures { get; set; }
+        public virtual List<Departure> Departures { get; set; }
 
     }
 }
