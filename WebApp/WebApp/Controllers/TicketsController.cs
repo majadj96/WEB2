@@ -14,6 +14,7 @@ using WebApp.Persistence.UnitOfWork;
 
 namespace WebApp.Controllers
 {
+    [RoutePrefix("api/Tickets")]
     public class TicketsController : ApiController
     {
         //private ApplicationDbContext db = new ApplicationDbContext();
@@ -78,18 +79,22 @@ namespace WebApp.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/Tickets
+        [Route("Buy")]
         [ResponseType(typeof(Ticket))]
-        public IHttpActionResult PostTicket(Ticket ticket)
+        public IHttpActionResult PostTicket(string TypeOfTicket, string UserName)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
+            Ticket ticket = new Ticket();
+            ticket.BoughtTime = DateTime.Now;
+            ticket.UserName = UserName;
+            ticket.IDtypeOfTicket = int.Parse(TypeOfTicket);
+            ticket.CheckIn = DateTime.Now;
 
             db.Tickets.Add(ticket);
             db.Complete();
-
             return CreatedAtRoute("DefaultApi", new { id = ticket.IDticket }, ticket);
         }
 

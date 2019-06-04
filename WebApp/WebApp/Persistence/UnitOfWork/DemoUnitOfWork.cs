@@ -45,7 +45,11 @@ namespace WebApp.Persistence.UnitOfWork
         }
         public int Complete()
         {
-            return _context.SaveChanges();
+            try
+            {
+                return _context.SaveChanges();
+            }catch(Exception e)
+            { return 0; }
         }
 
         public void Dispose()
