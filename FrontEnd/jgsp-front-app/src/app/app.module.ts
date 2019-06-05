@@ -18,7 +18,8 @@ import { UnregistredComponent } from './unregistred/unregistred.component';
     LoginComponent,
     RegisterComponent,
     StartComponent,
-    PriceListComponent
+    PriceListComponent,
+    ScheduleComponent
   ],
   imports: [
     BrowserModule,
