@@ -1,0 +1,40 @@
+<h2 align="center">Profile</h2>
+
+<hr>
+<form [formGroup]="updateUserForm" (ngSubmit)="update()" enctype="multipart/form-data" >
+<table align="center" border='1'>
+    <tr>
+      <th>First name:</th>
+      <td><input type="text" formControlName="FirstName" required/></td>
+    </tr>
+    <tr>
+      <th>Last name:</th>
+      <td><input type="text" formControlName="LastName" required/></td>
+    </tr>
+     <tr>
+        <th>Email:</th>
+        <td><input type="email" formControlName="Email" required/></td>
+      </tr>
+      <tr>
+          <th>Birth date:</th>
+          <td>{{regUser.BirthDate}}</td>
+        </tr>
+        <tr>
+            <th>Address:</th>
+            <td><input type="text" formControlName="Address" required/></td>
+          </tr>
+          <tr>
+              <th>Verification status:</th>
+              <td>{{regUser.VerificationStatus}}</td>
+            </tr>
+  
+<tr *ngIf="isRegular">
+<th>Promeni/Izaberi sliku<input type="file" id="filePicker" (change)="handleFileSelect($event)"></th>
+<td><img [src]="mySrc" /></td>
+</tr>
+
+    <tr>
+     <td colspan="2"><button (click)="update">Update</button></td>
+    </tr>
+  </table>
+</form>

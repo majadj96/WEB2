@@ -3,6 +3,8 @@ import { RegistrateUser } from "./registrationUser";
 import { Observable, of } from "rxjs";
 import { map, catchError } from "rxjs/operators";
 import { Injectable } from "@angular/core";
+import { Router } from "@angular/router";
+import { ImageMoj } from "./slika";
 
 
 @Injectable({
@@ -11,14 +13,18 @@ import { Injectable } from "@angular/core";
 export class RegisterService {
     isLoggedIn = false;
   
-    registerUrl: string =  'http://localhost:52295/StaGod/';
+    registerUrl: string =  'http://localhost:52295/api/Account/Register';
+    registerUrl1: string =  'http://localhost:52295/api/Account/PostImage';
+
+    constructor(private http: HttpClient,private route:Router) { }
   
-    constructor(private http: HttpClient) { }
-  
-    login(user: RegistrateUser): Observable<any> {
-      return this.http.post<any>(this.registerUrl, `FirstName=`+ user.FirstName +`&LastName=`+ user.LastName, { 'headers': { 'Content-type': 'x-www-form-urlencoded' } }).pipe(
+    registrate(user: RegistrateUser): Observable<any> {
+      //user.IDtypeOfUser = 1;
+      return this.http.post<any>(this.registerUrl, user, { 'headers': { 'Content-type': 'application/json' } }).pipe(
         map(res => {
-console.log(this.registerUrl, `FirstName=`+ user.FirstName +`&LastName=`+ user.LastName);
+        this.route.navigate(['/login']);
+
+        alert("Uspesno");
         }),
   
         catchError(this.handleError<any>('login'))
@@ -26,8 +32,25 @@ console.log(this.registerUrl, `FirstName=`+ user.FirstName +`&LastName=`+ user.L
     }
   
  
+
+    posaljiSliku(slika: ImageMoj): Observable<any> {
+      //user.IDtypeOfUser = 1;
+      alert("uso");
+      //alert(fd);
+      
+      
+      return this.http.post<any>(this.registerUrl1,slika, { 'headers': { 'Content-type': 'application/json' } }).pipe(
+        map(res => {
+        alert("Uspesno");
+        }),
+  
+        catchError(this.handleError<any>('login'))
+      );
+    }
+
     private handleError<T>(operation = 'operation', result?: T) {
       return (error: any): Observable<T> => {
+        alert("Greska");
         return of(result as T);
       };
     }

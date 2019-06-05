@@ -12,6 +12,9 @@ export class LogoutComponent implements OnInit {
 
     localStorage.removeItem('jwt');
     localStorage.removeItem('role');
+    localStorage.removeItem('email');
+    localStorage.removeItem('pass');
+
     location.reload();
     this.route.navigate(['/start']);
   }

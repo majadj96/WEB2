@@ -36,6 +36,9 @@ export class AuthService {
 
         localStorage.setItem('jwt', jwt)//u localstorage google chroma
         localStorage.setItem('role', role);//u localstorage google chroma
+        localStorage.setItem('email', user.username)//u localstorage google chroma
+        localStorage.setItem('pass', user.password)//u localstorage google chroma
+
         this.isLoggedIn=  true;
         location.reload();
         

@@ -65,6 +65,13 @@ namespace WebApp.Migrations
                 userManager.Create(user);
                 userManager.AddToRole(user.Id, "AppUser");
             }
+
+            if (!context.Users.Any(u => u.UserName == "kontroler@yahoo.com"))
+            {
+                var user = new ApplicationUser() { Id = "kontroler", UserName = "kontroler@yahoo.com", Email = "kontroler@yahoo.com", PasswordHash = ApplicationUser.HashPassword("Kontroler123!") };
+                userManager.Create(user);
+                userManager.AddToRole(user.Id, "Controller");
+            }
         }
     }
 }
