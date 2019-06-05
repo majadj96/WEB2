@@ -29,8 +29,7 @@ import { ScheduleAdminComponent } from './components/schedule-admin/schedule-adm
     HeaderComponent,
     LogoutComponent,
     ScheduleComponent,
-    ScheduleAdminComponent
-    ScheduleComponent,
+    ScheduleAdminComponent,
     ProfileViewComponent,
     ValidateProfileComponent,
     ValidateTicketComponent
