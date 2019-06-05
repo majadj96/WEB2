@@ -1,5 +1,5 @@
 export class ScheduleLine{
     Number: string;
-    Time: string;
+    Time: Date;
     Day: string;
 }

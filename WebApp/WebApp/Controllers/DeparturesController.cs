@@ -8,12 +8,14 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
+using WebApp.Dto;
 using WebApp.Models;
 using WebApp.Persistence;
 using WebApp.Persistence.UnitOfWork;
 
 namespace WebApp.Controllers
 {
+    [RoutePrefix("api/Departure")]
     public class DeparturesController : ApiController
     {  
         //private ApplicationDbContext db = new ApplicationDbContext();
@@ -76,25 +78,41 @@ namespace WebApp.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
+        [Route("PostLineSchedule")]
         // POST: api/Departures
         [ResponseType(typeof(Departure))]
-        public IHttpActionResult PostDeparture(Departure departure)
+        public IHttpActionResult PostLineSchedule([FromBody]ScheduleLine sl)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.Departures.Add(departure);
+            int idd;
+            if (sl.Day == "Work day")
+                idd = 1;
+            else
+                idd = 2;
+
+            Departure d = new Departure { IDDay = idd, Time = sl.Time };
+            var line = db.Lines.GetAll().FirstOrDefault(u => u.Number == sl.Number);
+            d.Lines.Add(line);
+
+            db.Departures.Add(d);
+
+            line.Departures.Add(d);
+            db.Lines.Update(line);
             db.Complete();
 
-            return CreatedAtRoute("DefaultApi", new { id = departure.IDDeparture }, departure);
+            return CreatedAtRoute("DefaultApi", new { id = d.IDDeparture }, d);
         }
 
+        [Route("DeleteLineSchedule")]
         // DELETE: api/Departures/5
         [ResponseType(typeof(Departure))]
-        public IHttpActionResult DeleteDeparture(int id)
+        public IHttpActionResult DeleteLineSchedule(ScheduleLine sl)
         {
+            int id = 0;
             Departure departure = db.Departures.Get(id);
             if (departure == null)
             {

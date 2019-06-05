@@ -21,5 +21,7 @@ export class ScheduleService {
     return this.client.get<string>(this.baseUrl+"api/Line/GetSchedule?typeOfLine="+typeOfLine+"&typeOfDay="+typeOfDay+"&Number="+Number).toPromise<string>();
   }
 
+ 
+
   
 }

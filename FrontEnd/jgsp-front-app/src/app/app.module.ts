@@ -11,6 +11,9 @@ import { StartComponent } from './start/start.component';
 import { PriceListComponent } from './price-list/price-list.component';
 import { UnregistredComponent } from './unregistred/unregistred.component';
 import { ScheduleComponent } from './components/schedule/schedule.component';
+import { LogoutComponent } from './logout/logout.component';
+import { ScheduleAdminComponent } from './components/schedule-admin/schedule-admin.component';
+import { HeaderComponent} from './header/header.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +21,12 @@ import { ScheduleComponent } from './components/schedule/schedule.component';
     LoginComponent,
     RegisterComponent,
     StartComponent,
-    PriceListComponent
+    PriceListComponent,
+    LogoutComponent,
+    ScheduleComponent,
+    ScheduleAdminComponent,
+    UnregistredComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,

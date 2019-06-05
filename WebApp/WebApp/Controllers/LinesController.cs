@@ -67,12 +67,8 @@ namespace WebApp.Controllers
                 if (d.IDDay == day.IDDay)
                 {
                     i++;
-                    dep +=d.Time.ToString()+" ";
-                    if(i == 5)
-                    {
-                        dep += "\n";
-                        i = 0;
-                    }
+                    dep +=d.Time.Hour.ToString()+":"+d.Time.Minute.ToString()+" ";
+                    
                 }
             }
             if(line.Departures.Count>0)
@@ -90,17 +86,24 @@ namespace WebApp.Controllers
         {
             List<ScheduleLine> schedule = new List<ScheduleLine>();
             var lines = db.Lines.GetAll();
-
             foreach(var line in lines)
             {
-                ScheduleLine sl = new ScheduleLine();
-                sl.Number = line.Number;
-                foreach(var dep in line.Departures)
+                foreach (var dep in line.Departures)
                 {
-                    var day = db.Days.GetAll().FirstOrDefault(u => u.IDDay == dep.IDDay);
+                    //  Day day = db.Days.GetAll().FirstOrDefault(u => u.IDDay == dep.IDDay);
 
+                    ScheduleLine sl = new ScheduleLine();
+                    sl.Number = line.Number;
                     sl.Time = dep.Time;
-                    sl.Day = day.KindOfDay;
+                    if(dep.IDDay == 1)
+                    {
+                        sl.Day = "City";
+                    }
+                    else
+                    {
+                        sl.Day = "Village";
+                    }
+                    
                     schedule.Add(sl);
                 }
 
@@ -109,7 +112,7 @@ namespace WebApp.Controllers
             return schedule;
             
         }
-
+        [Route("GetLines")]
         // GET: api/Lines
         public IEnumerable<Line> GetLines()
         {
@@ -164,16 +167,30 @@ namespace WebApp.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
+        [Route("PostLineSchedule")]
         // POST: api/Lines
-        [ResponseType(typeof(Line))]
-        public IHttpActionResult PostLine(Line line)
+       // [ResponseType(typeof(Line))]
+        public IHttpActionResult PostLine([FromBody]ScheduleLine sl)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.Lines.Add(line);
+            int idd;
+            if (sl.Day == "Work day")
+                idd = 1;
+            else
+                idd = 2;
+
+            Departure d = new Departure { IDDay = idd, Time = sl.Time};
+            var line = db.Lines.GetAll().FirstOrDefault(u => u.Number == sl.Number);
+            d.Lines.Add(line);
+
+            db.Departures.Add(d);
+
+            line.Departures.Add(d);
+            db.Lines.Update(line);
 
             try
             {
@@ -181,14 +198,7 @@ namespace WebApp.Controllers
             }
             catch (DbUpdateException)
             {
-                if (LineExists(line.Number))
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
+                
             }
 
             return CreatedAtRoute("DefaultApi", new { id = line.Number }, line);

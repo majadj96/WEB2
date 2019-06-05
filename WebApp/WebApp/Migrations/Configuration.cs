@@ -66,6 +66,8 @@ namespace WebApp.Migrations
                 userManager.AddToRole(user.Id, "AppUser");
             }
 
+            
+
         }
     }
 }
