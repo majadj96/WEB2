@@ -11,6 +11,7 @@ import { StartComponent } from './start/start.component';
 import { PriceListComponent } from './price-list/price-list.component';
 import { LogoutComponent } from './logout/logout.component';
 import { ScheduleComponent } from './components/schedule/schedule.component';
+import { ScheduleAdminComponent } from './components/schedule-admin/schedule-admin.component';
 import { ProfileViewComponent } from './profile-view/profile-view.component';
 import { ValidateProfileComponent } from './validate-profile/validate-profile.component';
 import { ValidateTicketComponent } from './validate-ticket/validate-ticket.component';
@@ -57,6 +58,11 @@ const appRoutes: Routes = [
   { 
     path: 'validate-ticket', 
     component: ValidateTicketComponent, 
+  }
+  ,
+  { 
+    path: 'schedule-admin', 
+    component: ScheduleAdminComponent, 
   }
 ];
 

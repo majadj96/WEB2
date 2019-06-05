@@ -8,6 +8,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
+using WebApp.Dto;
 using WebApp.Models;
 using WebApp.Persistence;
 using WebApp.Persistence.UnitOfWork;
@@ -82,6 +83,31 @@ namespace WebApp.Controllers
 
 
             return dep;
+        }
+
+        [Route("GetScheduleAdmin")]
+        public IEnumerable<ScheduleLine> GetScheduleAdmin()
+        {
+            List<ScheduleLine> schedule = new List<ScheduleLine>();
+            var lines = db.Lines.GetAll();
+
+            foreach(var line in lines)
+            {
+                ScheduleLine sl = new ScheduleLine();
+                sl.Number = line.Number;
+                foreach(var dep in line.Departures)
+                {
+                    var day = db.Days.GetAll().FirstOrDefault(u => u.IDDay == dep.IDDay);
+
+                    sl.Time = dep.Time;
+                    sl.Day = day.KindOfDay;
+                    schedule.Add(sl);
+                }
+
+            }
+
+            return schedule;
+            
         }
 
         // GET: api/Lines

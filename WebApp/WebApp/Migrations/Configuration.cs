@@ -72,6 +72,7 @@ namespace WebApp.Migrations
                 userManager.Create(user);
                 userManager.AddToRole(user.Id, "Controller");
             }
+
         }
     }
 }

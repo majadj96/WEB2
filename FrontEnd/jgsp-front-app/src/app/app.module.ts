@@ -16,6 +16,7 @@ import { ScheduleComponent } from './components/schedule/schedule.component';
 import { ProfileViewComponent } from './profile-view/profile-view.component';
 import { ValidateProfileComponent } from './validate-profile/validate-profile.component';
 import { ValidateTicketComponent } from './validate-ticket/validate-ticket.component';
+import { ScheduleAdminComponent } from './components/schedule-admin/schedule-admin.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,8 @@ import { ValidateTicketComponent } from './validate-ticket/validate-ticket.compo
     UnregistredComponent,
     HeaderComponent,
     LogoutComponent,
+    ScheduleComponent,
+    ScheduleAdminComponent
     ScheduleComponent,
     ProfileViewComponent,
     ValidateProfileComponent,

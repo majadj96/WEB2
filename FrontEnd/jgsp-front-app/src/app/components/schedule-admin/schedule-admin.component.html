@@ -1,0 +1,24 @@
+<div class="col-md-6 user-container">
+  <h2 style="margin: auto">Schedule</h2>
+  <button class="btn btn-danger" style="width:100px" (click)="addScheduleLine()"> Add Schedule line </button>
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th class="hidden">Id</th>
+      <th>Number</th>
+      <th>Time</th>
+      <th>Day</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let scheduleLine of schedule">
+      <td class="hidden"></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td><button class="btn btn-success" (click)="deleteLine(scheduleLine)"> Delete </button>
+        <button class="btn btn-success" (click)="editLine(scheduleLine)" style="margin-left: 20px;"> Edit </button></td>
+    </tr>
+    </tbody>
+  </table>
+</div>
