@@ -13,6 +13,7 @@ import { UnregistredComponent } from './unregistred/unregistred.component';
 import { HeaderComponent } from './header/header.component';
 import { LogoutComponent } from './logout/logout.component';
 import { ScheduleComponent } from './components/schedule/schedule.component';
+import { ScheduleAdminComponent } from './components/schedule-admin/schedule-admin.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { ScheduleComponent } from './components/schedule/schedule.component';
     UnregistredComponent,
     HeaderComponent,
     LogoutComponent,
-    ScheduleComponent
+    ScheduleComponent,
+    ScheduleAdminComponent
   ],
   imports: [
     BrowserModule,

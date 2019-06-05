@@ -19,7 +19,7 @@ namespace WebApp.Models
 
         public Day Day { get; set; }
 
-        public string Time { get; set; }
+        public DateTime Time { get; set; }
 
         [JsonIgnore]
         public virtual List<Line> Lines { get; set; }
