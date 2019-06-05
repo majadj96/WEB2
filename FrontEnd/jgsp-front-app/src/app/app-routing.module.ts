@@ -9,7 +9,9 @@ import { RouterModule, Routes } from '@angular/router';
 import { RegisterComponent } from './register/register.component';
 import { StartComponent } from './start/start.component';
 import { PriceListComponent } from './price-list/price-list.component';
+import { LogoutComponent } from './logout/logout.component';
 import { ScheduleComponent } from './components/schedule/schedule.component';
+import { ScheduleAdminComponent } from './components/schedule-admin/schedule-admin.component';
 
 // import { CrisisCenterComponent } from './crisis-center/crisis-center/crisis-center.component';
 // import { CrisisCenterHomeComponent } from './crisis-center/crisis-center-home/crisis-center-home.component';
@@ -34,10 +36,19 @@ const appRoutes: Routes = [
     path: 'price', 
     component: PriceListComponent, 
   },
-  {
-    path: 'schedule',
-    component: ScheduleComponent,
+  { 
+    path: 'logout', 
+    component: LogoutComponent, 
   },
+  { 
+    path: 'schedule', 
+    component: ScheduleComponent, 
+  }
+  ,
+  { 
+    path: 'schedule-admin', 
+    component: ScheduleAdminComponent, 
+  }
 ];
 
 @NgModule({

@@ -37,7 +37,8 @@ export class AuthService {
         localStorage.setItem('jwt', jwt)//u localstorage google chroma
         localStorage.setItem('role', role);//u localstorage google chroma
         this.isLoggedIn=  true;
-        this.route.navigate(['/start']);
+        location.reload();
+        
       }),
 
       catchError(this.handleError<any>('login'))

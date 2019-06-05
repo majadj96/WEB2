@@ -9,8 +9,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { RegisterComponent } from './register/register.component';
 import { StartComponent } from './start/start.component';
 import { PriceListComponent } from './price-list/price-list.component';
-import { ScheduleComponent } from './components/schedule/schedule.component';
 import { UnregistredComponent } from './unregistred/unregistred.component';
+import { ScheduleComponent } from './components/schedule/schedule.component';
 
 @NgModule({
   declarations: [
@@ -18,8 +18,7 @@ import { UnregistredComponent } from './unregistred/unregistred.component';
     LoginComponent,
     RegisterComponent,
     StartComponent,
-    PriceListComponent,
-    ScheduleComponent
+    PriceListComponent
   ],
   imports: [
     BrowserModule,

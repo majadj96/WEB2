@@ -261,6 +261,7 @@
     <Compile Include="Controllers\TicketsController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Controllers\VehiclesController.cs" />
+    <Compile Include="Dto\ScheduleLine.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -291,6 +292,10 @@
     <Compile Include="Migrations\201906040833104_kaka.cs" />
     <Compile Include="Migrations\201906040833104_kaka.Designer.cs">
       <DependentUpon>201906040833104_kaka.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201906051044114_dateTimeDepartures.cs" />
+    <Compile Include="Migrations\201906051044114_dateTimeDepartures.Designer.cs">
+      <DependentUpon>201906051044114_dateTimeDepartures.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
@@ -452,6 +457,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201906040833104_kaka.resx">
       <DependentUpon>201906040833104_kaka.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906051044114_dateTimeDepartures.resx">
+      <DependentUpon>201906051044114_dateTimeDepartures.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
