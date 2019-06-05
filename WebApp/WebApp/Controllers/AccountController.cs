@@ -16,6 +16,9 @@ using Microsoft.Owin.Security.OAuth;
 using WebApp.Models;
 using WebApp.Providers;
 using WebApp.Results;
+using System.Net;
+using System.IO;
+using System.Drawing;
 
 namespace WebApp.Controllers
 {
@@ -25,6 +28,7 @@ namespace WebApp.Controllers
     {
         private const string LocalLoginProvider = "Local";
         private ApplicationUserManager _userManager;
+        Random r = new Random();
 
         public AccountController()
         {
@@ -319,17 +323,130 @@ namespace WebApp.Controllers
             return logins;
         }
 
+
+        public string MakePath(RegisterBindingModel user)
+        {
+
+            string imgUrl = "";
+            if (user.ImageUrl != "" && user.ImageUrl != null)
+            {
+                byte[] imageBytes = Convert.FromBase64String(user.ImageUrl);
+                // Convert byte[] to Image
+                using (var ms = new MemoryStream(imageBytes, 0, imageBytes.Length))
+                {
+                    Image image = Image.FromStream(ms, true);
+
+                    image.Save(@"C:\Users\john\Desktop\pusi\" + user.Email + ".jpg");
+                    imgUrl = @"C:\Users\john\Desktop\pusi\" + user.Email + ".jpg";
+                }
+            }
+
+            return imgUrl;
+
+        }
+
+        [AllowAnonymous]
+        [Route("UpdateUser")]
+        public IHttpActionResult PutUser([FromBody]RegisterBindingModel user)
+        {
+
+
+            ApplicationUser app = UserManager.Find(user.ConfirmPassword, user.Password);
+            if (app != null)
+            {
+                app.FirstName = user.FirstName;
+                app.LastName = user.LastName;
+                app.Email = user.Email;
+                app.Address = user.Address;
+                app.UserName = user.Email;
+
+                string imgUrl = MakePath(user); //Moja fja
+
+                app.ImageUrl = imgUrl;
+            }
+              IdentityResult res = UserManager.Update(app);
+
+            if (!res.Succeeded)
+
+                return BadRequest();
+            else
+                return StatusCode(HttpStatusCode.NoContent);
+                
+
+        }
+
+
+        [AllowAnonymous]
+        [Route("UserInformation")]
+        public RegisterBindingModel GetUser(string email,string pass)
+        {
+            ApplicationUser app = UserManager.Find(email, pass);
+            string base64String = "";
+
+            RegisterBindingModel rbm = new RegisterBindingModel();
+
+            if (app.ImageUrl != "" && app.ImageUrl != null)
+            {
+                Image image = Image.FromFile(app.ImageUrl);
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    // Convert Image to byte[]
+                    image.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
+                    byte[] imageBytes = ms.ToArray();
+
+                    // Convert byte[] to base 64 string
+                    base64String = Convert.ToBase64String(imageBytes);
+                }
+            }
+            if (app != null)
+            {
+                rbm.FirstName = app.FirstName;
+                rbm.LastName = app.LastName;
+                rbm.Address = app.Address;
+                rbm.Approved = app.Approved;
+                rbm.BirthDate = app.BirthDate;
+                rbm.Email = app.Email;
+                rbm.VerificationStatus = app.VerificationStatus;
+                rbm.Password = pass;
+                rbm.ImageUrl = base64String;
+                rbm.IDtypeOfUser = app.IDtypeOfUser;
+                return rbm;
+
+            }
+            return rbm;
+
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [Route("PostImage")]
+        public void SaveImage([FromBody]MyImage slika)
+        {
+            byte[] imageBytes = Convert.FromBase64String(slika.base64);
+            // Convert byte[] to Image
+            using (var ms = new MemoryStream(imageBytes, 0, imageBytes.Length))
+            {
+                Image image = Image.FromStream(ms, true);
+
+                string name = r.Next(0, 9000).ToString();
+                image.Save(@"C:\Users\john\Desktop\pusi\"+name+".jpg");
+            }
+        }
+
         // POST api/Account/Register
         [AllowAnonymous]
         [Route("Register")]
-        public async Task<IHttpActionResult> Register(RegisterBindingModel model)
+        public async Task<IHttpActionResult> Register([FromBody]RegisterBindingModel model)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var user = new ApplicationUser() { UserName = model.Email, Email = model.Email };
+            string imgUrl = MakePath(model);//Moja fja
+
+            var user = new ApplicationUser() { UserName = model.Email, Email = model.Email, FirstName=model.FirstName,LastName=model.LastName,BirthDate=model.BirthDate,Address = model.Address,
+        Approved=false,ImageUrl=imgUrl,VerificationStatus="Invalid",IDtypeOfUser=model.IDtypeOfUser};
 
             IdentityResult result = await UserManager.CreateAsync(user, model.Password);
 
@@ -337,7 +454,7 @@ namespace WebApp.Controllers
             {
                 return GetErrorResult(result);
             }
-
+            UserManager.AddToRole(user.Id, "AppUser");
             return Ok();
         }
 
@@ -491,5 +608,11 @@ namespace WebApp.Controllers
         }
 
         #endregion
+    }
+
+    public class MyImage
+    {
+        public string base64 { get; set; }
+
     }
 }

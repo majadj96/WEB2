@@ -1,33 +1,6 @@
 <h2 align="center">Register</h2>
 <hr>
-<!-- 
-<form [formGroup]="registerForm" (ngSubmit)="register()">
-    <label>
-        First name:
-        <input type="text" formControlName="FirstName" required>
-      </label>
-      <label>
-          Last name:
-          <input type="text" formControlName="LastName" required>
-        </label>
-  <label>
-    Username:
-    <input type="text" formControlName="username" required>
-  </label>
-
-  <label>
-    Password:
-    <input type="text" formControlName="password" required>
-  </label>
-  <label>
-    Retype password:
-      <input type="text" formControlName="reppass" required>
-    </label>
-
-  <button type="submit">Register</button>
-</form> -->
-
-<form [formGroup]="registerForm" (ngSubmit)="register()">
+<form [formGroup]="registerForm" (ngSubmit)="register()" enctype="multipart/form-data">
 <table align="center" border='1'>
 		<tr align="center">
 			<th  id="Naslov" colspan=2>Please fill out the form!</th>
@@ -35,15 +8,15 @@
     
     <tr>
         <th>Email:</th>
-        <td> <input type="email" formControlName="username" required placeholder="email@email.com" ></td>
+        <td> <input type="email" formControlName="Email" required placeholder="email@email.com" ></td>
       </tr>
       <tr>
           <th>Password:</th>
-          <td> <input type="text" formControlName="password" required placeholder="8 character minimum"></td>
+          <td> <input type="text" formControlName="Password" required placeholder="8 character minimum"></td>
         </tr>
         <tr>
             <th>Repeat password:</th>
-            <td> <input type="text" formControlName="reppass" required placeholder="type password again"></td>
+            <td> <input type="text" formControlName="ConfirmPassword" required placeholder="type password again"></td>
           </tr>
 
     	<tr>
@@ -71,18 +44,20 @@
 
 			<th>You are:</th>
 			<td>
-          <input type="radio" ng-model="myVar" value="student">Student
-          <input type="radio" ng-model="myVar" value="pensioner">Pensioner
+          <input (click)="hit()" type="radio" formControlName="IDtypeOfUser" value="1">Student
+          <input (click)="hit()" type="radio" formControlName="IDtypeOfUser" value="2">Pensioner
+          <input (click)="inHit()" type="radio" formControlName="IDtypeOfUser" value="3">Regular
+
 			</td>
 		</tr>
   
   
-    <tr ng-show="myVar">
+    <tr *ngIf="canUpload">
         <th>Document:  </th>
         <td>
-            <input #file type="file" accept='image/*' (change)="preview(file.files)"/>
-            <img [src]="imgURL" height="200" *ngIf="imgURL">
-
+            <label formControlName="ImageUrl" for="filePicker">Choose or drag a file:</label><br>
+            <input type="file" id="filePicker" (change)="handleFileSelect($event)">
+            <img [src]="mySrc" />
             </td>
       </tr>	
  
@@ -92,5 +67,6 @@
 		
     </table>
   </form>
-
+  
+ 
   

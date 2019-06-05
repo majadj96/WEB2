@@ -10,10 +10,13 @@ import { RegisterComponent } from './register/register.component';
 import { StartComponent } from './start/start.component';
 import { PriceListComponent } from './price-list/price-list.component';
 import { UnregistredComponent } from './unregistred/unregistred.component';
-import { ScheduleComponent } from './components/schedule/schedule.component';
+import { HeaderComponent } from './header/header.component';
 import { LogoutComponent } from './logout/logout.component';
+import { ScheduleComponent } from './components/schedule/schedule.component';
+import { ProfileViewComponent } from './profile-view/profile-view.component';
+import { ValidateProfileComponent } from './validate-profile/validate-profile.component';
+import { ValidateTicketComponent } from './validate-ticket/validate-ticket.component';
 import { ScheduleAdminComponent } from './components/schedule-admin/schedule-admin.component';
-import { HeaderComponent} from './header/header.component';
 
 @NgModule({
   declarations: [
@@ -22,11 +25,14 @@ import { HeaderComponent} from './header/header.component';
     RegisterComponent,
     StartComponent,
     PriceListComponent,
+    UnregistredComponent,
+    HeaderComponent,
     LogoutComponent,
     ScheduleComponent,
     ScheduleAdminComponent,
-    UnregistredComponent,
-    HeaderComponent
+    ProfileViewComponent,
+    ValidateProfileComponent,
+    ValidateTicketComponent
   ],
   imports: [
     BrowserModule,
