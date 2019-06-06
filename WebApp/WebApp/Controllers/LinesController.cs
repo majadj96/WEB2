@@ -97,13 +97,14 @@ namespace WebApp.Controllers
                     sl.Time = dep.Time;
                     if(dep.IDDay == 1)
                     {
-                        sl.Day = "City";
+                        sl.Day = "Work day";
                     }
                     else
                     {
-                        sl.Day = "Village";
+                        sl.Day = "Weekend";
                     }
-                    
+                    sl.IDDay = dep.IDDeparture;
+
                     schedule.Add(sl);
                 }
 

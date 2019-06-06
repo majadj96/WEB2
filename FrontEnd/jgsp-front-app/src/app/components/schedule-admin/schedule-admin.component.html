@@ -1,5 +1,4 @@
 <div *ngIf="isBtnAddClicked" class="col-md-6 user-container">
-  <li *ngFor="let line of lines" >{{line.Number}}</li>
     <h2 class="text-center">Add Departion for line</h2>
     <form [formGroup]="addForm" (ngSubmit)="onSubmit()">
       <div class="form-group">
@@ -11,11 +10,15 @@
       </div>
   
       <div class="form-group">
-        <label for="typeOfDay">Type of day:</label>
+        <label for="day">Type of day:</label>
+       <!-- <select formControlName="day" class="form-control">
+            <option [value]="workday">Work day</option>
+            <option [value]="weekend">Weekend</option>
+        </select>-->
         <select formControlName="day" class="form-control">
-            <option [value] = "workday">Work day</option>
-            <option [value] = "weekend">Weekend</option>
-        </select>
+          <option *ngFor="let item of TypeDay" [value] = "item.name">{{item.name}}</option>
+
+      </select>
       </div>
   
       <div class="form-group">

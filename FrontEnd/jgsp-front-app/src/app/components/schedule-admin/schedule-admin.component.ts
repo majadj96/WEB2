@@ -54,13 +54,22 @@ scheduleLine: ScheduleLine;
     
     this.sl.Number = this.addForm.controls['line'].value;
     this.sl.Day= this.addForm.controls['day'].value;
+    alert(this.sl.Day);
     this.sl.Time = this.addForm.controls['time'].value;
     
 
+      this.scheduleAdminService.postSchedule(this.sl).subscribe(()=>{
+        this.getSchedule();
+        console.log("dasda");
+      }, err => console.log(err));
 
-    this.scheduleAdminService.postSchedule(this.sl);
 
     this.isBtnAddClicked = false;
+
+   // this.schedule = await this.scheduleAdminService.getSchedule();
+  }
+
+  public async getSchedule(){
     this.schedule = await this.scheduleAdminService.getSchedule();
   }
 
