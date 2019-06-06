@@ -19,6 +19,7 @@ using WebApp.Results;
 using System.Net;
 using System.IO;
 using System.Drawing;
+using System.Linq;
 
 namespace WebApp.Controllers
 {
@@ -323,6 +324,10 @@ namespace WebApp.Controllers
             return logins;
         }
 
+        public static Image resizeImage(Image imgToResize, Size size)
+        {
+            return (Image)(new Bitmap(imgToResize, size));
+        }
 
         public string MakePath(RegisterBindingModel user)
         {
@@ -335,7 +340,7 @@ namespace WebApp.Controllers
                 using (var ms = new MemoryStream(imageBytes, 0, imageBytes.Length))
                 {
                     Image image = Image.FromStream(ms, true);
-
+                    image = resizeImage(image, new Size(500, 500));
                     image.Save(@"C:\Users\john\Desktop\pusi\" + user.Email + ".jpg");
                     imgUrl = @"C:\Users\john\Desktop\pusi\" + user.Email + ".jpg";
                 }
@@ -349,7 +354,6 @@ namespace WebApp.Controllers
         [Route("UpdateUser")]
         public IHttpActionResult PutUser([FromBody]RegisterBindingModel user)
         {
-
 
             ApplicationUser app = UserManager.Find(user.ConfirmPassword, user.Password);
             if (app != null)
@@ -373,6 +377,67 @@ namespace WebApp.Controllers
                 return StatusCode(HttpStatusCode.NoContent);
                 
 
+        }
+
+
+        public string MakeImg(string imgUrl)
+        {
+            string base64String = "";
+
+            if (imgUrl != "" && imgUrl != null)
+            {
+                Image image = Image.FromFile(imgUrl);
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    // Convert Image to byte[]
+                    image.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
+                    byte[] imageBytes = ms.ToArray();
+
+                    // Convert byte[] to base 64 string
+                    base64String = Convert.ToBase64String(imageBytes);
+                }
+            }
+            return base64String;
+        }
+
+
+
+        [AllowAnonymous]
+        [Route("Validate")]
+        public IHttpActionResult PutValidate([FromBody]RegisterBindingModel user)
+        {
+
+            ApplicationUser app = UserManager.FindByEmail(user.Email);
+            app.VerificationStatus = user.VerificationStatus;
+            IdentityResult res = UserManager.Update(app);
+
+            if (!res.Succeeded)
+
+                return BadRequest();
+            else
+                return StatusCode(HttpStatusCode.NoContent);
+
+        }
+
+
+        [AllowAnonymous]
+        [Route("GetUsers")]
+        public List<RegisterBindingModel> Get()
+        {
+           // var email = Request.GetOwinContext().Authentication.User.Identity.Name;
+           //UserManager.FindByName(email);
+
+            List<RegisterBindingModel> users = new List<RegisterBindingModel>();
+
+            users = UserManager.Users.Where(v => v.ImageUrl != "" && v.VerificationStatus=="Invalid").Select(u => new RegisterBindingModel() { FirstName = u.FirstName, LastName = u.LastName,ImageUrl= u.ImageUrl,Email=u.Email }).ToList();
+
+            foreach(var u in users)
+            {
+                u.ImageUrl = MakeImg(u.ImageUrl);
+            }
+
+
+            return users;
         }
 
 
@@ -438,15 +503,25 @@ namespace WebApp.Controllers
         [Route("Register")]
         public async Task<IHttpActionResult> Register([FromBody]RegisterBindingModel model)
         {
+            string imgUrl = "";
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            string imgUrl = MakePath(model);//Moja fja
+            if (model.IDtypeOfUser == 3)
+            {
+                model.VerificationStatus = "";
+            }
+            else
+            {
+                model.VerificationStatus = "Invalid";
+                imgUrl = MakePath(model);
+            }
 
             var user = new ApplicationUser() { UserName = model.Email, Email = model.Email, FirstName=model.FirstName,LastName=model.LastName,BirthDate=model.BirthDate,Address = model.Address,
-        Approved=false,ImageUrl=imgUrl,VerificationStatus="Invalid",IDtypeOfUser=model.IDtypeOfUser};
+        Approved=false,ImageUrl=imgUrl,VerificationStatus=model.VerificationStatus,IDtypeOfUser=model.IDtypeOfUser};
+           
 
             IdentityResult result = await UserManager.CreateAsync(user, model.Password);
 
