@@ -12,11 +12,12 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 })
 export class ScheduleAdminComponent implements OnInit {
   public isBtnAddClicked: boolean;
+  public isBtnEditClicked: boolean;
   schedule: ScheduleLine[];
   lines: Line[];
 sl : ScheduleLine;
 scheduleLine: ScheduleLine;
-
+public editForm: FormGroup;
   public addForm: FormGroup;
   TypeDay:Array<Object> = [
     {name: "Work day"},
@@ -31,8 +32,15 @@ scheduleLine: ScheduleLine;
       time: ['']
 
     });
+    this.editForm = this.fb.group({
+      line: [''],
+      day: [''],
+      time: ['']
+
+    });
 
     this.isBtnAddClicked = false;
+    this.isBtnEditClicked = false;
     this.schedule = new Array<ScheduleLine>();
     this.sl = new ScheduleLine();
     
@@ -69,15 +77,44 @@ scheduleLine: ScheduleLine;
    // this.schedule = await this.scheduleAdminService.getSchedule();
   }
 
+  public async onSubmitEdit(){
+
+    this.sl.Number = this.editForm.controls['line'].value;
+    this.sl.Day= this.editForm.controls['day'].value;
+    this.sl.Time = this.editForm.controls['time'].value;
+    this.sl.IDDay = this.editForm.controls['id'].value;
+
+    this.scheduleAdminService.editLine(this.sl).subscribe(()=>{
+      this.getSchedule();
+     
+    }, err => console.log(err));
+
+
+  this.isBtnEditClicked = false;
+
+  }
+
   public async getSchedule(){
     this.schedule = await this.scheduleAdminService.getSchedule();
   }
 
-  public  deleteLine(scheduleLine){
-    alert("delete "+ scheduleLine.Number);
-    this.scheduleAdminService.deleteLine(scheduleLine);
-    alert("sta sad?");
+  public  editLine(scheduleLine){
+    this.isBtnEditClicked = true;
+    this.editForm = this.fb.group({
+      id:[scheduleLine.IDDay],
+      line: [scheduleLine.Number],
+      day: [scheduleLine.Day],
+      time: [scheduleLine.Time]
+
+    });
   }
 
+  public deleteLine(scheduleLine){
+    alert("ts--- "+ scheduleLine.Number);
+    this.scheduleAdminService.deleteLine(scheduleLine).subscribe(()=>{
+      this.getSchedule();
+     
+    }, err => console.log(err));
+  }
 
 }

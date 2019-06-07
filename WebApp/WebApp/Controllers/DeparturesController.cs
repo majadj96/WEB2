@@ -102,13 +102,120 @@ namespace WebApp.Controllers
             }
             var line = db.Lines.GetAll().FirstOrDefault(u => u.Number == sl.Number);
             line.Stations = new List<Station>();
-            d.Lines.Add(line);
 
-            db.Departures.Add(d);
-
-            line.Departures.Add(d);
-            db.Lines.Update(line);
+            
+            Departure exist = db.Departures.GetAll().FirstOrDefault(u => (u.Time.Hour == sl.Time.Hour && u.Time.Minute == sl.Time.Minute && u.IDDay == idd));
+            if(exist == null)
+            {
+               
+                d.Lines.Add(line);
+                db.Departures.Add(d);
+                line.Departures.Add(d);
+                db.Lines.Update(line);
+            }
+            else
+            {
+                if(line.Departures.FirstOrDefault(u => (u.Time.Hour == sl.Time.Hour && u.Time.Minute == sl.Time.Minute && u.IDDay == idd)) == null)
+                {
+                    exist.Lines.Add(line);
+                    db.Departures.Update(exist);
+                    line.Departures.Add(exist);
+                    db.Lines.Update(line);
+                }
+                
+               
+            }
+            
             db.Complete();
+
+            return Ok();
+        }
+
+
+        [Route("EditLineSchedule")]
+        // POST: api/Departures
+        [ResponseType(typeof(Departure))]
+        public IHttpActionResult EditLineSchedule([FromBody]ScheduleLine sl)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            int idd;
+            if (sl.Day == "Work day")
+                idd = 1;
+            else
+                idd = 2;
+            
+            Day dd = new Day { IDDay = idd, KindOfDay = sl.Day };
+            Departure d = new Departure { IDDay = idd, Time = sl.Time, Day = dd };
+            var line = db.Lines.GetAll().FirstOrDefault(u => u.Number == sl.Number);
+            if (d.Lines == null)
+            {
+                d.Lines = new List<Line>();
+            }
+            
+            Departure departureFromBase = db.Departures.GetAll().FirstOrDefault(u => u.IDDeparture == sl.IDDay);
+            
+            if(departureFromBase.Lines.Count == 1)
+            {
+               Departure exist =  db.Departures.GetAll().FirstOrDefault(u => (u.Time.Hour == sl.Time.Hour && u.Time.Minute == sl.Time.Minute && u.IDDay == idd));
+                if (exist == null)
+                {
+                    departureFromBase.Time = sl.Time;
+                    departureFromBase.Day = dd;
+                    db.Departures.Update(departureFromBase);
+                    
+                    for(int i=0; i< line.Departures.Count; i++)
+                    {
+                        if(line.Departures[i].IDDeparture == departureFromBase.IDDeparture)
+                        {
+                            line.Departures[i] = departureFromBase;
+                        }
+                    }
+
+                    
+
+                    db.Lines.Update(line);
+                }
+                else
+                {
+                    db.Departures.Remove(departureFromBase);
+                    exist.Lines.Add(line);
+                    db.Departures.Update(exist);
+                    line.Departures.Remove(departureFromBase);
+                    line.Departures.Add(exist);
+                    db.Lines.Update(line);
+
+                }
+
+            }else if(departureFromBase.Lines.Count > 1)
+            {
+                Departure exist = db.Departures.GetAll().FirstOrDefault(u => (u.Time == sl.Time && u.Day == dd));
+                if (exist == null)
+                {
+
+                    departureFromBase.Lines.Remove(line);
+                    line.Departures.Remove(departureFromBase);
+                    d.Lines.Add(line);
+                    db.Departures.Add(d);
+                    line.Departures.Add(d);
+                    db.Lines.Update(line);
+                }
+                else
+                {
+                    departureFromBase.Lines.Remove(line);
+                    line.Departures.Remove(departureFromBase);
+                    exist.Lines.Add(line);
+                    db.Departures.Add(exist);
+                    line.Departures.Add(exist);
+                    db.Lines.Update(line);
+                }
+            }
+
+            db.Complete();
+           
 
             return Ok();
         }
@@ -120,12 +227,15 @@ namespace WebApp.Controllers
         {
             int id = 0;
             Departure departure = db.Departures.Get(IDDay);
+            Line line = db.Lines.Get(Number);
             if (departure == null)
             {
                 return NotFound();
             }
-
-            db.Departures.Remove(departure);
+            line.Departures.Remove(departure);
+            db.Lines.Update(line);
+            departure.Lines.Remove(line);
+            db.Departures.Update(departure);
             db.Complete();
 
             return Ok(departure);
