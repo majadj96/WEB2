@@ -14,11 +14,11 @@ export class ProfileService {
   registerUrl: string =  'http://localhost:52295/api/Account/';
     constructor(private http: HttpClient,private route:Router) { }
   
-    showProfile(email:string,pass:string): Observable<any> {
+    showProfile(email:string): Observable<any> {
 
-        return this.http.get<RegistrateUser>(this.registerUrl+"UserInformation?email="+email+"&pass="+pass)
+        return this.http.get<RegistrateUser>(this.registerUrl+"UserInformation?email="+email)
         .pipe(
-          //catchError(this.handleError<Hero[]>('getHeroes', []))
+          catchError(this.handleError<any[]>('login'))
         );
     }
 

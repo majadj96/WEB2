@@ -355,7 +355,7 @@ namespace WebApp.Controllers
         public IHttpActionResult PutUser([FromBody]RegisterBindingModel user)
         {
 
-            ApplicationUser app = UserManager.Find(user.ConfirmPassword, user.Password);
+            ApplicationUser app = UserManager.FindByEmail(user.ConfirmPassword);
             if (app != null)
             {
                 app.FirstName = user.FirstName;
@@ -441,11 +441,13 @@ namespace WebApp.Controllers
         }
 
 
-        [AllowAnonymous]
+        //[AllowAnonymous]
         [Route("UserInformation")]
-        public RegisterBindingModel GetUser(string email,string pass)
+        public RegisterBindingModel GetUser(string email)
         {
-            ApplicationUser app = UserManager.Find(email, pass);
+            var email1 = Request.GetOwinContext().Authentication.User.Identity.Name;
+
+            ApplicationUser app = UserManager.FindByEmail(email);
             string base64String = "";
 
             RegisterBindingModel rbm = new RegisterBindingModel();
@@ -472,7 +474,6 @@ namespace WebApp.Controllers
                 rbm.BirthDate = app.BirthDate;
                 rbm.Email = app.Email;
                 rbm.VerificationStatus = app.VerificationStatus;
-                rbm.Password = pass;
                 rbm.ImageUrl = base64String;
                 rbm.IDtypeOfUser = app.IDtypeOfUser;
                 return rbm;

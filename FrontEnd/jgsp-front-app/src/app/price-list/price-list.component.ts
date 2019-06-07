@@ -16,7 +16,10 @@ public isOneHour: boolean;
 selectedTicket;
 selectedUser;
 email;
+isLogged:boolean;
 prices:number;
+tickets : Ticket[];
+t:Ticket;
 
   dataTicket:Array<Object> = [
     {name: "One-hour"},
@@ -42,20 +45,55 @@ emailForm = this.fb.group({
   constructor(public priceService: PriceService,private fb: FormBuilder) {
     this.isPriceDataLoaded=false;
     this.isOneHour=false;
+    alert(localStorage.email);
+    if(localStorage.email!=undefined){
+    this.isLogged=true;
+    this.showTickets();
+    }else{
+      this.isLogged=false;
+    }
+
+
+
   }
 
   ngOnInit() {
   }
 
-  showPrices():void{
+  showTickets():void{
+   this.priceService.showTickets().subscribe(tickets=>{
+    this.tickets = tickets;
+   }) 
+   
+  }
+  
+
+  showPrices(logged):void{
+    if(!logged){
     this.priceService.showPrices(this.selectedTicket.name,this.selectedUser.name).subscribe(prices=>{
       this.prices=prices;
       this.isPriceDataLoaded=true;
     });
+  }else{
+    this.priceService.showPrice(this.selectedTicket.name,localStorage.email).subscribe(prices=>{
+      this.prices=prices;
+      this.isPriceDataLoaded=true;
+    });
+  }
   }
 
   selected1(){
     alert(this.selectedTicket.name+" "+this.selectedUser.name);
+  }
+
+
+  checkIn(id){
+    this.t = new Ticket();
+    this.t.IDticket=id;
+    this.priceService.checkIn(this.t).subscribe((date)=>{
+      this.showTickets();
+
+    });
   }
 
   buyTicket(){
@@ -67,6 +105,12 @@ emailForm = this.fb.group({
     }
     else{
       alert("registrovani ste"+this.role);
+      this.ticket.TypeOfTicket=this.selectedTicket.name;
+      this.priceService.buyTicket(this.ticket).subscribe((data) => {
+        console.log(data);
+        this.showTickets();
+      });
+    
     }
 
   }

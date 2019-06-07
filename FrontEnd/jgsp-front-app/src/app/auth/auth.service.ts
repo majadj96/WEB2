@@ -37,8 +37,6 @@ export class AuthService {
         localStorage.setItem('jwt', jwt)//u localstorage google chroma
         localStorage.setItem('role', role);//u localstorage google chroma
         localStorage.setItem('email', user.username)//u localstorage google chroma
-        localStorage.setItem('pass', user.password)//u localstorage google chroma
-
         this.isLoggedIn=  true;
         location.reload();
         
@@ -52,7 +50,7 @@ export class AuthService {
     this.isLoggedIn=  false;
     localStorage.removeItem('jwt');//u localstorage google chroma brisemo
     localStorage.removeItem('role');// -||-
-
+    localStorage.removeItem('email');// -||-
   }
 
   private handleError<T>(operation = 'operation', result?: T) {

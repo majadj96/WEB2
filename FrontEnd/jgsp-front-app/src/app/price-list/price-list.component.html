@@ -36,6 +36,25 @@
 
        -->
 
+
+<!-- <table  border="1" align="center">
+    <tr>
+      <th>Type of passanger</th>
+      <th>Price</th>
+    </tr>
+    <tr *ngFor="let item of prices">
+      <td *ngIf="item.IDtypeOfTicket==1">Student</td>
+      <td *ngIf="item.IDtypeOfTicket==2">Pensioner</td>
+      <td *ngIf="item.IDtypeOfTicket==3">Regular</td>
+
+      <td>{{item.Price}}</td>
+    </tr>
+   
+  </table> -->
+
+
+
+
        <h2 align="center">Price list</h2>
         <hr>
        <table align="center" border='1'>
@@ -46,7 +65,7 @@
           <option *ngFor="let item of dataTicket" [ngValue]="item">{{item.name}}</option>
         </select>
         </td>
-        <tr>
+        <tr *ngIf="!isLogged">
             <th>Type of passanger:</th>
             <td>
         <select [(ngModel)]="selectedUser">
@@ -55,7 +74,7 @@
           </td>
           <tr>
           <th></th>
-          <td><button (click)="showPrices()">Show</button> </td>
+          <td><button (click)="showPrices(isLogged)">Show</button> </td>
         </tr>
          
       </table>
@@ -85,5 +104,26 @@
 </table>
 </form>
 
+<div *ngIf="isLogged">
+  <hr>
+  <h2 align="center">One-hour ticket</h2>
+    <table align="center" border='1'>
+        <tr>
+            <th>ID</th>
+            <th>Bought time</th>
+            <th>Check in time</th>   
+            <th>Check in</th>      
+   
+          </tr>
+          <tr *ngFor="let item of tickets">
+              <td >{{item.IDticket}}</td>
+              <td>{{item.BoughtTime}}</td>
+              <td>{{item.CheckIn}}</td>
+              <td *ngIf= "item.BoughtTime == item.CheckIn"><button (click)="checkIn(item.IDticket)">Check in</button></td>
+              <div *ngIf= "item.BoughtTime != item.CheckIn"><td>Checked in</td></div>
+          </tr>
+    </table>
+
+  </div>
       <!-- <button (click)="selected1()">LALA</button>      
       <button (click)="lala()">lala</button> -->

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Validators, FormBuilder } from '@angular/forms';
+import { ValidateTicketService } from './validateTicketService';
 
 @Component({
   selector: 'app-validate-ticket',
@@ -7,9 +9,30 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ValidateTicketComponent implements OnInit {
 
-  constructor() { }
+  message:string;
+  validateTicket = this.fb.group({
+    idTicket: ['', Validators.required],
+  });
+
+
+  constructor(public validateTicketService: ValidateTicketService, private fb: FormBuilder) { 
+
+   this.message="";
+  }
 
   ngOnInit() {
   }
 
+
+
+    
+  isValid():void{
+
+  alert(this.validateTicket.value.idTicket);
+this.validateTicketService.getInfo(this.validateTicket.value.idTicket).subscribe(data=>{
+  this.message=data;
+
+  });
+
+}
 }

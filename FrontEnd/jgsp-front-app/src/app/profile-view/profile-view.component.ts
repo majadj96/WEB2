@@ -37,7 +37,7 @@ export class ProfileViewComponent implements OnInit {
   }
 
   showProfile():void{
-    this.profileService.showProfile(localStorage.email, localStorage.pass).subscribe(regUser=>{
+    this.profileService.showProfile(localStorage.email).subscribe(regUser=>{
        this.regUser=regUser;
        this.regUser.ConfirmPassword = localStorage.email;
        this.updateUserForm.controls['FirstName'].setValue(this.regUser.FirstName);
@@ -64,7 +64,6 @@ export class ProfileViewComponent implements OnInit {
     this.regUser.ImageUrl = this.base64textString;
     this.profileService.update(this.regUser).subscribe(ok=>{
       this.ok=ok;
-       
    });
 
   }

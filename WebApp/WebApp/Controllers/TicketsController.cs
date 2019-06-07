@@ -25,23 +25,96 @@ namespace WebApp.Controllers
         }
 
         public TicketsController() { }
+
+        [Route("Tickets")]
         // GET: api/Tickets
         public IEnumerable<Ticket> GetTickets()
         {
-            return db.Tickets.GetAll();
+
+            var email1 = Request.GetOwinContext().Authentication.User.Identity.Name;
+
+
+            return db.Tickets.GetAll().Where(t=>t.UserName==email1 && t.IDtypeOfTicket==1);
+            
         }
 
         // GET: api/Tickets/5
+        [Route("CheckValidation")]
         [ResponseType(typeof(Ticket))]
-        public IHttpActionResult GetTicket(int id)
+        public string GetTicket(int id)
         {
+            DateTime dateTime = new DateTime();
+            string result = "";
             Ticket ticket = db.Tickets.Get(id);
             if (ticket == null)
             {
-                return NotFound();
+                return result;
+            }
+            //One-hour
+            if (ticket.IDtypeOfTicket == 1)
+            {
+
+                if (ticket.CheckIn == ticket.BoughtTime)
+                {
+                    result = "Not checked in yet. Invalid.";
+
+                }else if (ticket.CheckIn > ticket.BoughtTime)
+                {
+                    dateTime = ticket.CheckIn.AddHours(1) ;
+
+                    if (ticket.CheckIn > dateTime)
+                    {
+                        result = "1 hour has expired. Invalid.";
+                    }else
+                    {
+                        result = "Valid ticket!";
+                    }
+                }
+
+            //Day
+            }else if (ticket.IDtypeOfTicket == 2)
+            {
+                dateTime = DateTime.Now;
+
+                if (ticket.BoughtTime == DateTime.Today)
+                {
+                    result = "Valid ticket!";
+                }else
+                {
+                    result = "Day has expired. Invalid";
+                }
+                //Mounth
+            }
+            else if (ticket.IDtypeOfTicket == 3)
+            {
+                dateTime = DateTime.Now;
+
+                if(ticket.BoughtTime.Month == dateTime.Month && ticket.BoughtTime.Year == dateTime.Year)
+                {
+                    result = "Valid ticket";
+                }else
+                {
+                    result = "Month has expired. Invalid";
+                }
+                
+            //Year
+            }else if (ticket.IDtypeOfTicket == 4)
+            {
+                dateTime = DateTime.Now;
+
+                if (ticket.BoughtTime.Year == dateTime.Year)
+                {
+                    result = "Valid ticket";
+                }
+                else
+                {
+                     result = "Year has expired. Invalid";
+                }
+
+
             }
 
-            return Ok(ticket);
+            return result;
         }
 
         // PUT: api/Tickets/5
@@ -87,28 +160,35 @@ namespace WebApp.Controllers
             {
                 return BadRequest(ModelState);
             }
+
+            var ticketId = db.TypesOfTicket.GetAll().Where(t => t.typeOfTicket == TypeOfTicket).FirstOrDefault();
+            
+
             Ticket ticket = new Ticket();
             ticket.BoughtTime = DateTime.Now;
             ticket.UserName = UserName;
-            ticket.IDtypeOfTicket = int.Parse(TypeOfTicket);
-            ticket.CheckIn = DateTime.Now;
+            ticket.IDtypeOfTicket = ticketId.IDtypeOfTicket;
+            ticket.CheckIn = ticket.BoughtTime;
 
             db.Tickets.Add(ticket);
             db.Complete();
-            return CreatedAtRoute("DefaultApi", new { id = ticket.IDticket }, ticket);
+            return Ok();
         }
 
         // DELETE: api/Tickets/5
-        [ResponseType(typeof(Ticket))]
-        public IHttpActionResult DeleteTicket(int id)
+        [Route("CheckIn")]
+        [HttpPut]
+        public IHttpActionResult CheckInTicket([FromBody]Ticket t)
         {
-            Ticket ticket = db.Tickets.Get(id);
+            Ticket ticket = db.Tickets.Get(t.IDticket);
             if (ticket == null)
             {
                 return NotFound();
             }
 
-            db.Tickets.Remove(ticket);
+            ticket.CheckIn = DateTime.Now;
+            db.Tickets.Update(ticket);
+            
             db.Complete();
 
             return Ok(ticket);

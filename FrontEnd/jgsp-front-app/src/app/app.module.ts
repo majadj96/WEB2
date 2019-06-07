@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './auth/login/login.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { RegisterComponent } from './register/register.component';
 import { StartComponent } from './start/start.component';
@@ -17,6 +17,7 @@ import { ProfileViewComponent } from './profile-view/profile-view.component';
 import { ValidateProfileComponent } from './validate-profile/validate-profile.component';
 import { ValidateTicketComponent } from './validate-ticket/validate-ticket.component';
 import { ScheduleAdminComponent } from './components/schedule-admin/schedule-admin.component';
+import { JwtInterceptor } from './auth/jwt-interceptor';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,7 @@ import { ScheduleAdminComponent } from './components/schedule-admin/schedule-adm
     HttpClientModule,
     FormsModule,
   ],
-  providers: [],
+  providers: [{provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

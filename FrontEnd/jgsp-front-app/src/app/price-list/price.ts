@@ -6,4 +6,11 @@ export class Ticket {
    UserName:string;
   }
   
+
+  export class Price {
+  IDPrice:number;
+  IDtypeOfTicket:number;
+  Value:number;
+  }
+  
    
