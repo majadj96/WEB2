@@ -1,1 +1,21 @@
-ovde treba da mu dam sve nevalidne profile i slike i da on validira...
+
+<h2 align="center">Profiles for validate</h2>
+<hr>
+<table *ngIf="areUsersThere"  border="1" align="center">
+    <tr>
+      <th>First name</th>
+      <th>Last name</th>
+      <th>Image</th>
+      <th>Verificate</th>
+
+    </tr>
+    <tr *ngFor="let item of users">
+      <td >{{item.FirstName}}</td>
+      <td>{{item.LastName}}</td>
+      <td><img [src]="item.ImageUrl"/></td>
+      <td><button (click)="validateProfile(item.Email)">Validate</button></td>
+    </tr>
+   
+  </table>
+
+  <h3 align="center" *ngIf="!areUsersThere">There are no profile for validate!</h3>
