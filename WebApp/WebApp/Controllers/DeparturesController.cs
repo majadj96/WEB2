@@ -113,6 +113,44 @@ namespace WebApp.Controllers
             return Ok();
         }
 
+
+        [Route("EditLineSchedule")]
+        // POST: api/Departures
+        [ResponseType(typeof(Departure))]
+        public IHttpActionResult EditLineSchedule([FromBody]ScheduleLine sl)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            int idd;
+            if (sl.Day == "Work day")
+                idd = 1;
+            else
+                idd = 2;
+
+            Day dd = new Day { IDDay = idd, KindOfDay = sl.Day };
+            Departure d = new Departure { IDDay = idd, Time = sl.Time, Day = dd };
+            if (d.Lines == null)
+            {
+                d.Lines = new List<Line>();
+            }
+            var line = db.Lines.GetAll().FirstOrDefault(u => u.Number == sl.Number);
+            line.Stations = new List<Station>();
+            d.Lines.Add(line);
+
+            var departure = db.Departures.GetAll().FirstOrDefault(u => u.IDDeparture == sl.IDDay);
+            
+            db.Departures.Add(d);
+            line.Departures.Remove(departure);
+            line.Departures.Add(d);
+            db.Lines.Update(line);
+            db.Complete();
+
+            return Ok();
+        }
+
         [Route("DeleteLineSchedule/{Number}/{IDDay}")]
         // DELETE: api/Departures/5
         [ResponseType(typeof(Departure))]
@@ -120,12 +158,13 @@ namespace WebApp.Controllers
         {
             int id = 0;
             Departure departure = db.Departures.Get(IDDay);
+            Line line = db.Lines.Get(Number);
             if (departure == null)
             {
                 return NotFound();
             }
-
-            db.Departures.Remove(departure);
+            line.Departures.Remove(departure);
+            db.Lines.Update(line);
             db.Complete();
 
             return Ok(departure);

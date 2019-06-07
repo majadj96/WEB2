@@ -12,6 +12,7 @@ namespace WebApp.Dto
         public string Day { get; set; }
 
         public int IDDay { get; set; }
+        
 
     }
 }
