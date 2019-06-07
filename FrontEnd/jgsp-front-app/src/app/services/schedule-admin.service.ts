@@ -16,7 +16,9 @@ export class ScheduleAdminService {
    }
 
    public getSchedule() : Promise<ScheduleLine[]>{
+     alert("staaa");
     return this.client.get<ScheduleLine[]>(this.baseUrl+"api/Line/GetScheduleAdmin").toPromise<ScheduleLine[]>();
+    
  
    }
 

@@ -72,7 +72,7 @@
     <tr *ngFor="let scheduleLine of schedule">
       <td class="hidden">{{scheduleLine.IDDay}}</td>
       <td>{{scheduleLine.Number}}</td>
-      <td>{{scheduleLine.Time}}</td>
+      <td>{{scheduleLine.Time | date:'mediumTime'}}</td>
       <td>{{scheduleLine.Day}}</td>
       <td><button class="btn btn-success" (click)="deleteLine(scheduleLine)"> Delete </button>
         <button class="btn btn-success" (click)="editLine(scheduleLine)" style="margin-left: 20px;"> Edit </button></td>
