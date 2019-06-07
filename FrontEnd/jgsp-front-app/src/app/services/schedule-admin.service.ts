@@ -28,38 +28,20 @@ export class ScheduleAdminService {
     alert(sl.Time);
    
    // this.client.post<any>(this.baseUrl+"api/Line/PostLineSchedule","");
-    this.client.post<any>(this.baseUrl+"api/Departure/PostLineSchedule",sl, {'headers': {'Content-type': 'application/json'}}).pipe(
-      map(res=> {
-        alert("uspesno");
-      }),
-    );
+    return this.client.post<any>(this.baseUrl+"api/Departure/PostLineSchedule",sl, {'headers': {'Content-type': 'application/json'}});
   }
 
-  public deleteLine(sl: ScheduleLine){
+  public deleteLine(scheduleLine: ScheduleLine){
 
     var url = this.baseUrl+"api/Departure/DeleteLineSchedule"
 
-    alert(sl.Number + " "+ sl.Time);
-    let body= JSON.stringify({
-      target: sl.Number,
-      subset: "fruits",
-      reason: "rotten"
-  });
+   // alert(scheduleLine.Number + " "+ scheduleLine.Time);
   
-  this.client.delete('http://testAPI:3000/stuff').subscribe((ok)=>{console.log(ok)});
+  return this.client.delete(`http://localhost:52295/api/Departure/DeleteLineSchedule/${scheduleLine.Number}/${scheduleLine.IDDay}`);
 
-    this.client.delete(url).subscribe(
-      (sl) => {
-          console.log("DELETE call successful value returned in body", 
-                      sl);
-      },
-      response => {
-          console.log("DELETE call in error", response);
-      },
-      () => {
-          console.log("The DELETE observable is now completed.");
-      });
+  }
 
-    
+  public editLine(sl: ScheduleLine){
+    return this.client.post<any>(this.baseUrl+"api/Departure/EditLineSchedule",sl, {'headers': {'Content-type': 'application/json'}});
   }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -16,6 +17,7 @@ namespace WebApp.Models
 
         public List<Station> Stations { get; set; }
 
+        [JsonIgnore]
         public virtual List<Departure> Departures { get; set; }
 
     }

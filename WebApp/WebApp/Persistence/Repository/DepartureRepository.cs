@@ -11,5 +11,9 @@ namespace WebApp.Persistence.Repository
     {
         public DepartureRepository(DbContext context) : base(context) { }
 
+        public override IEnumerable<Departure> GetAll()
+        {
+            return context.Set<Departure>().Include(l => l.Lines);
+        }
     }
 }

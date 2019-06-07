@@ -11,5 +11,8 @@ namespace WebApp.Dto
         public DateTime Time { get; set; }
         public string Day { get; set; }
 
+        public int IDDay { get; set; }
+        
+
     }
 }

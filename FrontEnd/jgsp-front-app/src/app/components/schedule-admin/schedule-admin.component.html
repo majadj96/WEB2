@@ -1,5 +1,4 @@
 <div *ngIf="isBtnAddClicked" class="col-md-6 user-container">
-  <li *ngFor="let line of lines" >{{line.Number}}</li>
     <h2 class="text-center">Add Departion for line</h2>
     <form [formGroup]="addForm" (ngSubmit)="onSubmit()">
       <div class="form-group">
@@ -11,11 +10,15 @@
       </div>
   
       <div class="form-group">
-        <label for="typeOfDay">Type of day:</label>
+        <label for="day">Type of day:</label>
+       <!-- <select formControlName="day" class="form-control">
+            <option [value]="workday">Work day</option>
+            <option [value]="weekend">Weekend</option>
+        </select>-->
         <select formControlName="day" class="form-control">
-            <option [value] = "workday">Work day</option>
-            <option [value] = "weekend">Weekend</option>
-        </select>
+          <option *ngFor="let item of TypeDay" [value] = "item.name">{{item.name}}</option>
+
+      </select>
       </div>
   
       <div class="form-group">
@@ -27,10 +30,35 @@
     </form>
   </div>
 
+  <div *ngIf="isBtnEditClicked" class="col-md-6 user-container">
+    <h2 class="text-center">Edit Departion for line</h2>
+    <form [formGroup]="editForm" (ngSubmit)="onSubmitEdit()">
+      <div class="form-group">
+        <label for="line">Line:</label>
+        <input formControlName="line" name="line" class="form-control" id="line" [disabled]="true">
+      
+      </div>
+  
+      <div class="form-group">
+        <label for="day">Type of day:</label>
+        <select formControlName="day" class="form-control">
+          <option *ngFor="let item of TypeDay" [value] = "item.name">{{item.name}}</option>
+
+      </select>
+      </div>
+  
+      <div class="form-group">
+        <label for="time">Time:</label>
+        <input formControlName="time" placeholder="ex. 10:15" name="time" class="form-control" id="time">
+      </div>
+  
+      <button class="btn btn-success" >Edit</button>
+    </form>
+  </div>
 
 <div class="col-md-6 user-container">
   <h2 style="margin: auto">Schedule</h2>
-  <button class="btn btn-danger" style="width:100px" (click)="addScheduleLine()"> Add Schedule line </button>
+  <button class="btn btn-danger" style="width:140px" (click)="addScheduleLine()"> Add Schedule line </button>
   <table class="table table-striped">
     <thead>
     <tr>
@@ -42,7 +70,7 @@
     </thead>
     <tbody>
     <tr *ngFor="let scheduleLine of schedule">
-      <td class="hidden"></td>
+      <td class="hidden">{{scheduleLine.IDDay}}</td>
       <td>{{scheduleLine.Number}}</td>
       <td>{{scheduleLine.Time}}</td>
       <td>{{scheduleLine.Day}}</td>
