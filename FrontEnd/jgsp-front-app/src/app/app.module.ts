@@ -1,5 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { AgmCoreModule } from '@agm/core';
+
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './auth/login/login.component';
@@ -18,6 +20,8 @@ import { ValidateProfileComponent } from './validate-profile/validate-profile.co
 import { ValidateTicketComponent } from './validate-ticket/validate-ticket.component';
 import { ScheduleAdminComponent } from './components/schedule-admin/schedule-admin.component';
 import { JwtInterceptor } from './auth/jwt-interceptor';
+import { AdminStationComponent } from './admin-station/admin-station.component';
+import { MapComponent } from './admin-station/map/map.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +37,9 @@ import { JwtInterceptor } from './auth/jwt-interceptor';
     ScheduleAdminComponent,
     ProfileViewComponent,
     ValidateProfileComponent,
-    ValidateTicketComponent
+    ValidateTicketComponent,
+    AdminStationComponent,
+    MapComponent
   ],
   imports: [
     BrowserModule,
@@ -41,6 +47,8 @@ import { JwtInterceptor } from './auth/jwt-interceptor';
     ReactiveFormsModule,
     HttpClientModule,
     FormsModule,
+    AgmCoreModule.forRoot({apiKey: 'AIzaSyDnihJyw_34z5S1KZXp90pfTGAqhFszNJk'})
+
   ],
   providers: [{provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true}],
   bootstrap: [AppComponent]

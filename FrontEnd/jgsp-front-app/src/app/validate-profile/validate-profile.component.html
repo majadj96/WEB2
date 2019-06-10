@@ -5,15 +5,20 @@
     <tr>
       <th>First name</th>
       <th>Last name</th>
+      <th>Status</th>
       <th>Image</th>
       <th>Verificate</th>
+      <th>Reject</th>
+
 
     </tr>
     <tr *ngFor="let item of users">
       <td >{{item.FirstName}}</td>
       <td>{{item.LastName}}</td>
+      <td>{{item.VerificationStatus}}</td>
       <td><img [src]="item.ImageUrl"/></td>
       <td><button (click)="validateProfile(item.Email)">Validate</button></td>
+      <td><button (click)="rejectProfile(item.Email)">Reject</button></td>
     </tr>
    
   </table>

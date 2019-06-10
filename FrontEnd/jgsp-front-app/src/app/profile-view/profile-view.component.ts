@@ -64,6 +64,8 @@ export class ProfileViewComponent implements OnInit {
     this.regUser.ImageUrl = this.base64textString;
     this.profileService.update(this.regUser).subscribe(ok=>{
       this.ok=ok;
+      this.showProfile();
+
    });
 
   }
