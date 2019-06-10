@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -15,6 +16,7 @@ namespace WebApp.Models
 
         public double Value { get; set; }
 
+        [JsonIgnore]
         public List<PriceList> PriceLists { get; set; }
         
     }

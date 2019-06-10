@@ -26,6 +26,24 @@ namespace WebApp.Controllers
             _db = db;
         }
 
+        public Price getLatestPrice(string ticket)
+        {
+            List<PriceList> priceLists = _unitOfWork.PriceLists.GetAll().OrderBy(u => u.ValidFrom).ToList();
+            int idType = _unitOfWork.TypesOfTicket.GetAll().FirstOrDefault(u => u.typeOfTicket == ticket).IDtypeOfTicket;
+            foreach (PriceList pl in priceLists)
+            {
+                foreach(Price p in pl.Prices)
+                {
+                    if (p.IDtypeOfTicket == idType)
+                    {
+                        return p;
+                    }
+                }
+            }
+
+            return null;
+        }
+
       //  [HttpGet]
         [Route("GetOnePrice")]
         public double GetOnePrice(string ticket, string user)
@@ -38,7 +56,9 @@ namespace WebApp.Controllers
 
             var tickett = _unitOfWork.TypesOfTicket.GetAll().FirstOrDefault(u => u.typeOfTicket == ticket);
 
-            var pricee = _unitOfWork.Prices.GetAll().FirstOrDefault(u => u.IDtypeOfTicket == tickett.IDtypeOfTicket);
+            Price pricee = getLatestPrice(ticket);// _unitOfWork.Prices.GetAll().FirstOrDefault(u => u.IDtypeOfTicket == tickett.IDtypeOfTicket);
+            if (pricee == null)
+                return 0;
 
             if (userr.Percentage != 0)
                 pretenge = popust / 100;
@@ -65,7 +85,7 @@ namespace WebApp.Controllers
 
             var tickett = _unitOfWork.TypesOfTicket.GetAll().FirstOrDefault(u => u.typeOfTicket == ticket); //koja karta
 
-            var pricee = _unitOfWork.Prices.GetAll().FirstOrDefault(u => u.IDtypeOfTicket == tickett.IDtypeOfTicket);//koliko kosta
+            var pricee = getLatestPrice(ticket);// _unitOfWork.Prices.GetAll().FirstOrDefault(u => u.IDtypeOfTicket == tickett.IDtypeOfTicket);//koliko kosta
             var userr = _unitOfWork.TypesOfUser.GetAll().FirstOrDefault(u => u.IDtypeOfUser == apUs.IDtypeOfUser);
             double popust = (double)userr.Percentage;
 

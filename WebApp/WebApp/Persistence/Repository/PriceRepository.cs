@@ -10,5 +10,9 @@ namespace WebApp.Persistence.Repository
     public class PriceRepository : Repository<Price, int>, IPriceRepository
     {
         public PriceRepository(DbContext context) : base(context) { }
+        public override IEnumerable<Price> GetAll()
+        {
+            return context.Set<Price>().Include(l => l.PriceLists);
+        }
     }
 }

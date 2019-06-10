@@ -62,19 +62,15 @@ public editForm: FormGroup;
     
     this.sl.Number = this.addForm.controls['line'].value;
     this.sl.Day= this.addForm.controls['day'].value;
-    alert(this.sl.Day);
     this.sl.Time = this.addForm.controls['time'].value;
     
 
       this.scheduleAdminService.postSchedule(this.sl).subscribe(()=>{
         this.getSchedule();
-        console.log("dasda");
       }, err => console.log(err));
 
 
     this.isBtnAddClicked = false;
-
-   // this.schedule = await this.scheduleAdminService.getSchedule();
   }
 
   public async onSubmitEdit(){
@@ -110,7 +106,6 @@ public editForm: FormGroup;
   }
 
   public deleteLine(scheduleLine){
-    alert("ts--- "+ scheduleLine.Number);
     this.scheduleAdminService.deleteLine(scheduleLine).subscribe(()=>{
       this.getSchedule();
      
