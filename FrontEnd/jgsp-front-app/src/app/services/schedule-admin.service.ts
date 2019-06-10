@@ -16,7 +16,6 @@ export class ScheduleAdminService {
    }
 
    public getSchedule() : Promise<ScheduleLine[]>{
-     alert("staaa");
     return this.client.get<ScheduleLine[]>(this.baseUrl+"api/Line/GetScheduleAdmin").toPromise<ScheduleLine[]>();
     
  
@@ -27,18 +26,12 @@ export class ScheduleAdminService {
   }
 
   public postSchedule(sl :ScheduleLine){
-    alert(sl.Time);
-   
    // this.client.post<any>(this.baseUrl+"api/Line/PostLineSchedule","");
     return this.client.post<any>(this.baseUrl+"api/Departure/PostLineSchedule",sl, {'headers': {'Content-type': 'application/json'}});
   }
 
   public deleteLine(scheduleLine: ScheduleLine){
 
-    var url = this.baseUrl+"api/Departure/DeleteLineSchedule"
-
-   // alert(scheduleLine.Number + " "+ scheduleLine.Time);
-  
   return this.client.delete(`http://localhost:52295/api/Departure/DeleteLineSchedule/${scheduleLine.Number}/${scheduleLine.IDDay}`);
 
   }

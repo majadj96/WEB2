@@ -11,10 +11,6 @@
   
       <div class="form-group">
         <label for="day">Type of day:</label>
-       <!-- <select formControlName="day" class="form-control">
-            <option [value]="workday">Work day</option>
-            <option [value]="weekend">Weekend</option>
-        </select>-->
         <select formControlName="day" class="form-control">
           <option *ngFor="let item of TypeDay" [value] = "item.name">{{item.name}}</option>
 
@@ -23,7 +19,7 @@
   
       <div class="form-group">
         <label for="time">Time:</label>
-        <input formControlName="time" placeholder="ex. 10:15" name="time" class="form-control" id="time">
+        <input formControlName="time" placeholder="hh:mm" required name="time" class="form-control" id="time">
       </div>
   
       <button class="btn btn-success" >Add</button>
@@ -35,7 +31,7 @@
     <form [formGroup]="editForm" (ngSubmit)="onSubmitEdit()">
       <div class="form-group">
         <label for="line">Line:</label>
-        <input formControlName="line" name="line" class="form-control" id="line" [disabled]="true">
+        <input formControlName="line" name="line" class="form-control" id="line" >
       
       </div>
   
@@ -49,7 +45,7 @@
   
       <div class="form-group">
         <label for="time">Time:</label>
-        <input formControlName="time" placeholder="ex. 10:15" name="time" class="form-control" id="time">
+        <input formControlName="time" placeholder="hh:mm" required name="time" class="form-control" id="time">
       </div>
   
       <button class="btn btn-success" >Edit</button>

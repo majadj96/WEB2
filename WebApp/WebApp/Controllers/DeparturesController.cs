@@ -88,14 +88,14 @@ namespace WebApp.Controllers
                 return BadRequest(ModelState);
             }
 
-            int idd;
+           /* int idd;
             if (sl.Day == "Work day")
                 idd = 1;
             else
-                idd = 2;
+                idd = 2;*/
 
-            Day dd = new Day { IDDay = idd, KindOfDay = sl.Day };
-            Departure d = new Departure { IDDay = idd, Time = sl.Time,Day = dd };
+            Day dd = db.Days.GetAll().FirstOrDefault(u => u.KindOfDay == sl.Day);
+            Departure d = new Departure { IDDay = dd.IDDay, Time = sl.Time,Day = dd };
             if(d.Lines == null)
             {
                 d.Lines = new List<Line>();
@@ -104,7 +104,7 @@ namespace WebApp.Controllers
             line.Stations = new List<Station>();
 
             
-            Departure exist = db.Departures.GetAll().FirstOrDefault(u => (u.Time.Hour == sl.Time.Hour && u.Time.Minute == sl.Time.Minute && u.IDDay == idd));
+            Departure exist = db.Departures.GetAll().FirstOrDefault(u => (u.Time.Hour == sl.Time.Hour && u.Time.Minute == sl.Time.Minute && u.IDDay == dd.IDDay));
             if(exist == null)
             {
                
@@ -115,7 +115,7 @@ namespace WebApp.Controllers
             }
             else
             {
-                if(line.Departures.FirstOrDefault(u => (u.Time.Hour == sl.Time.Hour && u.Time.Minute == sl.Time.Minute && u.IDDay == idd)) == null)
+                if(line.Departures.FirstOrDefault(u => (u.Time.Hour == sl.Time.Hour && u.Time.Minute == sl.Time.Minute && u.IDDay == dd.IDDay)) == null)
                 {
                     exist.Lines.Add(line);
                     db.Departures.Update(exist);
@@ -208,7 +208,7 @@ namespace WebApp.Controllers
                     departureFromBase.Lines.Remove(line);
                     line.Departures.Remove(departureFromBase);
                     exist.Lines.Add(line);
-                    db.Departures.Add(exist);
+                    db.Departures.Update(exist);
                     line.Departures.Add(exist);
                     db.Lines.Update(line);
                 }

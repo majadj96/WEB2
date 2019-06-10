@@ -18,6 +18,7 @@ import { ValidateProfileComponent } from './validate-profile/validate-profile.co
 import { ValidateTicketComponent } from './validate-ticket/validate-ticket.component';
 import { ScheduleAdminComponent } from './components/schedule-admin/schedule-admin.component';
 import { JwtInterceptor } from './auth/jwt-interceptor';
+import { PriceListAdminComponent } from './components/price-list-admin/price-list-admin.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { JwtInterceptor } from './auth/jwt-interceptor';
     ScheduleAdminComponent,
     ProfileViewComponent,
     ValidateProfileComponent,
-    ValidateTicketComponent
+    ValidateTicketComponent,
+    PriceListAdminComponent
   ],
   imports: [
     BrowserModule,
