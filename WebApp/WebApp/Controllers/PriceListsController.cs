@@ -15,6 +15,7 @@ using WebApp.Persistence.UnitOfWork;
 
 namespace WebApp.Controllers
 {
+    [Authorize]
     [RoutePrefix("api/PriceList")]
     public class PriceListsController : ApiController
     {
@@ -25,7 +26,7 @@ namespace WebApp.Controllers
         {
             this.db = db;
         }
-
+        [Authorize(Roles = "Admin")]
         [Route("GetPriceListAdmin")]
         // GET: api/PriceList/GetPriceListAdmin
         public IEnumerable<PriceListLine> GetPriceListAdmin()
@@ -100,6 +101,7 @@ namespace WebApp.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
+        [Authorize(Roles = "Admin")]
         [Route("PostPriceListLine")]
         // POST: api/PriceList/addPriceListLine
         [ResponseType(typeof(PriceList))]
@@ -192,7 +194,7 @@ namespace WebApp.Controllers
             }
             return "ok";
         }
-
+        [Authorize(Roles = "Admin")]
         [Route("EditLine")]
         // POST: api/PriceList/addPriceListLine
         [ResponseType(typeof(PriceList))]
@@ -261,6 +263,7 @@ namespace WebApp.Controllers
             return "ok";
         }
 
+        [Authorize(Roles = "Admin")]
         [Route("DeleteLine/{IDPriceList}/{IDPrice}")]
         // DELETE: api/PriceLists/5
         [ResponseType(typeof(PriceList))]

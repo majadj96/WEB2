@@ -14,6 +14,7 @@ using WebApp.Persistence.UnitOfWork;
 
 namespace WebApp.Controllers
 {
+    [Authorize]
     [RoutePrefix("api/Station")]
     public class StationsController : ApiController
     {
@@ -23,25 +24,14 @@ namespace WebApp.Controllers
         {
             this.db = db;
         }
+        [Authorize(Roles = "Admin")]
         [Route("GetAll")]
         public IEnumerable<Station> GetStations()
         {
             return db.Stations.GetAll();
         }
 
-        // GET: api/Stations/5
-        [ResponseType(typeof(Station))]
-        public IHttpActionResult GetStation(string id)
-        {
-            Station station = db.Stations.Get(id);
-            if (station == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(station);
-        }
-
+        [Authorize(Roles = "Admin")]
         [Route("UpdateStation")]
         [ResponseType(typeof(void))]
         public IHttpActionResult PutStation([FromBody]Station station)
@@ -66,6 +56,7 @@ namespace WebApp.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
+        [Authorize(Roles = "Admin")]
         [Route("Add")]
         [ResponseType(typeof(Station))]
         public IHttpActionResult PostStation([FromBody]Station station)
@@ -100,6 +91,7 @@ namespace WebApp.Controllers
             return Ok();
         }
 
+        [Authorize(Roles = "Admin")]
         [Route("Delete/{id}/")]
         [ResponseType(typeof(Station))]
         public IHttpActionResult DeleteStation(string id)

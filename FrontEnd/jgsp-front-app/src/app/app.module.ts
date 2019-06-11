@@ -40,8 +40,7 @@ import { MapComponent } from './admin-station/map/map.component';
     ValidateProfileComponent,
     ValidateTicketComponent,
     AdminStationComponent,
-    MapComponent
-    ValidateTicketComponent,
+    MapComponent,
     PriceListAdminComponent
   ],
   imports: [

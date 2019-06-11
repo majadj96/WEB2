@@ -15,6 +15,7 @@ using WebApp.Persistence.UnitOfWork;
 
 namespace WebApp.Controllers
 {
+    [Authorize]
     [RoutePrefix("api/Departure")]
     public class DeparturesController : ApiController
     {  
@@ -78,6 +79,7 @@ namespace WebApp.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
+        [Authorize(Roles = "Admin")]
         [Route("PostLineSchedule")]
         // POST: api/Departures
         [ResponseType(typeof(Departure))]
@@ -131,7 +133,7 @@ namespace WebApp.Controllers
             return Ok();
         }
 
-
+        [Authorize(Roles = "Admin")]
         [Route("EditLineSchedule")]
         // POST: api/Departures
         [ResponseType(typeof(Departure))]
@@ -220,6 +222,7 @@ namespace WebApp.Controllers
             return Ok();
         }
 
+        [Authorize(Roles = "Admin")]
         [Route("DeleteLineSchedule/{Number}/{IDDay}")]
         // DELETE: api/Departures/5
         [ResponseType(typeof(Departure))]

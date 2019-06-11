@@ -15,6 +15,7 @@ using WebApp.Persistence.UnitOfWork;
 
 namespace WebApp.Controllers
 {
+    [Authorize]
     [RoutePrefix("api/Tickets")]
     public class TicketsController : ApiController
     {
@@ -27,8 +28,8 @@ namespace WebApp.Controllers
 
         public TicketsController() { }
 
+        [Authorize(Roles = "AppUser")]
         [Route("Tickets")]
-        // GET: api/Tickets
         public IEnumerable<Ticket> GetTickets()
         {
 
@@ -39,12 +40,13 @@ namespace WebApp.Controllers
             
         }
 
-        // GET: api/Tickets/5
+        [Authorize(Roles = "Controller")]
         [Route("CheckValidation")]
         [ResponseType(typeof(Ticket))]
         public string GetTicket(int id)
         {
             DateTime dateTime = new DateTime();
+
             string result = "Ticket not found!";
             Ticket ticket = db.Tickets.Get(id);
             if (ticket == null)
@@ -118,41 +120,7 @@ namespace WebApp.Controllers
             return result;
         }
 
-        // PUT: api/Tickets/5
-        [ResponseType(typeof(void))]
-        public IHttpActionResult PutTicket(int id, Ticket ticket)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            if (id != ticket.IDticket)
-            {
-                return BadRequest();
-            }
-            db.Tickets.Update(ticket);
-
-
-            try
-            {
-                db.Complete();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!TicketExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return StatusCode(HttpStatusCode.NoContent);
-        }
-
+        [AllowAnonymous]
         [Route("Buy")]
         [ResponseType(typeof(Ticket))]
         public IHttpActionResult PostTicket(string TypeOfTicket, string UserName)
@@ -178,8 +146,6 @@ namespace WebApp.Controllers
 
             if (user == null)//neregistrovan
             {
-
-
                 MailMessage mail = new MailMessage("titovrentavehicle@gmail.com", UserName);
                 SmtpClient client = new SmtpClient();
                 client.Port = 587;
@@ -206,7 +172,7 @@ namespace WebApp.Controllers
             return Ok();
         }
 
-        // DELETE: api/Tickets/5
+        [Authorize(Roles = "AppUser")]
         [Route("CheckIn")]
         [HttpPut]
         public IHttpActionResult CheckInTicket([FromBody]Ticket t)

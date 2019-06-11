@@ -15,10 +15,10 @@ using WebApp.Persistence.UnitOfWork;
 
 namespace WebApp.Controllers
 {
+    [Authorize]
     [RoutePrefix("api/Line")]
     public class LinesController : ApiController
     {
-        //private ApplicationDbContext db = new ApplicationDbContext();
         private IUnitOfWork db;
 
         public LinesController()
@@ -31,12 +31,8 @@ namespace WebApp.Controllers
         {
             this.db = db;
         }
-        [Route("StaGod")]
-        public void PostRegUser(ApplicationUser appUs)
-        {
-
-        }
-
+    
+        [AllowAnonymous]
         [Route("GetScheduleLines")]
         public IEnumerable<Line> GetScheduleLines(string typeOfLine)
         {
@@ -53,6 +49,8 @@ namespace WebApp.Controllers
             }
         }
 
+
+        [AllowAnonymous]
         [Route("GetSchedule")]
         public string GetSchedule(string typeOfLine, string typeOfDay, string Number)
         {
@@ -81,6 +79,8 @@ namespace WebApp.Controllers
             return dep;
         }
 
+
+        [Authorize(Roles = "Admin")]
         [Route("GetScheduleAdmin")]
         public IEnumerable<ScheduleLine> GetScheduleAdmin()
         {
@@ -113,6 +113,8 @@ namespace WebApp.Controllers
             return schedule;
             
         }
+
+        [Authorize(Roles = "Admin")]
         [Route("GetLines")]
         // GET: api/Lines
         public IEnumerable<Line> GetLines()
@@ -168,6 +170,8 @@ namespace WebApp.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
+
+        [Authorize(Roles = "Admin")]
         [Route("PostLineSchedule")]
         // POST: api/Lines
        // [ResponseType(typeof(Line))]
