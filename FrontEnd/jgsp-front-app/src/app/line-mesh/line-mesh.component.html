@@ -1,4 +1,42 @@
-<p>
-  line-mesh works!
-  ovde ce biti mapica :D
-</p>
+<h2 align="center" style="color:#3eb0f1;">Line mesh</h2>
+<hr>
+
+<label style="font-size: 20px; color:#1ca7e7; font-weight: bold"> Chose line:</label> 
+<label style="font-size: 20px; color:#e7961c; font-weight: bold" *ngFor="let line of lines">
+  &nbsp;   
+   <input style="font-size: 16px"
+    (change)="lala(line)"
+    type="checkbox"
+    >   {{line}}&nbsp;&nbsp;&nbsp;  
+</label>
+
+<div align="center">
+  <!-- Kreiramo mapu -->
+  <agm-map [latitude]="markerInfo.location.latitude" [longitude]="markerInfo.location.longitude" [zoom]="18" (mapClick)="placeMarker($event)">  
+
+    <agm-marker [latitude]="markerInfo.location.latitude" [longitude]="markerInfo.location.longitude" [title]="markerInfo.title"
+    [label]="markerInfo.label" [iconUrl]="markerInfo.iconUrl">
+
+      <!-- Svakom markeru dodajemo info-window (Nije obavezno!)-->
+      <agm-info-window [latitude]="markerInfo.location.latitude" [longitude]="markerInfo.location.longitude" >
+
+        <!-- U info-window stavljamo html -->
+        <span style="font-size: 16px;font-family:'Times New Roman'">Fakultet tehničkih nauka</span>
+        <br/>
+        <span style="font-family:'Times New Roman'; color:gray;"><strong>Jugodrvo</strong></span>
+        <span style="font-family:'Times New Roman'; color:gray;">Bulevar oslobođenja 131</span>
+        <a [href]="markerInfo.link">See the site.</a>
+      </agm-info-window>
+
+    </agm-marker>
+
+    <agm-polyline [strokeColor]="polyline.color">
+         <agm-polyline-point *ngFor="let point of polyline.path" [latitude]="point.latitude" [longitude]="point.longitude">
+         </agm-polyline-point>
+    </agm-polyline>
+
+    <agm-marker *ngFor="let point of polyline.path" [latitude]="point.latitude" [longitude]="point.longitude" [iconUrl]="polyline.icon">
+    </agm-marker>
+
+  </agm-map>
+</div>

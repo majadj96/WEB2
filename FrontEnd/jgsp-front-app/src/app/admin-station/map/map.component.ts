@@ -42,6 +42,7 @@ public name:string;
   });
 
   ngOnInit() {
+
     this.markerInfo = new MarkerInfo(new GeoLocation(45.242268, 19.842954), 
       "assets/ftn.png",
       "Jugodrvo" , "" , "http://ftn.uns.ac.rs/691618389/fakultet-tehnickih-nauka");
@@ -55,6 +56,8 @@ public name:string;
     this.getStations();
   }
 
+  
+
 
   placeMarker($event){
     if(this.canEdit){
@@ -67,7 +70,6 @@ public name:string;
     this.stationObj = new Station();
     this.stationObj.Latitude = $event.coords.lat;
     this.stationObj.Longitude = $event.coords.lng;
-    //pozovi servis za stanicu 
   }
 
   addStation():void{
@@ -76,6 +78,9 @@ public name:string;
     this.stationObj.Address = this.station.controls['Address'].value;
     this.station.controls['Address'].setValue("");
     this.station.controls['Name'].setValue("");
+
+   // this.markerInfo=new MarkerInfo(new GeoLocation(this.stationObj.Latitude,this.stationObj.Longitude),"hehe","jiji","ok","lala");
+
     this.mapService.add(this.stationObj).subscribe(ok=>{
     this.message=ok;
     this.getStations();
