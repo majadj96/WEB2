@@ -3,6 +3,8 @@ import { PriceService } from './priceService';
 import { Router } from '@angular/router';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Ticket } from './price';
+import { ProfileService } from '../profile-view/profileService';
+import { RegistrateUser } from '../register/registrationUser';
 
 @Component({
   selector: 'app-price-list',
@@ -20,7 +22,7 @@ isLogged:boolean;
 prices:number;
 tickets : Ticket[];
 t:Ticket;
-
+user:RegistrateUser;
   dataTicket:Array<Object> = [
     {name: "One-hour"},
     {name: "Day"},
@@ -42,16 +44,18 @@ emailForm = this.fb.group({
   email: ['', Validators.required],
 });
 
-  constructor(public priceService: PriceService,private fb: FormBuilder) {
+  constructor(public priceService: PriceService,private fb: FormBuilder, public profileService : ProfileService) {
     this.isPriceDataLoaded=false;
     this.isOneHour=false;
     alert(localStorage.email);
     if(localStorage.email!=undefined){
     this.isLogged=true;
+    this.getUser();
     this.showTickets();
     }else{
       this.isLogged=false;
     }
+    
 
 
 
@@ -64,7 +68,6 @@ emailForm = this.fb.group({
    this.priceService.showTickets().subscribe(tickets=>{
     this.tickets = tickets;
    }) 
-   
   }
   
 
@@ -96,6 +99,11 @@ emailForm = this.fb.group({
     });
   }
 
+  getUser(){
+    this.profileService.showProfile(localStorage.email).subscribe(regUser=>{
+      this.user=regUser;
+    });
+  }
   buyTicket(){
     this.role = localStorage.role;
 
@@ -105,12 +113,19 @@ emailForm = this.fb.group({
     }
     else{
       alert("registrovani ste"+this.role);
+      //ukoliko je profil nevalidan - poz
+      alert(this.user.VerificationStatus);
+
+      if(this.user.VerificationStatus=="Valid"){
+        alert("Validan profil");
       this.ticket.TypeOfTicket=this.selectedTicket.name;
       this.priceService.buyTicket(this.ticket).subscribe((data) => {
         console.log(data);
         this.showTickets();
       });
-    
+      }else{
+        alert("Kontroler nije verifikovao Vas profil.");
+      }
     }
 
   }

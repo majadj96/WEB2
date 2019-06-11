@@ -6,6 +6,7 @@ using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Mail;
 using System.Web.Http;
 using System.Web.Http.Description;
 using WebApp.Models;
@@ -44,7 +45,7 @@ namespace WebApp.Controllers
         public string GetTicket(int id)
         {
             DateTime dateTime = new DateTime();
-            string result = "";
+            string result = "Ticket not found!";
             Ticket ticket = db.Tickets.Get(id);
             if (ticket == null)
             {
@@ -172,6 +173,36 @@ namespace WebApp.Controllers
 
             db.Tickets.Add(ticket);
             db.Complete();
+
+            var user = Request.GetOwinContext().Authentication.User.Identity.Name;
+
+            if (user == null)//neregistrovan
+            {
+
+
+                MailMessage mail = new MailMessage("titovrentavehicle@gmail.com", UserName);
+                SmtpClient client = new SmtpClient();
+                client.Port = 587;
+                client.DeliveryMethod = SmtpDeliveryMethod.Network;
+                client.UseDefaultCredentials = true;
+                client.Credentials = new NetworkCredential("titovrentavehicle@gmail.com", "drugtito");
+                client.DeliveryMethod = SmtpDeliveryMethod.Network;
+                client.EnableSsl = true;
+                client.Host = "smtp.gmail.com";
+                mail.Subject = "Public City Transport Serbia";
+                mail.Body = $"You successfully bought ticket at {DateTime.Now}. {Environment.NewLine} Your ticket id is: {ticket.IDticket} {Environment.NewLine}Thank you!";
+
+                try
+                {
+                    client.Send(mail);
+                }catch(Exception e)
+                {
+                    Console.WriteLine(e);
+                    return InternalServerError(e);
+                }
+            }
+
+
             return Ok();
         }
 

@@ -1,5 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { AgmCoreModule } from '@agm/core';
+
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './auth/login/login.component';
@@ -19,7 +21,8 @@ import { ValidateTicketComponent } from './validate-ticket/validate-ticket.compo
 import { ScheduleAdminComponent } from './components/schedule-admin/schedule-admin.component';
 import { JwtInterceptor } from './auth/jwt-interceptor';
 import { PriceListAdminComponent } from './components/price-list-admin/price-list-admin.component';
-import { LineMeshAdminComponent } from './components/line-mesh-admin/line-mesh-admin.component';
+import { AdminStationComponent } from './admin-station/admin-station.component';
+import { MapComponent } from './admin-station/map/map.component';
 
 @NgModule({
   declarations: [
@@ -36,8 +39,10 @@ import { LineMeshAdminComponent } from './components/line-mesh-admin/line-mesh-a
     ProfileViewComponent,
     ValidateProfileComponent,
     ValidateTicketComponent,
-    PriceListAdminComponent,
-    LineMeshAdminComponent
+    AdminStationComponent,
+    MapComponent
+    ValidateTicketComponent,
+    PriceListAdminComponent
   ],
   imports: [
     BrowserModule,
@@ -45,6 +50,8 @@ import { LineMeshAdminComponent } from './components/line-mesh-admin/line-mesh-a
     ReactiveFormsModule,
     HttpClientModule,
     FormsModule,
+    AgmCoreModule.forRoot({apiKey: 'AIzaSyDnihJyw_34z5S1KZXp90pfTGAqhFszNJk'})
+
   ],
   providers: [{provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true}],
   bootstrap: [AppComponent]

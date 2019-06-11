@@ -299,6 +299,10 @@
     <Compile Include="Migrations\201906051044114_dateTimeDepartures.Designer.cs">
       <DependentUpon>201906051044114_dateTimeDepartures.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201906101309068_izLongaUdouble.cs" />
+    <Compile Include="Migrations\201906101309068_izLongaUdouble.Designer.cs">
+      <DependentUpon>201906101309068_izLongaUdouble.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -462,6 +466,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201906051044114_dateTimeDepartures.resx">
       <DependentUpon>201906051044114_dateTimeDepartures.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906101309068_izLongaUdouble.resx">
+      <DependentUpon>201906101309068_izLongaUdouble.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

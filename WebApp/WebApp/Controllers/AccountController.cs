@@ -330,7 +330,7 @@ namespace WebApp.Controllers
         }
 
         public string MakePath(RegisterBindingModel user)
-        {
+        {        
 
             string imgUrl = "";
             if (user.ImageUrl != "" && user.ImageUrl != null)
@@ -340,8 +340,14 @@ namespace WebApp.Controllers
                 using (var ms = new MemoryStream(imageBytes, 0, imageBytes.Length))
                 {
                     Image image = Image.FromStream(ms, true);
-                    image = resizeImage(image, new Size(500, 500));
-                    image.Save(@"C:\Users\john\Desktop\pusi\" + user.Email + ".jpg");
+                   // image = resizeImage(image, new Size(500, 500));
+                    try
+                    {
+                        image.Save(@"C:\Users\john\Desktop\pusi\" + user.Email + ".jpg");
+                    }catch(Exception e)
+                    {
+                        Console.WriteLine(e);
+                    }
                     imgUrl = @"C:\Users\john\Desktop\pusi\" + user.Email + ".jpg";
                 }
             }
@@ -363,10 +369,15 @@ namespace WebApp.Controllers
                 app.Email = user.Email;
                 app.Address = user.Address;
                 app.UserName = user.Email;
-
-                string imgUrl = MakePath(user); //Moja fja
-
-                app.ImageUrl = imgUrl;
+                if (!user.ImageUrl.Equals(""))
+                {
+                    app.VerificationStatus = "In progres";
+                    string imgUrl = MakePath(user); //Moja fja
+                    app.ImageUrl = imgUrl;
+                }else
+                {
+                    app.VerificationStatus = "Invalid";
+                }
             }
               IdentityResult res = UserManager.Update(app);
 
@@ -429,7 +440,7 @@ namespace WebApp.Controllers
 
             List<RegisterBindingModel> users = new List<RegisterBindingModel>();
 
-            users = UserManager.Users.Where(v => v.ImageUrl != "" && v.VerificationStatus=="Invalid").Select(u => new RegisterBindingModel() { FirstName = u.FirstName, LastName = u.LastName,ImageUrl= u.ImageUrl,Email=u.Email }).ToList();
+            users = UserManager.Users.Where(v => v.ImageUrl != "" && (v.VerificationStatus=="Invalid" || v.VerificationStatus=="In progres")).Select(u => new RegisterBindingModel() { FirstName = u.FirstName, LastName = u.LastName,ImageUrl= u.ImageUrl,Email=u.Email, VerificationStatus = u.VerificationStatus}).ToList();
 
             foreach(var u in users)
             {
@@ -516,7 +527,12 @@ namespace WebApp.Controllers
             }
             else
             {
+
+                if (model.ImageUrl=="")
                 model.VerificationStatus = "Invalid";
+                if(model.ImageUrl!="")
+                model.VerificationStatus = "In progres";
+
                 imgUrl = MakePath(model);
             }
 

@@ -14,6 +14,7 @@ using WebApp.Persistence.UnitOfWork;
 
 namespace WebApp.Controllers
 {
+    [RoutePrefix("api/Station")]
     public class StationsController : ApiController
     {
         //private ApplicationDbContext db = new ApplicationDbContext();
@@ -22,7 +23,7 @@ namespace WebApp.Controllers
         {
             this.db = db;
         }
-        // GET: api/Stations
+        [Route("GetAll")]
         public IEnumerable<Station> GetStations()
         {
             return db.Stations.GetAll();
@@ -41,57 +42,47 @@ namespace WebApp.Controllers
             return Ok(station);
         }
 
-        // PUT: api/Stations/5
+        [Route("UpdateStation")]
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutStation(string id, Station station)
+        public IHttpActionResult PutStation([FromBody]Station station)
         {
+            int result = 1;
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != station.Name)
-            {
-                return BadRequest();
-            }
             db.Stations.Update(station);
 
+            result= db.Complete();
 
-            try
+            if (result == 0)
             {
-                db.Complete();
+                return Conflict();
             }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!StationExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            
+
 
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/Stations
+        [Route("Add")]
         [ResponseType(typeof(Station))]
-        public IHttpActionResult PostStation(Station station)
+        public IHttpActionResult PostStation([FromBody]Station station)
         {
+            int result = 1;
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
             db.Stations.Add(station);
-
+            
             try
             {
-                db.Complete();
+               result = db.Complete();
             }
-            catch (DbUpdateException)
+            catch (Exception)
             {
                 if (StationExists(station.Name))
                 {
@@ -102,11 +93,14 @@ namespace WebApp.Controllers
                     throw;
                 }
             }
-
-            return CreatedAtRoute("DefaultApi", new { id = station.Name }, station);
+            if (result == 0)
+            {
+                return Conflict();
+            }
+            return Ok();
         }
 
-        // DELETE: api/Stations/5
+        [Route("Delete/{id}/")]
         [ResponseType(typeof(Station))]
         public IHttpActionResult DeleteStation(string id)
         {

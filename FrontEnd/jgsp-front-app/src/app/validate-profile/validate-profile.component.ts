@@ -25,7 +25,7 @@ export class ValidateProfileComponent implements OnInit {
   getUsers():void{
     this.validateService.getUsers().subscribe(Users=>{
       this.users = Users;
-      this.users.forEach(obj =>{obj.ImageUrl = "data:image/png;base64,"+obj.ImageUrl} );
+      this.users.forEach(obj =>{obj.ImageUrl = "data:image/png;base64,"+obj.ImageUrl;} );
       
       if(this.users!=null){
         this.areUsersThere = true;
@@ -35,15 +35,17 @@ export class ValidateProfileComponent implements OnInit {
   }
  
   validateProfile(item){
-    alert("vali"+item);
-//zovi put ali napravi celog usera
 this.user = new RegistrateUser();
 this.user.VerificationStatus="Valid";
 this.user.Email=item;
 this.validateService.valiadte(this.user).subscribe(ok=>{this.ok=ok;this.getUsers();});
-
   }
-
+  rejectProfile(item){
+    this.user = new RegistrateUser();
+    this.user.VerificationStatus="Invalid";
+    this.user.Email=item;
+    this.validateService.valiadte(this.user).subscribe(ok=>{this.ok=ok;this.getUsers();});
+  }
   //na ok klik ces opet da zoves getUsers da makne tog validiranog
 
 }
