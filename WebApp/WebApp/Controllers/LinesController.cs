@@ -31,8 +31,27 @@ namespace WebApp.Controllers
         {
             this.db = db;
         }
-    
-        [AllowAnonymous]
+
+        [Route("GetLines")]
+        public IEnumerable<LinePlus> GetLines()
+        {
+            List<Line> lines = db.Lines.GetAll().ToList();
+            List<LinePlus> ret = new List<LinePlus>();
+
+            foreach(Line l in lines)
+            {
+                string type = db.TypesOfLine.GetAll().FirstOrDefault(u => u.IDtypeOfLine == l.IDtypeOfLine).typeOfLine;
+                LinePlus lp = new LinePlus() { Number = l.Number, IDtypeOfLine = l.IDtypeOfLine, TypeOfLine = type };
+                ret.Add(lp);
+            }
+            
+            return ret;
+            
+        }
+
+
+
+
         [Route("GetScheduleLines")]
         public IEnumerable<Line> GetScheduleLines(string typeOfLine)
         {
@@ -135,39 +154,42 @@ namespace WebApp.Controllers
             return Ok(line);
         }
 
-        // PUT: api/Lines/5
-        [ResponseType(typeof(void))]
-        public IHttpActionResult PutLine(string id, Line line)
+        [Route("AddLine")]
+        public string AddLine(LinePlus linePlus)
         {
-            if (!ModelState.IsValid)
+            Line line = db.Lines.GetAll().FirstOrDefault(u => u.Number == linePlus.Number);
+            if (line != null)
             {
-                return BadRequest(ModelState);
+                return "Line with that number already exist";
             }
-
-            if (id != line.Number)
+            else
             {
-                return BadRequest();
-            }
-
-            db.Lines.Update(line);
-
-            try
-            {
+                int id = db.TypesOfLine.GetAll().FirstOrDefault(u => u.typeOfLine == linePlus.TypeOfLine).IDtypeOfLine;
+                Line newLine = new Line() { Number = linePlus.Number, IDtypeOfLine = id };
+                db.Lines.Add(newLine);
                 db.Complete();
             }
-            catch (DbUpdateConcurrencyException)
+
+            return "ok";
+        }
+
+        [Route("EditLine")]
+        public string EditLine(LinePlus linePlus)
+        {
+            Line line = db.Lines.GetAll().FirstOrDefault(u => u.Number == linePlus.Number);
+            if (line == null)
             {
-                if (!LineExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return "Line can't be changed";
+            }
+            else
+            {
+                int id = db.TypesOfLine.GetAll().FirstOrDefault(u => u.typeOfLine == linePlus.TypeOfLine).IDtypeOfLine;
+                line.IDtypeOfLine = id;
+                db.Lines.Update(line);
+                db.Complete();
             }
 
-            return StatusCode(HttpStatusCode.NoContent);
+            return "ok";
         }
 
 
@@ -209,11 +231,12 @@ namespace WebApp.Controllers
             return CreatedAtRoute("DefaultApi", new { id = line.Number }, line);
         }
 
+        [Route("DeleteLine/{Number}")]
         // DELETE: api/Lines/5
         [ResponseType(typeof(Line))]
-        public IHttpActionResult DeleteLine(string id)
+        public IHttpActionResult DeleteLine(string Number)
         {
-            Line line = db.Lines.Get(id);
+            Line line = db.Lines.Get(Number);
             if (line == null)
             {
                 return NotFound();
