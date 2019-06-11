@@ -49,6 +49,13 @@ export class MapService {
         );
       }
  
+      getStation(number:string): Observable<Station[]> {        
+        return this.http.get<Station[]>(this.registerUrl+"Station/Get/?Number="+number)
+        .pipe(
+          //catchError(this.handleError<Hero[]>('getHeroes', []))
+        );
+      }
+ 
 
     private handleError<T>(operation = 'operation', result?: T) {
       return (error: any): Observable<T> => {

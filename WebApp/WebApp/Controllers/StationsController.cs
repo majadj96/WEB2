@@ -24,7 +24,20 @@ namespace WebApp.Controllers
         {
             this.db = db;
         }
-        [Authorize(Roles = "Admin")]
+
+
+        [AllowAnonymous]
+        [Route("Get")]
+        public IEnumerable<Station> Get(string Number)
+        {
+
+            var line = db.Lines.GetAll().Where(l => l.Number == Number).FirstOrDefault();
+
+            return line.Stations;
+        }
+
+        //[Authorize(Roles = "Admin")]
+        [AllowAnonymous]
         [Route("GetAll")]
         public IEnumerable<Station> GetStations()
         {

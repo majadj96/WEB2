@@ -23,14 +23,32 @@ namespace WebApp.Controllers
 
         public LinesController()
         {
+            
 
         }
 
-      
+
         public LinesController(IUnitOfWork db)
         {
+
+            //var Line = db.Lines.GetAll().Where(l => l.Number == "11").FirstOrDefault();
+
+            //var s1 = db.Stations.GetAll().Where(s => s.Name == "B").FirstOrDefault();
+            //var s2 = db.Stations.GetAll().Where(s => s.Name == "mapica").FirstOrDefault();
+            //var s3 = db.Stations.GetAll().Where(s => s.Name == "maza").FirstOrDefault();
+            //s1.Lines = new List<Line>();
+            //s1.Lines.Add(Line);
+            //db.Stations.Update(s1);
+
+
+
+            //db.Complete();
+
             this.db = db;
         }
+
+
+
 
         [AllowAnonymous]
         [Route("GetLines")]

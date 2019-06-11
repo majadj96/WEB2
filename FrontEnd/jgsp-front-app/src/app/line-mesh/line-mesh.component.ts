@@ -4,6 +4,9 @@ import { GeoLocation } from '../admin-station/map/model/geolocation';
 import { Polyline } from '../admin-station/map/model/polyline';
 import { Line } from '../models/Line';
 import { ScheduleAdminService } from '../services/schedule-admin.service';
+import { Station } from '../admin-station/map/model/station';
+import { MapService } from '../admin-station/map/mapService';
+import { stringify } from '@angular/core/src/util';
 
 
 @Component({
@@ -15,31 +18,101 @@ import { ScheduleAdminService } from '../services/schedule-admin.service';
 export class LineMeshComponent implements OnInit {
 
   markerInfo: MarkerInfo;
-  public polyline: Polyline;
+  markersInfo:Array<MarkerInfo>;
+
+  markersInfos:Map<string,Array<MarkerInfo>>;
+
+  public polylines1:Array<Polyline>;
+  public polylines: Map<string,Polyline>;
   public zoom: number;
   linesAll: Line[];
-
+  public polyline:Polyline;
+  linijeBul:Map<string,boolean>
+  stations:Station[];
 
   public lines = [];
 
+  getRandomColor() {
+    var color = Math.floor(0x1000000 * Math.random()).toString(16);
+    return '#' + ('000000' + color).slice(-6);
+  }
+
 lala(a){
+
   alert(a);
+  this.polylines1 = new Array<Polyline>();
+  this.markersInfo = new Array<MarkerInfo>();
+
+
+  if(this.linijeBul[a]){
+    //remove
+   
+    this.linijeBul[a]=false;
+    this.polylines[a] = null;
+    this.markersInfos[a]=null;
+    
+    // for(var l in this.lines){
+    //   if(this.markersInfos[this.lines[l]]!=null){
+    //     this.markersInfo.push(this.markersInfos[this.lines[l]]);
+    //   }
+    // }
+  }
+  else{
+    //add
+    this.markersInfos[a] = new Array<MarkerInfo>();
+    this.linijeBul[a]=true;
+    this.polylines[a] = new Polyline([], this.getRandomColor(), { url:"assets/ftn.png", scaledSize: {width: 30, height: 30}});
+    this.mapService.getStations().subscribe(data=>{
+      this.stations=data;
+      this.stations.forEach(s=>{
+        this.polylines[a].addLocation(new GeoLocation(s.Latitude,s.Longitude))
+        this.markersInfos[a].push(new MarkerInfo(new GeoLocation(s.Latitude,s.Longitude),"",s.Name,"",""));
+        for(var l in this.lines){
+          if(this.markersInfos[this.lines[l]]!=null){
+            for(var aa in this.markersInfos[this.lines[l]]){
+                this.markersInfo.push(this.markersInfos[this.lines[l]][aa])
+            }
+          }
+        }
+    });
+    });
+  }
+  
+for(var l in this.lines){
+  if(this.polylines[this.lines[l]]!=null){
+    this.polylines1.push(this.polylines[this.lines[l]]);
+  }
+}
+
+
+
+
+
 }
 
 
 
   async ngOnInit() {
-    this.markerInfo = new MarkerInfo(new GeoLocation(45.242268, 19.842954), 
-      "assets/ftn.png",
-      "Jugodrvo" , "" , "http://ftn.uns.ac.rs/691618389/fakultet-tehnickih-nauka");
+    this.markerInfo = new MarkerInfo(new GeoLocation(45.242268, 19.842954),"","Jugodrvo" , "" , "");
 
       this.polyline = new Polyline([], 'blue', { url:"assets/busicon.png", scaledSize: {width: 50, height: 50}});
       this.linesAll = await this.scheduleAdminService.getLines();
+      this.linijeBul = new Map<string,boolean>();
+      this.polylines1 = new Array<Polyline>();
 
+      this.linesAll.forEach(e => {
+        this.linijeBul.set(e.Number,false);
+      });
+
+      this.polylines = new Map<string,Polyline>();
       this.linesAll.forEach(v=>this.lines.push(v.Number));
+
+      this.markersInfo = new Array<MarkerInfo>();
+      this.markersInfos = new Map<string,Array<MarkerInfo>>();
+
     }
 
-  constructor(private ngZone: NgZone,private scheduleAdminService: ScheduleAdminService){
+  constructor(private ngZone: NgZone,private scheduleAdminService: ScheduleAdminService,public mapService: MapService){
 
   }
 
