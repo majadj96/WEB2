@@ -15,6 +15,7 @@ namespace WebApp.Models
 
         public int IDtypeOfLine { get; set; }
 
+        [JsonIgnore]
         public List<Station> Stations { get; set; }
 
         [JsonIgnore]

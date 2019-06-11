@@ -14,7 +14,7 @@ namespace WebApp.Persistence.Repository
         
         public override IEnumerable<Line>GetAll()
         {
-            return context.Set<Line>().Include(l => l.Departures);
+            return context.Set<Line>().Include(l => l.Departures).Include(l => l.Stations);
         }
     }
 }

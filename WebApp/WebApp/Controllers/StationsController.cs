@@ -45,15 +45,16 @@ namespace WebApp.Controllers
         }
 
         [Route("GetStations")]
-        public IEnumerable<string> GetStationsForLine()
+        public IEnumerable<Station> GetStationsForLine()
         {
-            List<string> stationNames = new List<string>();
-            var ss = db.Stations.GetAll();
-            foreach (Station s in ss)
-            {
-                stationNames.Add(s.Name);
-            }
-            return stationNames;
+            /*  List<string> stationNames = new List<string>();
+              var ss = db.Stations.GetAll();
+              foreach (Station s in ss)
+              {
+                  stationNames.Add(s.Name);
+              }
+              return stationNames;*/
+            return db.Stations.GetAll();
         }
 
         // GET: api/Stations/5

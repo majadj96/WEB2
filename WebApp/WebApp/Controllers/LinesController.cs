@@ -178,8 +178,22 @@ namespace WebApp.Controllers
             {
                 int id = db.TypesOfLine.GetAll().FirstOrDefault(u => u.typeOfLine == linePlus.TypeOfLine).IDtypeOfLine;
                 Line newLine = new Line() { Number = linePlus.Number, IDtypeOfLine = id };
+                newLine.Stations = new List<Station>();
+                foreach(Station s in linePlus.Stations)
+                {
+                    var station = db.Stations.GetAll().FirstOrDefault(u => u.Name == s.Name);
+                    newLine.Stations.Add(station);
+                    db.Stations.Update(station);
+                }
+
                 db.Lines.Add(newLine);
-                db.Complete();
+                try
+                {
+                    db.Complete();
+                }catch(Exception e)
+                {
+
+                }
             }
 
             return "ok";

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Line } from '../models/Line';
+import { Station } from '../admin-station/map/model/station';
 
 @Injectable({
   providedIn: 'root'
@@ -19,8 +20,8 @@ export class LineMeshAdminService {
     
    }
 
-   public getStations() : Promise<string[]>{
-    return this.client.get<string[]>(this.baseUrl+"api/Station/GetStations").toPromise<string[]>();
+   public getStations() : Promise<Station[]>{
+    return this.client.get<Station[]>(this.baseUrl+"api/Station/GetStations").toPromise<Station[]>();
     
    }
 

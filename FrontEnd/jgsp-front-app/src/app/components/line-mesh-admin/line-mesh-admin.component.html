@@ -18,14 +18,11 @@
 
       <div class="form-group">
           <label for="stations">Stations:</label>
-          <label formArrayName="stations" *ngFor="let station of stations; let i = index">
-              <input type="checkbox" [formControlName]="stations[i]">
-              {{station}}
+          <label  *ngFor="let station of stations; let i= index">
+              <input type="checkbox"  (change)="onChange(station)">
+              {{station.Name}}
             </label>
 
-            <label ng-repeat="station in stations">
-                <input type="checkbox" checklist-model="stations" checklist-value="stations"> {{station}}
-              </label>
         </div>
   
       <p>{{message}}</p>
@@ -49,6 +46,15 @@
     
           </select>
           </div>
+
+          <div class="form-group">
+              <label for="stations">Stations:</label>
+              <label  *ngFor="let station of stations; let i= index">
+                  <input type="checkbox"  (change)="onChange(station)">
+                  {{station.Name}}
+                </label>
+    
+            </div>
           <p>{{messageEdit}}</p>
       <button class="btn btn-success" >Edit</button>
     </form>

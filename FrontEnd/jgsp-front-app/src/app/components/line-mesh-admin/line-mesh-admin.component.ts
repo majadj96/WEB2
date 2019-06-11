@@ -3,6 +3,7 @@ import { Line } from 'src/app/models/Line';
 import { FormGroup, FormBuilder, FormArray, FormControl, ValidatorFn } from '@angular/forms';
 import { LineMeshAdminService } from '../../services/line-mesh-admin.service';
 import { of } from 'rxjs';
+import { Station } from 'src/app/admin-station/map/model/station';
 
 
 @Component({
@@ -17,11 +18,11 @@ export class LineMeshAdminComponent implements OnInit {
   lines: Line[];
   message: string;
   messageEdit: string;
-  stations: string[];
+  stations: Station[];
   line: Line;
   public editForm: FormGroup;
   public addForm: FormGroup;
-
+checkedStations: Station[];
 
 
   TypeLine:Array<Object> = [
@@ -30,20 +31,31 @@ export class LineMeshAdminComponent implements OnInit {
   
   ];
 
+
+  onChange(s){
+    alert(s.Name);
+    var exist = this.checkedStations.indexOf(s);
+    if(exist == -1){
+      alert("dodaj");
+    this.checkedStations.push(s);
+    }else{
+      alert("brisi");
+      this.checkedStations.splice(s,1);
+    }
+  }
+
   constructor(private fb: FormBuilder,private LineMeshAdminService: LineMeshAdminService) {
-   
-   // const controls = this.stations.map(c => new FormControl(false));
-   // controls[0].setValue(true);
    
     this.addForm = this.fb.group({
       number: [''],
       typeOfLine: [''],
-      stations: [''] //new FormArray(controls, minSelectedCheckboxes(1))
+      stations: [''] 
 
     });
     this.editForm = this.fb.group({
       number: [''],
-      typeOfLine: ['']
+      typeOfLine: [''],
+      stations: [''] 
     });
 
     this.isBtnAddClicked = false;
@@ -52,15 +64,9 @@ export class LineMeshAdminComponent implements OnInit {
     this.line = new Line();
     this.message="";
     this.messageEdit="";
-    this.stations = new Array<string>();
+    this.stations = new Array<Station>();
+    this.checkedStations = new Array<Station>();
     
-
-    /*this.LineMeshAdminService.getStations().subscribe(data=>{
-      this.stations=data; 
-      this.addCheckboxes();
-      }, err => console.log(err));*/
-
-
    }
 
    
@@ -77,30 +83,18 @@ export class LineMeshAdminComponent implements OnInit {
     this.stations = await this.LineMeshAdminService.getStations();
   }
 
-  
-
-  private addCheckboxes() {
-    this.stations.map((o, i) => {
-      const control = new FormControl(i === 0); // if first item set to true, else false
-      (this.addForm.controls.orders as FormArray).push(control);
-    });
-  }
 
   public async onSubmit(){
-
-    const selectedOrderIds = this.addForm.value.orders
-      .map((v, i) => v ? this.stations[i] : null)
-      .filter(v => v !== null);
-
-    console.log(selectedOrderIds);
     
     this.line.Number= this.addForm.controls['number'].value;
     this.line.TypeOfLine = this.addForm.controls['typeOfLine'].value;
+    this.line.Stations = this.checkedStations;
+
     
-  /*  this.LineMeshAdminService.addLine(this.line).subscribe(data=>{
+    this.LineMeshAdminService.addLine(this.line).subscribe(data=>{
       this.message=data; 
       this.getLines();
-      }, err => console.log(err));*/
+      }, err => console.log(err));
 
     
   }
@@ -126,8 +120,8 @@ export class LineMeshAdminComponent implements OnInit {
     this.editForm = this.fb.group({
       number: [line.Number],
       typeOfLine: [line.TypeOfLine],
-      IDTypeOfLine:[line.IDTypeOfLine]
-
+      IDTypeOfLine:[line.IDTypeOfLine],
+      stations:[this.stations]
     });
   }
 
@@ -137,7 +131,8 @@ export class LineMeshAdminComponent implements OnInit {
     this.line.Number= this.editForm.controls['number'].value;
     this.line.TypeOfLine = this.editForm.controls['typeOfLine'].value;
     this.line.IDtypeOfLine = this.editForm.controls['IDTypeOfLine'].value;
-alert(this.editForm.controls['typeOfLine'].value);
+    this.line.Stations = this.checkedStations;
+
    this.LineMeshAdminService.editLine(this.line).subscribe(data=>{
       this.getLines();
       this.messageEdit=data;
