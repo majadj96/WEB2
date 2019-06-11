@@ -32,26 +32,26 @@ namespace WebApp.Controllers
             this.db = db;
         }
 
+        [AllowAnonymous]
         [Route("GetLines")]
+        // GET: api/Lines
         public IEnumerable<LinePlus> GetLines()
         {
             List<Line> lines = db.Lines.GetAll().ToList();
             List<LinePlus> ret = new List<LinePlus>();
 
-            foreach(Line l in lines)
+            foreach (Line l in lines)
             {
                 string type = db.TypesOfLine.GetAll().FirstOrDefault(u => u.IDtypeOfLine == l.IDtypeOfLine).typeOfLine;
                 LinePlus lp = new LinePlus() { Number = l.Number, IDtypeOfLine = l.IDtypeOfLine, TypeOfLine = type };
                 ret.Add(lp);
             }
-            
+
             return ret;
-            
+
         }
 
-
-
-
+        [AllowAnonymous]
         [Route("GetScheduleLines")]
         public IEnumerable<Line> GetScheduleLines(string typeOfLine)
         {
@@ -133,13 +133,7 @@ namespace WebApp.Controllers
             
         }
 
-        [Authorize(Roles = "Admin")]
-        [Route("GetLines")]
-        // GET: api/Lines
-        public IEnumerable<Line> GetLines()
-        {
-            return db.Lines.GetAll();
-        }
+       
 
         // GET: api/Lines/5
         [ResponseType(typeof(Line))]
@@ -154,6 +148,7 @@ namespace WebApp.Controllers
             return Ok(line);
         }
 
+        [Authorize(Roles = "Admin")]
         [Route("AddLine")]
         public string AddLine(LinePlus linePlus)
         {
@@ -173,6 +168,7 @@ namespace WebApp.Controllers
             return "ok";
         }
 
+        [Authorize(Roles = "Admin")]
         [Route("EditLine")]
         public string EditLine(LinePlus linePlus)
         {
@@ -231,6 +227,7 @@ namespace WebApp.Controllers
             return CreatedAtRoute("DefaultApi", new { id = line.Number }, line);
         }
 
+        [Authorize(Roles = "Admin")]
         [Route("DeleteLine/{Number}")]
         // DELETE: api/Lines/5
         [ResponseType(typeof(Line))]
