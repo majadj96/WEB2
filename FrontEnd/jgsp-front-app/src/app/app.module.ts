@@ -19,6 +19,7 @@ import { ValidateTicketComponent } from './validate-ticket/validate-ticket.compo
 import { ScheduleAdminComponent } from './components/schedule-admin/schedule-admin.component';
 import { JwtInterceptor } from './auth/jwt-interceptor';
 import { PriceListAdminComponent } from './components/price-list-admin/price-list-admin.component';
+import { LineMeshAdminComponent } from './components/line-mesh-admin/line-mesh-admin.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { PriceListAdminComponent } from './components/price-list-admin/price-lis
     ProfileViewComponent,
     ValidateProfileComponent,
     ValidateTicketComponent,
-    PriceListAdminComponent
+    PriceListAdminComponent,
+    LineMeshAdminComponent
   ],
   imports: [
     BrowserModule,
