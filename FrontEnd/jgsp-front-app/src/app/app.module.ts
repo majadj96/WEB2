@@ -23,6 +23,7 @@ import { JwtInterceptor } from './auth/jwt-interceptor';
 import { PriceListAdminComponent } from './components/price-list-admin/price-list-admin.component';
 import { AdminStationComponent } from './admin-station/admin-station.component';
 import { MapComponent } from './admin-station/map/map.component';
+import { LineMeshComponent } from './line-mesh/line-mesh.component';
 import { LineMeshAdminComponent } from './components/line-mesh-admin/line-mesh-admin.component';
 
 @NgModule({
@@ -43,6 +44,7 @@ import { LineMeshAdminComponent } from './components/line-mesh-admin/line-mesh-a
     AdminStationComponent,
     MapComponent,
     PriceListAdminComponent,
+    LineMeshComponent,
     LineMeshAdminComponent
   ],
   imports: [

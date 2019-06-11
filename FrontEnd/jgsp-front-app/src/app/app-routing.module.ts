@@ -18,6 +18,7 @@ import { ScheduleAdminComponent } from './components/schedule-admin/schedule-adm
 import { PriceListAdminComponent } from './components/price-list-admin/price-list-admin.component';
 import { AdminStationComponent } from './admin-station/admin-station.component';
 import { LineMeshAdminComponent } from './components/line-mesh-admin/line-mesh-admin.component';
+import { LineMeshComponent } from './line-mesh/line-mesh.component';
 
 // import { CrisisCenterComponent } from './crisis-center/crisis-center/crisis-center.component';
 // import { CrisisCenterHomeComponent } from './crisis-center/crisis-center-home/crisis-center-home.component';
@@ -80,7 +81,11 @@ const appRoutes: Routes = [
   { 
     path: 'line-mesh-admin', 
     component: LineMeshAdminComponent, 
+  },{ 
+    path: 'lineMesh', 
+    component: LineMeshComponent, 
   }
+  
 ];
 
 @NgModule({

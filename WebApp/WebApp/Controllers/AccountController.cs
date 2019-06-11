@@ -20,10 +20,11 @@ using System.Net;
 using System.IO;
 using System.Drawing;
 using System.Linq;
+using System.Net.Mail;
 
 namespace WebApp.Controllers
 {
-   // [Authorize]
+    [Authorize]
     [RoutePrefix("api/Account")]//pocetak
     public class AccountController : ApiController
     {
@@ -324,10 +325,7 @@ namespace WebApp.Controllers
             return logins;
         }
 
-        public static Image resizeImage(Image imgToResize, Size size)
-        {
-            return (Image)(new Bitmap(imgToResize, size));
-        }
+  
 
         public string MakePath(RegisterBindingModel user)
         {        
@@ -356,7 +354,7 @@ namespace WebApp.Controllers
 
         }
 
-        [AllowAnonymous]
+        [Authorize(Roles = "AppUser")]
         [Route("UpdateUser")]
         public IHttpActionResult PutUser([FromBody]RegisterBindingModel user)
         {
@@ -376,7 +374,14 @@ namespace WebApp.Controllers
                     app.ImageUrl = imgUrl;
                 }else
                 {
-                    app.VerificationStatus = "Invalid";
+                    if (app.ImageUrl != "")
+                    {
+
+                    }
+                    else
+                    {
+                        app.VerificationStatus = "Invalid";
+                    }
                 }
             }
               IdentityResult res = UserManager.Update(app);
@@ -412,8 +417,23 @@ namespace WebApp.Controllers
         }
 
 
+        protected void SendMail(string toEmail, string content)
+        {
+            MailMessage mail = new MailMessage("titovrentavehicle@gmail.com", toEmail);
+            SmtpClient client = new SmtpClient();
+            client.Port = 587;
+            client.DeliveryMethod = SmtpDeliveryMethod.Network;
+            client.UseDefaultCredentials = true;
+            client.Credentials = new NetworkCredential("titovrentavehicle@gmail.com", "drugtito");
+            client.DeliveryMethod = SmtpDeliveryMethod.Network;
+            client.EnableSsl = true;
+            client.Host = "smtp.gmail.com";
+            mail.Subject = "Public City Transport Serbia";
+            mail.Body =content;
+            client.Send(mail);
+        }
 
-        [AllowAnonymous]
+        [Authorize(Roles = "Controller")]
         [Route("Validate")]
         public IHttpActionResult PutValidate([FromBody]RegisterBindingModel user)
         {
@@ -423,21 +443,20 @@ namespace WebApp.Controllers
             IdentityResult res = UserManager.Update(app);
 
             if (!res.Succeeded)
-
                 return BadRequest();
             else
+            {
+                SendMail(app.Email, $"Controller has checked your profile! {Environment.NewLine} Your varification status of profile is : "+app.VerificationStatus+".");
                 return StatusCode(HttpStatusCode.NoContent);
+            }
 
         }
 
 
-        [AllowAnonymous]
+        [Authorize(Roles = "Controller")]
         [Route("GetUsers")]
         public List<RegisterBindingModel> Get()
         {
-           // var email = Request.GetOwinContext().Authentication.User.Identity.Name;
-           //UserManager.FindByName(email);
-
             List<RegisterBindingModel> users = new List<RegisterBindingModel>();
 
             users = UserManager.Users.Where(v => v.ImageUrl != "" && (v.VerificationStatus=="Invalid" || v.VerificationStatus=="In progres")).Select(u => new RegisterBindingModel() { FirstName = u.FirstName, LastName = u.LastName,ImageUrl= u.ImageUrl,Email=u.Email, VerificationStatus = u.VerificationStatus}).ToList();
@@ -452,7 +471,7 @@ namespace WebApp.Controllers
         }
 
 
-        //[AllowAnonymous]
+        [Authorize(Roles = "AppUser")]
         [Route("UserInformation")]
         public RegisterBindingModel GetUser(string email)
         {
@@ -494,22 +513,6 @@ namespace WebApp.Controllers
 
         }
 
-        [HttpPost]
-        [AllowAnonymous]
-        [Route("PostImage")]
-        public void SaveImage([FromBody]MyImage slika)
-        {
-            byte[] imageBytes = Convert.FromBase64String(slika.base64);
-            // Convert byte[] to Image
-            using (var ms = new MemoryStream(imageBytes, 0, imageBytes.Length))
-            {
-                Image image = Image.FromStream(ms, true);
-
-                string name = r.Next(0, 9000).ToString();
-                image.Save(@"C:\Users\john\Desktop\pusi\"+name+".jpg");
-            }
-        }
-
         // POST api/Account/Register
         [AllowAnonymous]
         [Route("Register")]
@@ -530,10 +533,14 @@ namespace WebApp.Controllers
 
                 if (model.ImageUrl=="")
                 model.VerificationStatus = "Invalid";
-                if(model.ImageUrl!="")
+
+                if (model.ImageUrl!="")
                 model.VerificationStatus = "In progres";
 
+
                 imgUrl = MakePath(model);
+                SendMail(model.Email, $"Your varification status of profile is : " + model.VerificationStatus + ".");
+
             }
 
             var user = new ApplicationUser() { UserName = model.Email, Email = model.Email, FirstName=model.FirstName,LastName=model.LastName,BirthDate=model.BirthDate,Address = model.Address,
@@ -547,6 +554,9 @@ namespace WebApp.Controllers
                 return GetErrorResult(result);
             }
             UserManager.AddToRole(user.Id, "AppUser");
+
+
+
             return Ok();
         }
 
@@ -702,9 +712,4 @@ namespace WebApp.Controllers
         #endregion
     }
 
-    public class MyImage
-    {
-        public string base64 { get; set; }
-
-    }
 }

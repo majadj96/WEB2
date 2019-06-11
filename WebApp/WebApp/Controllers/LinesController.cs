@@ -15,41 +15,60 @@ using WebApp.Persistence.UnitOfWork;
 
 namespace WebApp.Controllers
 {
+    [Authorize]
     [RoutePrefix("api/Line")]
     public class LinesController : ApiController
     {
-        //private ApplicationDbContext db = new ApplicationDbContext();
         private IUnitOfWork db;
 
         public LinesController()
         {
+            
 
         }
 
-      
+
         public LinesController(IUnitOfWork db)
         {
+
+            //var Line = db.Lines.GetAll().Where(l => l.Number == "11").FirstOrDefault();
+
+            //var s1 = db.Stations.GetAll().Where(s => s.Name == "B").FirstOrDefault();
+            //var s2 = db.Stations.GetAll().Where(s => s.Name == "mapica").FirstOrDefault();
+            //var s3 = db.Stations.GetAll().Where(s => s.Name == "maza").FirstOrDefault();
+            //s1.Lines = new List<Line>();
+            //s1.Lines.Add(Line);
+            //db.Stations.Update(s1);
+
+
+
+            //db.Complete();
+
             this.db = db;
         }
 
+
+
+
+        [AllowAnonymous]
         [Route("GetLines")]
         public IEnumerable<LinePlus> GetLines()
         {
             List<Line> lines = db.Lines.GetAll().ToList();
             List<LinePlus> ret = new List<LinePlus>();
 
-            foreach(Line l in lines)
+            foreach (Line l in lines)
             {
                 string type = db.TypesOfLine.GetAll().FirstOrDefault(u => u.IDtypeOfLine == l.IDtypeOfLine).typeOfLine;
                 LinePlus lp = new LinePlus() { Number = l.Number, IDtypeOfLine = l.IDtypeOfLine, TypeOfLine = type };
                 ret.Add(lp);
             }
-            
-            return ret;
-            
-        }
-        
 
+            return ret;
+
+        }
+
+        [AllowAnonymous]
         [Route("GetScheduleLines")]
         public IEnumerable<Line> GetScheduleLines(string typeOfLine)
         {
@@ -66,6 +85,8 @@ namespace WebApp.Controllers
             }
         }
 
+
+        [AllowAnonymous]
         [Route("GetSchedule")]
         public string GetSchedule(string typeOfLine, string typeOfDay, string Number)
         {
@@ -94,6 +115,8 @@ namespace WebApp.Controllers
             return dep;
         }
 
+
+        [Authorize(Roles = "Admin")]
         [Route("GetScheduleAdmin")]
         public IEnumerable<ScheduleLine> GetScheduleAdmin()
         {
@@ -126,8 +149,23 @@ namespace WebApp.Controllers
             return schedule;
             
         }
+
        
 
+        // GET: api/Lines/5
+        [ResponseType(typeof(Line))]
+        public IHttpActionResult GetLine(string id)
+        {
+            Line line = db.Lines.Get(id);
+            if (line == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(line);
+        }
+
+        [Authorize(Roles = "Admin")]
         [Route("AddLine")]
         public string AddLine(LinePlus linePlus)
         {
@@ -147,6 +185,7 @@ namespace WebApp.Controllers
             return "ok";
         }
 
+        [Authorize(Roles = "Admin")]
         [Route("EditLine")]
         public string EditLine(LinePlus linePlus)
         {
@@ -166,8 +205,8 @@ namespace WebApp.Controllers
             return "ok";
         }
 
-       
 
+        [Authorize(Roles = "Admin")]
         [Route("PostLineSchedule")]
         // POST: api/Lines
        // [ResponseType(typeof(Line))]
@@ -205,6 +244,7 @@ namespace WebApp.Controllers
             return CreatedAtRoute("DefaultApi", new { id = line.Number }, line);
         }
 
+        [Authorize(Roles = "Admin")]
         [Route("DeleteLine/{Number}")]
         // DELETE: api/Lines/5
         [ResponseType(typeof(Line))]

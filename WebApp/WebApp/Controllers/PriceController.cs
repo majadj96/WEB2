@@ -13,6 +13,7 @@ using WebApp.Persistence.UnitOfWork;
 
 namespace WebApp.Controllers
 {
+    [Authorize]
     [RoutePrefix("api/Price")]
     public class PriceController : ApiController
     {
@@ -28,7 +29,7 @@ namespace WebApp.Controllers
 
         public Price getLatestPrice(string ticket)
         {
-            List<PriceList> priceLists = _unitOfWork.PriceLists.GetAll().OrderBy(u => u.ValidFrom).ToList();
+            List<PriceList> priceLists = _unitOfWork.PriceLists.GetAll().OrderByDescending(u => u.ValidFrom).ToList();
             int idType = _unitOfWork.TypesOfTicket.GetAll().FirstOrDefault(u => u.typeOfTicket == ticket).IDtypeOfTicket;
             foreach (PriceList pl in priceLists)
             {
@@ -44,7 +45,7 @@ namespace WebApp.Controllers
             return null;
         }
 
-      //  [HttpGet]
+        [AllowAnonymous]
         [Route("GetOnePrice")]
         public double GetOnePrice(string ticket, string user)
         {
@@ -69,7 +70,7 @@ namespace WebApp.Controllers
 
         }
 
-
+        [Authorize(Roles = "AppUser")]
         [Route("GetPrice")]
         public double GetPrice(string ticket, string email)
         {
@@ -90,39 +91,9 @@ namespace WebApp.Controllers
             double popust = (double)userr.Percentage;
 
             pretenge = popust / 100;
-
-
-
-
             return pricee.Value * pretenge;
         }
 
-            //// GET: api/Price
-            //public IEnumerable<Price> Get()
-            //{
 
-            //    return _unitOfWork.Prices.GetAll();
-            //}
-
-            //// GET: api/Price/5
-            //public string Get(int id)
-            //{
-            //    return "value";
-            //}
-
-            //// POST: api/Price
-            //public void Post([FromBody]string value)
-            //{
-            //}
-
-            //// PUT: api/Price/5
-            //public void Put(int id, [FromBody]string value)
-            //{
-            //}
-
-            //// DELETE: api/Price/5
-            //public void Delete(int id)
-            //{
-            //}
-        }
+    }
 }
