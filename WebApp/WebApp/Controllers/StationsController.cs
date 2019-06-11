@@ -29,6 +29,18 @@ namespace WebApp.Controllers
             return db.Stations.GetAll();
         }
 
+        [Route("GetStations")]
+        public IEnumerable<string> GetStationsForLine()
+        {
+            List<string> stationNames = new List<string>();
+            var ss = db.Stations.GetAll();
+            foreach (Station s in ss)
+            {
+                stationNames.Add(s.Name);
+            }
+            return stationNames;
+        }
+
         // GET: api/Stations/5
         [ResponseType(typeof(Station))]
         public IHttpActionResult GetStation(string id)

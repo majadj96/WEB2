@@ -19,6 +19,11 @@ export class LineMeshAdminService {
     
    }
 
+   public getStations() : Promise<string[]>{
+    return this.client.get<string[]>(this.baseUrl+"api/Station/GetStations").toPromise<string[]>();
+    
+   }
+
    public addLine(line :Line){
     return this.client.post<any>(this.baseUrl+"api/Line/AddLine",line, {'headers': {'Content-type': 'application/json'}});
   }

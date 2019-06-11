@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Line } from 'src/app/models/Line';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, FormArray, FormControl, ValidatorFn } from '@angular/forms';
 import { LineMeshAdminService } from '../../services/line-mesh-admin.service';
+import { of } from 'rxjs';
 
 
 @Component({
@@ -16,10 +17,12 @@ export class LineMeshAdminComponent implements OnInit {
   lines: Line[];
   message: string;
   messageEdit: string;
-
+  stations: string[];
   line: Line;
   public editForm: FormGroup;
   public addForm: FormGroup;
+
+
 
   TypeLine:Array<Object> = [
     {name: "City"},
@@ -28,9 +31,14 @@ export class LineMeshAdminComponent implements OnInit {
   ];
 
   constructor(private fb: FormBuilder,private LineMeshAdminService: LineMeshAdminService) {
+   
+   // const controls = this.stations.map(c => new FormControl(false));
+   // controls[0].setValue(true);
+   
     this.addForm = this.fb.group({
       number: [''],
-      typeOfLine: ['']
+      typeOfLine: [''],
+      stations: [''] //new FormArray(controls, minSelectedCheckboxes(1))
 
     });
     this.editForm = this.fb.group({
@@ -44,29 +52,55 @@ export class LineMeshAdminComponent implements OnInit {
     this.line = new Line();
     this.message="";
     this.messageEdit="";
+    this.stations = new Array<string>();
+    
+
+    /*this.LineMeshAdminService.getStations().subscribe(data=>{
+      this.stations=data; 
+      this.addCheckboxes();
+      }, err => console.log(err));*/
+
+
    }
+
+   
 
   async ngOnInit() {
     this.lines = await this.LineMeshAdminService.getLines();
+    this.stations = await this.LineMeshAdminService.getStations();
     this.message="";
     this.messageEdit="";
   }
 
   public async addLine(){
     this.isBtnAddClicked = true;
+    this.stations = await this.LineMeshAdminService.getStations();
+  }
+
+  
+
+  private addCheckboxes() {
+    this.stations.map((o, i) => {
+      const control = new FormControl(i === 0); // if first item set to true, else false
+      (this.addForm.controls.orders as FormArray).push(control);
+    });
   }
 
   public async onSubmit(){
 
-    
+    const selectedOrderIds = this.addForm.value.orders
+      .map((v, i) => v ? this.stations[i] : null)
+      .filter(v => v !== null);
+
+    console.log(selectedOrderIds);
     
     this.line.Number= this.addForm.controls['number'].value;
     this.line.TypeOfLine = this.addForm.controls['typeOfLine'].value;
     
-    this.LineMeshAdminService.addLine(this.line).subscribe(data=>{
+  /*  this.LineMeshAdminService.addLine(this.line).subscribe(data=>{
       this.message=data; 
       this.getLines();
-      }, err => console.log(err));
+      }, err => console.log(err));*/
 
     
   }
@@ -120,4 +154,16 @@ alert(this.editForm.controls['typeOfLine'].value);
      
     }, err => console.log(err));
   }
+}
+
+function minSelectedCheckboxes(min = 1) {
+  const validator: ValidatorFn = (formArray: FormArray) => {
+    const totalSelected = formArray.controls
+      .map(control => control.value)
+      .reduce((prev, next) => next ? prev + next : prev, 0);
+
+    return totalSelected >= min ? null : { required: true };
+  };
+
+  return validator;
 }

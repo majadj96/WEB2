@@ -48,9 +48,7 @@ namespace WebApp.Controllers
             return ret;
             
         }
-
-
-
+        
 
         [Route("GetScheduleLines")]
         public IEnumerable<Line> GetScheduleLines(string typeOfLine)
@@ -129,19 +127,6 @@ namespace WebApp.Controllers
             
         }
        
-
-        // GET: api/Lines/5
-        [ResponseType(typeof(Line))]
-        public IHttpActionResult GetLine(string id)
-        {
-            Line line = db.Lines.Get(id);
-            if (line == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(line);
-        }
 
         [Route("AddLine")]
         public string AddLine(LinePlus linePlus)
