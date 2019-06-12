@@ -17,6 +17,8 @@ export class ScheduleComponent implements OnInit {
   public lines: Line[];
   public times: string;
   public parser:string[];
+  public message: string;
+  public empty: boolean;
 
   selectedLine;
   selectedDay;
@@ -44,7 +46,7 @@ TypeDay:Array<Object> = [
     });
 
     this.lines = new Array<Line>();
-
+this.empty = true;
   }
 
 
@@ -71,7 +73,16 @@ TypeDay:Array<Object> = [
     let typeOfDay = this.ScheduleForm.controls['day'].value;
     let Number = this.ScheduleForm.controls['number'].value;
     this.times = await this.scheduleService.getSchedule(typeOfLine,typeOfDay,Number);
-    this.parser = this.times.split(" ");
+alert("times: " + this.times);
+    if(this.times == "empty"){
+      this.empty = true;
+      this.message = "There is no departures for this line and type of day.";
+    }else{
+      this.empty = false;
+      this.parser = this.times.split(" ");
+      
+    }
+    
     
   }
 

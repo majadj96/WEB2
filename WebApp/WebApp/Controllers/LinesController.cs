@@ -110,7 +110,10 @@ namespace WebApp.Controllers
             List<Departure> deps = new List<Departure>();
             deps = db.Departures.GetAll().Where(u => u.IDDay == day.IDDay).ToList();
             
-
+            if(dep == "")
+            {
+                dep = "empty";
+            }
 
             return dep;
         }

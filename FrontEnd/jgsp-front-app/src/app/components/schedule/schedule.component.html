@@ -42,8 +42,9 @@
       <hr>
 
       <table align="center"> 
-      <ul>
-  <li *ngFor="let time of parser">{{time}}</li>
+      <ul *ngIf="!empty">
+  <li  *ngFor="let time of parser">{{time}}</li>
 </ul>
+<label *ngIf="empty">{{message}}</label>
 </table>
       <!-- <label *ngFor="let time of parser">{{time}}</label> -->
