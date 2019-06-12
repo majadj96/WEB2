@@ -23,16 +23,13 @@ export class ValidateTicketComponent implements OnInit {
   ngOnInit() {
   }
 
-
-
-    
   isValid():void{
-
-  alert(this.validateTicket.value.idTicket);
+  if(this.validateTicket.value.idTicket==null){
+    this.message="Invalid input";
+  }else{
 this.validateTicketService.getInfo(this.validateTicket.value.idTicket).subscribe(data=>{
   this.message=data;
-
   });
-
+  }
 }
 }

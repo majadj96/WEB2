@@ -43,8 +43,16 @@ namespace WebApp.Controllers
         [Authorize(Roles = "Controller")]
         [Route("CheckValidation")]
         [ResponseType(typeof(Ticket))]
-        public string GetTicket(int id)
+        public string GetTicket(double Id)
         {
+            if (((Id % 1) != 0))
+                return "Unvalid ticket id. Try without point ->.";
+
+
+            int id = Convert.ToInt32(Id);
+            
+            
+
             DateTime dateTime = new DateTime();
 
             string result = "Ticket not found!";
