@@ -77,10 +77,11 @@ namespace WebApp.Controllers
             if (result == 0)
             {
                 return Conflict();
+            }else if (result == -1)
+            {
+                return BadRequest("Data was modified in meantime, please try again!");
             }
             
-
-
             return StatusCode(HttpStatusCode.NoContent);
         }
 
