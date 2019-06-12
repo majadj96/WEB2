@@ -90,6 +90,12 @@ namespace WebApp.Controllers
         [Route("GetSchedule")]
         public string GetSchedule(string typeOfLine, string typeOfDay, string Number)
         {
+            
+            if(typeOfLine == null || typeOfDay == null || Number == null)
+            {
+                return "error";
+            }
+
             var type = db.TypesOfLine.GetAll().FirstOrDefault(u => u.typeOfLine == typeOfLine);
             var day = db.Days.GetAll().FirstOrDefault(u => u.KindOfDay == typeOfDay);
             var line = db.Lines.GetAll().FirstOrDefault(u => u.Number == Number);

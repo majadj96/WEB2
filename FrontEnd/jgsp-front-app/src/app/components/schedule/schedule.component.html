@@ -7,7 +7,7 @@
        <tr>
           <th>Type of Line:</th>
           <td>
-              <select formControlName="line" (change)="typeSelected()">
+              <select formControlName="line" (change)="typeSelected()" required>
                   <option *ngFor="let item of TypeLine" [value] = "item.name">{{item.name}}</option>
       
               </select>
@@ -16,7 +16,7 @@
         <tr>
             <th>Type of Day:</th>
             <td>
-                <select formControlName="day">
+                <select formControlName="day" required>
                     <option *ngFor="let item of TypeDay" [value] = "item.name">{{item.name}}</option>
       
                 </select>
@@ -26,7 +26,7 @@
         <tr>
                 <th>Number:</th>
                 <td>
-                    <select formControlName="number" >
+                    <select formControlName="number" required>
                         <option *ngFor="let line of lines" [value]="line.Number">{{line.Number}}</option>
                     </select>
                 </td>
@@ -34,7 +34,7 @@
             
     
         <tr>
-        <th colspan="2"><button type="submit">Show</button></th>
+        <th colspan="2"><button type="submit" [disabled]="!ScheduleForm.valid">Show</button></th>
         </tr>
         
         </table>

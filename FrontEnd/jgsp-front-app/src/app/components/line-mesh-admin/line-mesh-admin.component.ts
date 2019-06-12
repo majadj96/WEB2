@@ -48,14 +48,14 @@ currentStations: Station[];
   constructor(private fb: FormBuilder,private LineMeshAdminService: LineMeshAdminService) {
    
     this.addForm = this.fb.group({
-      number: [''],
-      typeOfLine: [''],
+      number: ['', Validators.required],
+      typeOfLine: ['', Validators.required],
       stations: [''] 
 
     });
     this.editForm = this.fb.group({
-      number: [''],
-      typeOfLine: [''],
+      number: ['', Validators.required],
+      typeOfLine: ['', Validators.required],
       stations: [''] 
     });
 

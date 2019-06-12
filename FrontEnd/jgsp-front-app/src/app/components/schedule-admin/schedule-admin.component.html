@@ -3,7 +3,7 @@
     <form [formGroup]="addForm" (ngSubmit)="onSubmit()">
       <div class="form-group">
         <label for="line">Line:</label>
-        <select formControlName="line" class="form-control">
+        <select formControlName="line" required class="form-control">
             <option *ngFor="let line of lines" [value]="line.Number">{{line.Number}}</option>
 
         </select>
@@ -11,7 +11,7 @@
   
       <div class="form-group">
         <label for="day">Type of day:</label>
-        <select formControlName="day" class="form-control">
+        <select formControlName="day" required class="form-control">
           <option *ngFor="let item of TypeDay" [value] = "item.name">{{item.name}}</option>
 
       </select>
@@ -19,10 +19,10 @@
   
       <div class="form-group">
         <label for="time">Time:</label>
-        <input formControlName="time" placeholder="hh:mm" required name="time" class="form-control" id="time">
+        <input formControlName="time" placeholder="hh:mm" required type="time"  name="time" class="form-control" id="time">
       </div>
   
-      <button class="btn btn-success" >Add</button>
+      <button class="btn btn-success" [disabled]="!addForm.valid">Add</button>
     </form>
   </div>
 
@@ -31,13 +31,13 @@
     <form [formGroup]="editForm" (ngSubmit)="onSubmitEdit()">
       <div class="form-group">
         <label for="line">Line:</label>
-        <input formControlName="line" name="line" class="form-control" id="line" >
+        <input formControlName="line" readonly name="line" class="form-control" id="line" >
       
       </div>
   
       <div class="form-group">
         <label for="day">Type of day:</label>
-        <select formControlName="day" class="form-control">
+        <select formControlName="day" class="form-control" required>
           <option *ngFor="let item of TypeDay" [value] = "item.name">{{item.name}}</option>
 
       </select>
@@ -45,10 +45,10 @@
   
       <div class="form-group">
         <label for="time">Time:</label>
-        <input formControlName="time" placeholder="hh:mm" required name="time" class="form-control" id="time">
+        <input formControlName="time"  required name="time" class="form-control" id="time">
       </div>
   
-      <button class="btn btn-success" >Edit</button>
+      <button class="btn btn-success" [disabled]="!editForm.valid">Edit</button>
     </form>
   </div>
 

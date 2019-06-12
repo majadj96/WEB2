@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ScheduleService } from 'src/app/services/schedule.service';
 import { Line } from 'src/app/models/Line';
 
@@ -39,9 +39,9 @@ TypeDay:Array<Object> = [
   constructor( private fb: FormBuilder, private scheduleService: ScheduleService) { 
    
     this.ScheduleForm = this.fb.group({
-      line: [''],
-      day: [''],
-      number: ['']
+      line: ['', Validators.required],
+      day: ['', Validators.required],
+      number: ['', Validators.required]
 
     });
 
@@ -73,11 +73,14 @@ this.empty = true;
     let typeOfDay = this.ScheduleForm.controls['day'].value;
     let Number = this.ScheduleForm.controls['number'].value;
     this.times = await this.scheduleService.getSchedule(typeOfLine,typeOfDay,Number);
-alert("times: " + this.times);
     if(this.times == "empty"){
       this.empty = true;
       this.message = "There is no departures for this line and type of day.";
-    }else{
+    }else if(this.times == "error"){
+      this.empty = true;
+      this.message = "Something went wrong, please try again."
+    }
+    else{
       this.empty = false;
       this.parser = this.times.split(" ");
       
