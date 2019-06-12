@@ -29,6 +29,10 @@ namespace WebApp.Controllers
 
         public Price getLatestPrice(string ticket)
         {
+            if(ticket == null)
+            {
+                return null;
+            }
             List<PriceList> priceLists = _unitOfWork.PriceLists.GetAll().OrderByDescending(u => u.ValidFrom).ToList();
             int idType = _unitOfWork.TypesOfTicket.GetAll().FirstOrDefault(u => u.typeOfTicket == ticket).IDtypeOfTicket;
             foreach (PriceList pl in priceLists)
@@ -49,6 +53,10 @@ namespace WebApp.Controllers
         [Route("GetOnePrice")]
         public double GetOnePrice(string ticket, string user)
         {
+            if (ticket == null || user == null)
+            {
+                return 0;
+            }
 
             var userr = _unitOfWork.TypesOfUser.GetAll().FirstOrDefault(u => u.typeOfUser == user);
             double pretenge =1; //popust
@@ -74,6 +82,7 @@ namespace WebApp.Controllers
         [Route("GetPrice")]
         public double GetPrice(string ticket, string email)
         {
+
 
             double pretenge = 1; //popust
 

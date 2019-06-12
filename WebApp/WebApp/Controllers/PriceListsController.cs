@@ -111,6 +111,10 @@ namespace WebApp.Controllers
             {
                 return "bad";
             }
+            if (priceListLine == null)
+            {
+                return "null";
+            }
 
             PriceList priceListExist = db.PriceLists.GetAll().FirstOrDefault(u => u.ValidFrom == priceListLine.ValidFrom);
             int id = db.TypesOfTicket.GetAll().FirstOrDefault(u => u.typeOfTicket == priceListLine.TypeOfTicket).IDtypeOfTicket;
@@ -203,6 +207,10 @@ namespace WebApp.Controllers
             if (!ModelState.IsValid)
             {
                 return "bad";
+            }
+            if(priceListLine == null)
+            {
+                return "null";
             }
 
             PriceList priceListExist = db.PriceLists.GetAll().FirstOrDefault(u => u.ValidFrom == priceListLine.ValidFrom);

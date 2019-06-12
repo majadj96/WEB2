@@ -25,27 +25,7 @@ namespace WebApp.Controllers
         {
             this.db = db;
         }
-        // GET: api/Departures
-        public IEnumerable<Departure> GetDepartures()
-        {
-            return db.Departures.GetAll();
-        }
-
-        // GET: api/Departures/5
-        [ResponseType(typeof(Departure))]
-        public IHttpActionResult GetDeparture(int id)
-        {
-            Departure departure = db.Departures.Get(id);
-            if (departure == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(departure);
-        }
-
-      
-
+       
         [Authorize(Roles = "Admin")]
         [Route("PostLineSchedule")]
         // POST: api/Departures
@@ -55,6 +35,11 @@ namespace WebApp.Controllers
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
+            }
+
+            if(sl == null)
+            {
+                return NotFound();
             }
 
            /* int idd;
@@ -109,6 +94,11 @@ namespace WebApp.Controllers
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
+            }
+
+            if(sl == null)
+            {
+                return NotFound();
             }
 
             int idd;
@@ -199,7 +189,10 @@ namespace WebApp.Controllers
         [ResponseType(typeof(Departure))]
         public IHttpActionResult DeleteLineSchedule(string Number, int IDDay)
         {
-            int id = 0;
+            if(Number == null || IDDay == 0)
+            {
+                return NotFound();
+            }
             Departure departure = db.Departures.Get(IDDay);
             Line line = db.Lines.Get(Number);
             if (departure == null)

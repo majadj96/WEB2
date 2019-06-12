@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PriceListLine } from 'src/app/models/PriceListLine';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { PriceListAdminService } from '../../services/price-list-admin.service';
 
 @Component({
@@ -31,15 +31,15 @@ export class PriceListAdminComponent implements OnInit {
   constructor(private fb: FormBuilder,private PriceListAdminService: PriceListAdminService) {
 
     this.addForm = this.fb.group({
-      pricelist: [''],
-      ticket: [''],
-      price: ['']
+      pricelist: ['',Validators.required],
+      ticket: ['',Validators.required],
+      price: ['',Validators.required]
 
     });
     this.editForm = this.fb.group({
       pricelist: [''],
-      ticket: [''],
-      price: ['']
+      ticket: ['',Validators.required],
+      price: ['',Validators.required]
 
     });
 
@@ -102,7 +102,6 @@ export class PriceListAdminComponent implements OnInit {
     this.message=" ";
     }
     if(this.messageEdit == "ok"){
-      alert("okkkkk");
       this.isBtnEditClicked = false;
     this.messageEdit=" ";
     }

@@ -3,7 +3,7 @@ import { ScheduleLine } from '../../models/ScheduleLine';
 import { Router } from '@angular/router';
 import { ScheduleAdminService } from '../../services/schedule-admin.service';
 import { Line } from 'src/app/models/Line';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-schedule-admin',
@@ -19,6 +19,7 @@ sl : ScheduleLine;
 scheduleLine: ScheduleLine;
 public editForm: FormGroup;
   public addForm: FormGroup;
+  d: Date;
   TypeDay:Array<Object> = [
     {name: "Work day"},
     {name: "Weekend"},
@@ -27,15 +28,15 @@ public editForm: FormGroup;
 
   constructor(private fb: FormBuilder,private scheduleAdminService: ScheduleAdminService) {
     this.addForm = this.fb.group({
-      line: [''],
-      day: [''],
-      time: ['']
+      line: ['',Validators.required],
+      day: ['',Validators.required],
+      time: ['',Validators.required]
 
     });
     this.editForm = this.fb.group({
       line: [''],
-      day: [''],
-      time: ['']
+      day: ['',Validators.required],
+      time: ['',Validators.required]
 
     });
 
@@ -94,7 +95,9 @@ public editForm: FormGroup;
     this.schedule = await this.scheduleAdminService.getSchedule();
   }
 
+  
   public  editLine(scheduleLine){
+    
     this.isBtnEditClicked = true;
     this.editForm = this.fb.group({
       id:[scheduleLine.IDDay],
