@@ -212,6 +212,13 @@ namespace WebApp.Controllers
             {
                 int id = db.TypesOfLine.GetAll().FirstOrDefault(u => u.typeOfLine == linePlus.TypeOfLine).IDtypeOfLine;
                 line.IDtypeOfLine = id;
+                line.Stations = new List<Station>();
+                foreach (Station s in linePlus.Stations)
+                {
+                    var station = db.Stations.GetAll().FirstOrDefault(u => u.Name == s.Name);
+                    line.Stations.Add(station);
+                    db.Stations.Update(station);
+                }
                 db.Lines.Update(line);
                 db.Complete();
             }

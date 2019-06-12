@@ -48,6 +48,12 @@
           </div>
 
           <div class="form-group">
+            <label for="currentStations">Current Stations:</label>
+            <label  *ngFor="let currentStation of currentStations"> &nbsp;{{currentStation.Name}}</label>
+    
+          </div>
+
+          <div class="form-group">
               <label for="stations">Stations:</label>
               <label  *ngFor="let station of stations; let i= index">
                   <input type="checkbox"  (change)="onChange(station)">

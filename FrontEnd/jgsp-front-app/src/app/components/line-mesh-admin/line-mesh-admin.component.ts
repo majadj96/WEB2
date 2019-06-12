@@ -23,6 +23,7 @@ export class LineMeshAdminComponent implements OnInit {
   public editForm: FormGroup;
   public addForm: FormGroup;
 checkedStations: Station[];
+currentStations: Station[];
 
 
   TypeLine:Array<Object> = [
@@ -66,6 +67,7 @@ checkedStations: Station[];
     this.messageEdit="";
     this.stations = new Array<Station>();
     this.checkedStations = new Array<Station>();
+    this.currentStations = new Array<Station>();
     
    }
 
@@ -116,11 +118,14 @@ checkedStations: Station[];
 
 
   public  editLine(line){
+    this.currentStations = this.checkedStations;
+    this.checkedStations = new Array<Station>();
     this.isBtnEditClicked = true;
     this.editForm = this.fb.group({
       number: [line.Number],
       typeOfLine: [line.TypeOfLine],
       IDTypeOfLine:[line.IDTypeOfLine],
+      currentStations: [this.currentStations],
       stations:[this.stations]
     });
   }
