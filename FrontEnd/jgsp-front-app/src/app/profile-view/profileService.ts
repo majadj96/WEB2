@@ -27,19 +27,26 @@ export class ProfileService {
 
       return this.http.put<string>(this.registerUrl+"UpdateUser",user,{ 'headers': { 'Content-type': 'application/json' }} ).pipe(
         map(res => {
-        alert("Successfully update!");
         localStorage.email = user.Email;
+        alert("Successfully updated!");
+        this.route.navigate(['/start']);
+
         }),
         catchError(this.handleError<any>('login'))
       );
   }
-  
  
-    private handleError<T>(operation = 'operation', result?: T) {
-      return (error: any): Observable<T> => {
-        alert("Can't update at this time!");
-        return of(result as T);
-      };
-    }
+
+
+  private handleError<T>(operation = 'operation', result?: T) {
+    return (error: any): Observable<T> => {
+      if(error.error.Message!=undefined){
+      }else{
+      }
+      return of(error.error.Message);
+    };
+  }
+
+
   }
   

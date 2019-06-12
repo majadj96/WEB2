@@ -15,12 +15,14 @@ export class PriceListComponent implements OnInit {
 public isPriceDataLoaded: boolean;
 public isOneHour: boolean;
 
+message1:string;
 message:string;
 selectedTicket;
 selectedUser;
 email;
 isLogged:boolean;
 prices:number;
+oneHour:number;
 tickets : Ticket[];
 t:Ticket;
 user:RegistrateUser;
@@ -48,7 +50,6 @@ emailForm = this.fb.group({
   constructor(public priceService: PriceService,private fb: FormBuilder, public profileService : ProfileService) {
     this.isPriceDataLoaded=false;
     this.isOneHour=false;
-    alert(localStorage.email);
     if(localStorage.email!=undefined){
     this.isLogged=true;
     this.getUser();
@@ -57,6 +58,7 @@ emailForm = this.fb.group({
       this.isLogged=false;
     }
     this.message="";
+    this.message1="";
 
 
 
@@ -73,22 +75,30 @@ emailForm = this.fb.group({
   
 
   showPrices(logged):void{
+   
     if(!logged){
+      if(this.selectedTicket==undefined || this.selectedUser==undefined){
+        this.message1 = "You did not choose all critetiums";
+             }else{
+               this.message1="";
     this.priceService.showPrices(this.selectedTicket.name,this.selectedUser.name).subscribe(prices=>{
       this.prices=prices;
       this.isPriceDataLoaded=true;
     });
+             }
   }else{
+    if(this.selectedTicket==undefined){
+      this.message1 = "You did not choose critetium";
+           }else{
+             this.message1="";
     this.priceService.showPrice(this.selectedTicket.name,localStorage.email).subscribe(prices=>{
       this.prices=prices;
       this.isPriceDataLoaded=true;
     });
   }
+}
   }
 
-  selected1(){
-    alert(this.selectedTicket.name+" "+this.selectedUser.name);
-  }
 
 
   checkIn(id){
@@ -105,20 +115,26 @@ emailForm = this.fb.group({
       this.user=regUser;
     });
   }
+
+  priceOfOneHourTicket(){
+    this.priceService.showPrices("One-hour","Regular").subscribe(prices=>{
+      this.oneHour=prices;
+      this.message = "You can buy only One-hour ticket because you are not a member. Price is "+this.oneHour+"$.";
+
+    });
+  }
+
   buyTicket(){
+
     this.role = localStorage.role;
 
     if(this.role==null){
-      this.message = "Niste se registrovali mozete kupiti samo vremensku kartu!";
+      this.priceOfOneHourTicket();
       this.isOneHour=true;
     }
     else{
-      alert("registrovani ste"+this.role);
-      //ukoliko je profil nevalidan - poz
-      alert(this.user.VerificationStatus);
 
       if(this.user.VerificationStatus=="Valid"){
-        alert("Validan profil");
       this.ticket.TypeOfTicket=this.selectedTicket.name;
       this.priceService.buyTicket(this.ticket).subscribe((data) => {
         console.log(data);

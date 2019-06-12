@@ -18,10 +18,11 @@ export class ProfileViewComponent implements OnInit {
   public imagePath;
   isRegular:boolean;
 
+  message:string;
+
   updateUserForm = this.fb.group({
-    Email: ['', Validators.required],
+    Email: ['', Validators.email],
     LastName: ['', Validators.required],
-    BirthDate:['',Validators.required],
     Address: ['', Validators.required],
     FirstName: ['', Validators.required],
   });
@@ -48,10 +49,8 @@ export class ProfileViewComponent implements OnInit {
        console.log(this.regUser.IDtypeOfUser);
        if(this.regUser.IDtypeOfUser === 3){
        this.isRegular=false;
-       alert("Regularan!");
         } else
        this.isRegular=true;
-       alert("Neegularan!");
 
     });
   }
@@ -63,9 +62,9 @@ export class ProfileViewComponent implements OnInit {
     this.regUser.Email =this.updateUserForm.controls['Email'].value;
     this.regUser.ImageUrl = this.base64textString;
     this.profileService.update(this.regUser).subscribe(ok=>{
-      this.ok=ok;
+      this.message=ok;
+      if(this.message=="ok")
       this.showProfile();
-
    });
 
   }
@@ -88,7 +87,6 @@ export class ProfileViewComponent implements OnInit {
   _handleReaderLoaded(readerEvt) {
      var binaryString = readerEvt.target.result;
             this.base64textString= btoa(binaryString);
-            alert(btoa(binaryString));
             this.mySrc="data:image/png;base64," + this.base64textString;
     }
 

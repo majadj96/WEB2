@@ -23,8 +23,6 @@ export class RegisterService {
       return this.http.post<any>(this.registerUrl, user, { 'headers': { 'Content-type': 'application/json' } }).pipe(
         map(res => {
         this.route.navigate(['/login']);
-
-        alert("Uspesno");
         }),
   
         catchError(this.handleError<any>('login'))
@@ -50,8 +48,10 @@ export class RegisterService {
 
     private handleError<T>(operation = 'operation', result?: T) {
       return (error: any): Observable<T> => {
-        alert("Greska");
-        return of(result as T);
+        if(error.error.Message!=undefined){
+        }else{
+        }
+        return of(error.error.Message);
       };
     }
   }

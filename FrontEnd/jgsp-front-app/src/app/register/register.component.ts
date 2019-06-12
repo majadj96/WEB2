@@ -14,20 +14,24 @@ export class RegisterComponent {
   fd:FormData;
   mySrc;
   canUpload:boolean;
+  message:string;
 
   registerForm = this.fb.group({
-    Email: ['', Validators.email],
-    Password: ['', Validators.minLength(6)],
-    ConfirmPassword: ['', Validators.minLength(6)],
+    Email: ['', Validators.required],
+    Password: ['', Validators.required],
+    ConfirmPassword: ['', Validators.required],
     FirstName: ['', Validators.required],
     LastName: ['', Validators.required],
     BirthDate:['',Validators.required],
     Address: ['', Validators.required],
-    IDtypeOfUser:[Validators.required],
+    ImageUrl: [''],
+    IDtypeOfUser:[],
+
   });
 
-  constructor(public registerService: RegisterService, public router: Router, private fb: FormBuilder) {
+  constructor(public registerService: RegisterService, private fb: FormBuilder) {
     this.canUpload=false;
+    this.message="";
   }
   
   hit(){
@@ -37,11 +41,21 @@ export class RegisterComponent {
     this.canUpload=false;
   }
   register() {
+    if(this.registerForm.controls['Password'].value==this.registerForm.controls['ConfirmPassword'].value){
+      if(this.registerForm.controls['IDtypeOfUser'].value!=null){
+        this.message="";
     this.registerForm.controls['ImageUrl'].setValue(this.base64textString);
     this.registerService.registrate(this.registerForm.value).subscribe((data) => {
-      console.log("porukaaa");
-      console.log(data);
+      this.message = data;
+      
     });
+  }else{
+    this.message="Please tell us what you are..";
+
+  }
+  }else{
+    this.message="Passwords does not match.";
+  }
   }
 
   private base64textString:string="";

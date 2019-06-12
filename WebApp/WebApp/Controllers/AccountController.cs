@@ -358,7 +358,7 @@ namespace WebApp.Controllers
         [Route("UpdateUser")]
         public IHttpActionResult PutUser([FromBody]RegisterBindingModel user)
         {
-
+            string rez = "";
             ApplicationUser app = UserManager.FindByEmail(user.ConfirmPassword);
             if (app != null)
             {
@@ -387,10 +387,18 @@ namespace WebApp.Controllers
               IdentityResult res = UserManager.Update(app);
 
             if (!res.Succeeded)
-
-                return BadRequest();
+            {
+                foreach (var r in res.Errors)
+                {
+                    rez += r;
+                }
+                return BadRequest(rez);
+            }
             else
-                return StatusCode(HttpStatusCode.NoContent);
+            {
+            
+                return Ok("ok");
+            }
                 
 
         }
@@ -519,9 +527,25 @@ namespace WebApp.Controllers
         public async Task<IHttpActionResult> Register([FromBody]RegisterBindingModel model)
         {
             string imgUrl = "";
+            DateTime oldestMan = new DateTime(1900, 1, 1);
+
+
+            string res = "";
+
+            if (DateTime.Parse(model.BirthDate) > DateTime.Today || DateTime.Parse(model.BirthDate)<oldestMan)
+            {
+                res += "Invalid date. ";
+            }
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                foreach(var r in ModelState.Values)
+                {
+                    foreach(var e in r.Errors)
+                    {
+                        res += e.ErrorMessage + ". ";
+                    }
+                }
+                return BadRequest(res);
             }
 
             if (model.IDtypeOfUser == 3)
@@ -539,21 +563,29 @@ namespace WebApp.Controllers
 
 
                 imgUrl = MakePath(model);
-                SendMail(model.Email, $"Your varification status of profile is : " + model.VerificationStatus + ".");
 
             }
 
             var user = new ApplicationUser() { UserName = model.Email, Email = model.Email, FirstName=model.FirstName,LastName=model.LastName,BirthDate=model.BirthDate,Address = model.Address,
         Approved=false,ImageUrl=imgUrl,VerificationStatus=model.VerificationStatus,IDtypeOfUser=model.IDtypeOfUser};
-           
+
+            if (res != "")
+            {
+                return BadRequest(res);
+            }
 
             IdentityResult result = await UserManager.CreateAsync(user, model.Password);
 
             if (!result.Succeeded)
             {
-                return GetErrorResult(result);
+                foreach(var r in result.Errors)
+                {
+                    res += r;
+                }
+                return BadRequest(res);
             }
             UserManager.AddToRole(user.Id, "AppUser");
+            SendMail(model.Email, $"Your varification status of profile is : " + model.VerificationStatus + ".");
 
 
 
