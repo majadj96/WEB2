@@ -36,14 +36,16 @@ namespace WebApp.Controllers
             return line.Stations;
         }
 
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         [AllowAnonymous]
         [Route("GetAll")]
         public IEnumerable<Station> GetStations()
         {
+
             return db.Stations.GetAll();
         }
 
+        [Authorize(Roles = "Admin")]
         [Route("GetStations")]
         public IEnumerable<Station> GetStationsForLine()
         {
@@ -55,19 +57,6 @@ namespace WebApp.Controllers
               }
               return stationNames;*/
             return db.Stations.GetAll();
-        }
-
-        // GET: api/Stations/5
-        [ResponseType(typeof(Station))]
-        public IHttpActionResult GetStation(string id)
-        {
-            Station station = db.Stations.Get(id);
-            if (station == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(station);
         }
 
         [Authorize(Roles = "Admin")]

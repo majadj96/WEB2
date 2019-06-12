@@ -45,28 +45,19 @@ lala(a){
 
 
   if(this.linijeBul[a]){
-    //remove
-   
     this.linijeBul[a]=false;
     this.polylines[a] = null;
     this.markersInfos[a]=null;
-    
-    // for(var l in this.lines){
-    //   if(this.markersInfos[this.lines[l]]!=null){
-    //     this.markersInfo.push(this.markersInfos[this.lines[l]]);
-    //   }
-    // }
   }
   else{
-    //add
     this.markersInfos[a] = new Array<MarkerInfo>();
     this.linijeBul[a]=true;
-    this.polylines[a] = new Polyline([], this.getRandomColor(), { url:"assets/ftn.png", scaledSize: {width: 30, height: 30}});
-    this.mapService.getStations().subscribe(data=>{
+    this.polylines[a] = new Polyline([], this.getRandomColor(), { url:"", scaledSize: {width: 30, height: 30}});
+    this.mapService.getStation(a).subscribe(data=>{
       this.stations=data;
       this.stations.forEach(s=>{
         this.polylines[a].addLocation(new GeoLocation(s.Latitude,s.Longitude))
-        this.markersInfos[a].push(new MarkerInfo(new GeoLocation(s.Latitude,s.Longitude),"",s.Name,"",""));
+        this.markersInfos[a].push(new MarkerInfo(new GeoLocation(s.Latitude,s.Longitude),"","Address: "+s.Address,s.Name,""));
         for(var l in this.lines){
           if(this.markersInfos[this.lines[l]]!=null){
             for(var aa in this.markersInfos[this.lines[l]]){
@@ -84,9 +75,13 @@ for(var l in this.lines){
   }
 }
 
-
-
-
+for(var l in this.lines){
+  if(this.markersInfos[this.lines[l]]!=null){
+    for(var aa in this.markersInfos[this.lines[l]]){
+        this.markersInfo.push(this.markersInfos[this.lines[l]][aa])
+    }
+  }
+}
 
 }
 
