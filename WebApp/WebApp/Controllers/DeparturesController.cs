@@ -44,40 +44,7 @@ namespace WebApp.Controllers
             return Ok(departure);
         }
 
-        // PUT: api/Departures/5
-        [ResponseType(typeof(void))]
-        public IHttpActionResult PutDeparture(int id, Departure departure)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            if (id != departure.IDDeparture)
-            {
-                return BadRequest();
-            }
-            db.Departures.Update(departure);
-
-
-            try
-            {
-                db.Complete();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!DepartureExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return StatusCode(HttpStatusCode.NoContent);
-        }
+      
 
         [Authorize(Roles = "Admin")]
         [Route("PostLineSchedule")]
@@ -215,8 +182,12 @@ namespace WebApp.Controllers
                     db.Lines.Update(line);
                 }
             }
-
-            db.Complete();
+            int r = 1;
+            r = db.Complete();
+            if(r == -1)
+            {
+                return BadRequest("bad");
+            }
            
 
             return Ok();

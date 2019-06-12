@@ -4,13 +4,12 @@
         
       <div class="form-group">
         <label for="number">Number</label>
-        <input formControlName="number" required  name="number" class="form-control" id="number">
-     
+        <input formControlName="number" required type="number" name="number" class="form-control" id="number">
       </div>
-  
+      
       <div class="form-group">
         <label for="typeOfLine">Type of Line:</label>
-        <select formControlName="typeOfLine" class="form-control">
+        <select formControlName="typeOfLine" class="form-control" required>
           <option *ngFor="let typeOfLine of TypeLine" [value] = "typeOfLine.name">{{typeOfLine.name}}</option>
 
       </select>
@@ -25,7 +24,7 @@
 
         </div>
   
-      <p>{{message}}</p>
+      <p style="color:#ff1100;">{{message}}</p>
       <button class="btn btn-success" >Add</button>
     </form>
   </div>

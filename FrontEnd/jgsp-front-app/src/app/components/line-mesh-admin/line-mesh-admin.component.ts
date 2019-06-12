@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Line } from 'src/app/models/Line';
-import { FormGroup, FormBuilder, FormArray, FormControl, ValidatorFn } from '@angular/forms';
+import { FormGroup, FormBuilder, FormArray, FormControl, ValidatorFn, Validators } from '@angular/forms';
 import { LineMeshAdminService } from '../../services/line-mesh-admin.service';
 import { of } from 'rxjs';
 import { Station } from 'src/app/admin-station/map/model/station';
@@ -87,17 +87,22 @@ currentStations: Station[];
 
 
   public async onSubmit(){
-    
     this.line.Number= this.addForm.controls['number'].value;
     this.line.TypeOfLine = this.addForm.controls['typeOfLine'].value;
     this.line.Stations = this.checkedStations;
 
+    if(this.addForm.controls['number'].value==""){
+      this.message = "Must fill Number field.";
+    }else if(this.addForm.controls['typeOfLine'].value==""){
+      this.message = "Must chose type of line.";
+    }
+    else{
     
     this.LineMeshAdminService.addLine(this.line).subscribe(data=>{
       this.message=data; 
       this.getLines();
       }, err => console.log(err));
-
+    }
     
   }
 
@@ -108,7 +113,6 @@ currentStations: Station[];
     this.message=" ";
     }
     if(this.messageEdit == "ok"){
-      alert("okkkkk");
       this.isBtnEditClicked = false;
     this.messageEdit=" ";
     }

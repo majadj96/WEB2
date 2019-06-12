@@ -21,5 +21,8 @@ namespace WebApp.Models
         [JsonIgnore]
         public virtual List<Departure> Departures { get; set; }
 
+        [Timestamp]
+        public byte[] RowVersion { get; set; }
+
     }
 }

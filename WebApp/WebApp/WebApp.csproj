@@ -306,6 +306,14 @@
     <Compile Include="Migrations\201906121020121_transaction.Designer.cs">
       <DependentUpon>201906121020121_transaction.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201906121140445_transactionLine.cs" />
+    <Compile Include="Migrations\201906121140445_transactionLine.Designer.cs">
+      <DependentUpon>201906121140445_transactionLine.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201906121204410_transactionDeparture.cs" />
+    <Compile Include="Migrations\201906121204410_transactionDeparture.Designer.cs">
+      <DependentUpon>201906121204410_transactionDeparture.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -475,6 +483,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201906121020121_transaction.resx">
       <DependentUpon>201906121020121_transaction.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906121140445_transactionLine.resx">
+      <DependentUpon>201906121140445_transactionLine.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906121204410_transactionDeparture.resx">
+      <DependentUpon>201906121204410_transactionDeparture.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

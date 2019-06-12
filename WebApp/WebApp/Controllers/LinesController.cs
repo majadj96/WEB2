@@ -206,6 +206,7 @@ namespace WebApp.Controllers
         [Route("EditLine")]
         public string EditLine(LinePlus linePlus)
         {
+            int result = 1;
             Line line = db.Lines.GetAll().FirstOrDefault(u => u.Number == linePlus.Number);
             if (line == null)
             {
@@ -223,7 +224,15 @@ namespace WebApp.Controllers
                     db.Stations.Update(station);
                 }
                 db.Lines.Update(line);
-                db.Complete();
+                result = db.Complete();
+                if (result == 0)
+                {
+                    return "conflict";
+                }
+                else if (result == -1)
+                {
+                    return "Data was modified in meantime, please try again!";
+                }
             }
 
             return "ok";
