@@ -19,6 +19,7 @@ import { MapService } from './mapService';
 })
 export class MapComponent implements OnInit {
 
+  public message1:string;
   markerInfo: MarkerInfo;
   public polyline: Polyline;
   public zoom: number;
@@ -54,6 +55,8 @@ public name:string;
     this.isLoaded=false;
     this.canEdit=false;
     this.getStations();
+    this.message="";
+    this.message1="";
   }
 
 
@@ -66,26 +69,35 @@ public name:string;
     }
     this.polyline.removeLocation();
     this.polyline.addLocation(new GeoLocation($event.coords.lat, $event.coords.lng))
-    alert($event.coords.lat+"   "+$event.coords.lng);   
+    if(this.stationObj==null)
     this.stationObj = new Station();
     this.stationObj.Latitude = $event.coords.lat;
     this.stationObj.Longitude = $event.coords.lng;
+   // this.message="Now it's good :D";
   }
 
   addStation():void{
     this.isLoaded=true;
-    this.stationObj.Name = this.station.controls['Name'].value;
-    this.stationObj.Address = this.station.controls['Address'].value;
-    this.station.controls['Address'].setValue("");
-    this.station.controls['Name'].setValue("");
-
-   // this.markerInfo=new MarkerInfo(new GeoLocation(this.stationObj.Latitude,this.stationObj.Longitude),"hehe","jiji","ok","lala");
-
-    this.mapService.add(this.stationObj).subscribe(ok=>{
-    this.message=ok;
-    this.getStations();
-    this.canEdit=false;
-    })
+    if( this.station.controls['Name'].value=="" || this.station.controls['Address'].value==""){
+      this.message1 = "All fields must be filled";
+    }else{
+      if(this.stationObj==null){
+        this.stationObj = new Station();
+      }
+      this.stationObj.Name = this.station.controls['Name'].value;
+      this.stationObj.Address = this.station.controls['Address'].value;
+        if(this.stationObj.Latitude==null || this.stationObj.Longitude==null){
+          this.message1 = "Pick location from map!";
+        }else{
+          this.station.controls['Address'].setValue("");
+          this.station.controls['Name'].setValue("");
+          this.mapService.add(this.stationObj).subscribe(ok=>{
+          this.getStations();
+          this.canEdit=false;
+          this.message1 = "";
+        })
+      }
+   }
   }
 
 
@@ -101,12 +113,16 @@ public name:string;
     this.statin.Address =this.stationForm.controls['Address'].value;
     this.statin.Latitude =this.stationForm.controls['Latitude'].value;
     this.statin.Longitude =this.stationForm.controls['Longitude'].value;
-      alert(this.statin.Name);
+      if(this.statin.Longitude==null || this.statin.Latitude==null){
+          this.message = "Please type only numbers or choose from map";
+      }else{
+        this.message = "";
+
     this.mapService.update(this.statin).subscribe(ok=>{
      this.getStations();
      this.canEdit=false;
    });
-
+  }
    }
 
    Edit(name){
@@ -116,13 +132,10 @@ public name:string;
         this.statin=elem;
       }
     });
-    alert(this.statin.Address);
-
     this.stationForm.controls['Address'].setValue(this.statin.Address);
     this.stationForm.controls['Latitude'].setValue(this.statin.Latitude);
     this.stationForm.controls['Longitude'].setValue(this.statin.Longitude);
     this.canEdit=true;
-
    }
 
    Delete(name){

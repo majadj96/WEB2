@@ -24,7 +24,6 @@ namespace WebApp.Models
         [JsonIgnore]
         public virtual List<Line> Lines { get; set; }
 
-        [Timestamp]
-        public byte[] RowVersion { get; set; }
+     
     }
 }

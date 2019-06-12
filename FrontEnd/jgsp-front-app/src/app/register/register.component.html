@@ -12,7 +12,7 @@
       </tr>
       <tr>
           <th>Password:</th>
-          <td> <input type="text" formControlName="Password" required placeholder="8 character minimum"></td>
+          <td> <input type="text" formControlName="Password" required placeholder="6 character minimum"></td>
         </tr>
         <tr>
             <th>Repeat password:</th>
@@ -62,7 +62,7 @@
       </tr>	
  
 		<tr>
-		<th colspan="2"><button type="submit">Register</button></th>
+		<th colspan="2"><button type="submit"  [disabled]="!registerForm.valid">Register</button></th>
 		</tr>
 		
     </table>

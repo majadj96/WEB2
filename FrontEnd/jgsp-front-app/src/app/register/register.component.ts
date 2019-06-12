@@ -16,16 +16,14 @@ export class RegisterComponent {
   canUpload:boolean;
 
   registerForm = this.fb.group({
-    Email: ['', Validators.required],
-    Password: ['', Validators.required],
-    ConfirmPassword: ['', Validators.required],
+    Email: ['', Validators.email],
+    Password: ['', Validators.minLength(6)],
+    ConfirmPassword: ['', Validators.minLength(6)],
     FirstName: ['', Validators.required],
     LastName: ['', Validators.required],
     BirthDate:['',Validators.required],
     Address: ['', Validators.required],
-    ImageUrl: ['', Validators.required],
     IDtypeOfUser:[Validators.required],
-
   });
 
   constructor(public registerService: RegisterService, public router: Router, private fb: FormBuilder) {
