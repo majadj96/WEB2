@@ -15,6 +15,7 @@ export class PriceListComponent implements OnInit {
 public isPriceDataLoaded: boolean;
 public isOneHour: boolean;
 
+message:string;
 selectedTicket;
 selectedUser;
 email;
@@ -41,7 +42,7 @@ ticket:Ticket={IDticket:1, BoughtTime:this.dat,CheckIn:this.dat,TypeOfTicket:1,U
 role;
 
 emailForm = this.fb.group({
-  email: ['', Validators.required],
+  email: ['', Validators.email],
 });
 
   constructor(public priceService: PriceService,private fb: FormBuilder, public profileService : ProfileService) {
@@ -55,7 +56,7 @@ emailForm = this.fb.group({
     }else{
       this.isLogged=false;
     }
-    
+    this.message="";
 
 
 
@@ -108,7 +109,7 @@ emailForm = this.fb.group({
     this.role = localStorage.role;
 
     if(this.role==null){
-      alert("Niste se registrovali mozete kupiti samo vremensku kartu!");
+      this.message = "Niste se registrovali mozete kupiti samo vremensku kartu!";
       this.isOneHour=true;
     }
     else{
@@ -132,6 +133,7 @@ emailForm = this.fb.group({
 
   buyOneHour(){
     alert(this.email);
+    this.message="";
     this.ticket.UserName=this.email;
     this.priceService.buyOneHour(this.ticket).subscribe((data) => {
       console.log(data);
