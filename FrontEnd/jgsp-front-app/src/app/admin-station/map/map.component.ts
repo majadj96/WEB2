@@ -56,7 +56,7 @@ public name:string;
     this.getStations();
   }
 
-  
+
 
 
   placeMarker($event){
@@ -103,7 +103,6 @@ public name:string;
     this.statin.Longitude =this.stationForm.controls['Longitude'].value;
       alert(this.statin.Name);
     this.mapService.update(this.statin).subscribe(ok=>{
-     console.log(ok);
      this.getStations();
      this.canEdit=false;
    });

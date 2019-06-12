@@ -302,6 +302,10 @@
     <Compile Include="Migrations\201906101309068_izLongaUdouble.Designer.cs">
       <DependentUpon>201906101309068_izLongaUdouble.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201906121020121_transaction.cs" />
+    <Compile Include="Migrations\201906121020121_transaction.Designer.cs">
+      <DependentUpon>201906121020121_transaction.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -468,6 +472,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201906101309068_izLongaUdouble.resx">
       <DependentUpon>201906101309068_izLongaUdouble.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906121020121_transaction.resx">
+      <DependentUpon>201906121020121_transaction.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

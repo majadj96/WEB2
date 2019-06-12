@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Web;
 using Unity;
@@ -48,7 +49,13 @@ namespace WebApp.Persistence.UnitOfWork
             try
             {
                 return _context.SaveChanges();
-            }catch(Exception e)
+            }
+            catch (DbUpdateConcurrencyException e)
+            {
+                return -1;
+            }
+
+            catch (Exception e)
             { return 0; }
         }
 

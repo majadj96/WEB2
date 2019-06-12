@@ -57,8 +57,12 @@ export class MapService {
       }
  
 
+
     private handleError<T>(operation = 'operation', result?: T) {
       return (error: any): Observable<T> => {
+        if(error.error.Message!=undefined)
+        alert(error.error.Message);
+        
         alert("Greska! Stanica nije dodata.");
         return of(result as T);
       };
