@@ -119,8 +119,8 @@
           </tr>
           <tr *ngFor="let item of tickets">
               <td >{{item.IDticket}}</td>
-              <td>{{item.BoughtTime}}</td>
-              <td>{{item.CheckIn}}</td>
+              <td>{{item.BoughtTime | date: 'short'}}</td>
+              <td>{{item.CheckIn | date: 'short'}}</td>
               <td *ngIf= "item.BoughtTime == item.CheckIn"><button (click)="checkIn(item.IDticket)">Check in</button></td>
               <div *ngIf= "item.BoughtTime != item.CheckIn"><td>Checked in</td></div>
           </tr>

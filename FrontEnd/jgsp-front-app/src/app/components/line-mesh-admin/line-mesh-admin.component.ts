@@ -34,13 +34,10 @@ currentStations: Station[];
 
 
   onChange(s){
-    alert(s.Name);
     var exist = this.checkedStations.indexOf(s);
     if(exist == -1){
-      alert("dodaj");
     this.checkedStations.push(s);
     }else{
-      alert("brisi");
       this.checkedStations.splice(s,1);
     }
   }
@@ -91,6 +88,7 @@ currentStations: Station[];
     this.line.TypeOfLine = this.addForm.controls['typeOfLine'].value;
     this.line.Stations = this.checkedStations;
 
+
     if(this.addForm.controls['number'].value==""){
       this.message = "Must fill Number field.";
     }else if(this.addForm.controls['typeOfLine'].value==""){
@@ -122,7 +120,7 @@ currentStations: Station[];
 
 
   public  editLine(line){
-    this.currentStations = this.checkedStations;
+    this.currentStations = line.Stations;
     this.checkedStations = new Array<Station>();
     this.isBtnEditClicked = true;
     this.editForm = this.fb.group({
@@ -130,7 +128,8 @@ currentStations: Station[];
       typeOfLine: [line.TypeOfLine],
       IDTypeOfLine:[line.IDTypeOfLine],
       currentStations: [this.currentStations],
-      stations:[this.stations]
+      stations:[this.stations],
+      Version:[line.Version]
     });
   }
 
@@ -140,12 +139,18 @@ currentStations: Station[];
     this.line.Number= this.editForm.controls['number'].value;
     this.line.TypeOfLine = this.editForm.controls['typeOfLine'].value;
     this.line.IDtypeOfLine = this.editForm.controls['IDTypeOfLine'].value;
+    this.line.Version = this.editForm.controls['Version'].value;
+    if(this.checkedStations.length!=0){
     this.line.Stations = this.checkedStations;
+    }else{
+      this.line.Stations=this.currentStations;
+    }
 
    this.LineMeshAdminService.editLine(this.line).subscribe(data=>{
       this.getLines();
+      if(data!="ok")
+      alert(data);
       this.messageEdit=data;
-     
     }, err => console.log(err));
 
     this.isBtnEditClicked = false;

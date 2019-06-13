@@ -15,5 +15,7 @@ namespace WebApp.Dto
         public string TypeOfLine { get; set; }
 
         public List<Station> Stations { get; set; }
+
+        public int Version { get; set; }
     }
 }

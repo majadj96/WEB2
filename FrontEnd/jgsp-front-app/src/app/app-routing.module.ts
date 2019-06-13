@@ -19,6 +19,7 @@ import { PriceListAdminComponent } from './components/price-list-admin/price-lis
 import { AdminStationComponent } from './admin-station/admin-station.component';
 import { LineMeshAdminComponent } from './components/line-mesh-admin/line-mesh-admin.component';
 import { LineMeshComponent } from './line-mesh/line-mesh.component';
+import { VehicleLocationComponent } from './vehicle-location/vehicle-location.component';
 
 // import { CrisisCenterComponent } from './crisis-center/crisis-center/crisis-center.component';
 // import { CrisisCenterHomeComponent } from './crisis-center/crisis-center-home/crisis-center-home.component';
@@ -81,10 +82,16 @@ const appRoutes: Routes = [
   { 
     path: 'line-mesh-admin', 
     component: LineMeshAdminComponent, 
-  },{ 
+  },
+  { 
     path: 'lineMesh', 
     component: LineMeshComponent, 
+  },
+  { 
+    path: 'location', 
+    component: VehicleLocationComponent, 
   }
+  
   
 ];
 

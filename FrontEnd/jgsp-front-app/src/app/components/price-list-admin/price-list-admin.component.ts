@@ -110,9 +110,10 @@ export class PriceListAdminComponent implements OnInit {
   }
 
   public  editLine(priceListLine){
+    let t=new Date(Date.now()).toLocaleDateString();
     this.isBtnEditClicked = true;
     this.editForm = this.fb.group({
-      pricelist: [priceListLine.ValidFrom],
+      pricelist: [t],
       ticket: [priceListLine.TypeOfTicket],
       price: [priceListLine.Value],
       IDPrice:[priceListLine.IDPrice],

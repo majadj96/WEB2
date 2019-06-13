@@ -19,8 +19,7 @@ namespace WebApp.Models
         [JsonIgnore]
         public List<PriceList> PriceLists { get; set; }
         
-        [Timestamp]
-        public byte[] RowVersion { get; set; }
+     
 
     }
 }

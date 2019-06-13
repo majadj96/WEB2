@@ -5,4 +5,5 @@ export class Line{
     IDtypeOfLine: number;
     TypeOfLine: string;
     Stations: Station[];
+    Version:number;
 }

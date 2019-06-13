@@ -38,8 +38,6 @@ export class LineMeshComponent implements OnInit {
   }
 
 lala(a){
-
-  alert(a);
   this.polylines1 = new Array<Polyline>();
   this.markersInfo = new Array<MarkerInfo>();
 

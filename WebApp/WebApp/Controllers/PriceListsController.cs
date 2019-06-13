@@ -50,7 +50,9 @@ namespace WebApp.Controllers
                
             }
 
-            return ret;
+
+
+            return ret.OrderBy(o => o.ValidFrom).ToList(); ;
         }
 
         // GET: api/PriceLists/5

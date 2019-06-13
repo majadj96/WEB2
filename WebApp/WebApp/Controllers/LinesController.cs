@@ -60,7 +60,7 @@ namespace WebApp.Controllers
             foreach (Line l in lines)
             {
                 string type = db.TypesOfLine.GetAll().FirstOrDefault(u => u.IDtypeOfLine == l.IDtypeOfLine).typeOfLine;
-                LinePlus lp = new LinePlus() { Number = l.Number, IDtypeOfLine = l.IDtypeOfLine, TypeOfLine = type };
+                LinePlus lp = new LinePlus() { Number = l.Number, IDtypeOfLine = l.IDtypeOfLine, TypeOfLine = type,Stations= l.Stations, Version=l.Version };
                 ret.Add(lp);
             }
 
@@ -111,8 +111,11 @@ namespace WebApp.Controllers
                     
                 }
             }
-            if(line.Departures.Count>0)
-            dep = dep.Substring(0, dep.Length - 1);
+            if (line.Departures.Count > 0)
+            {
+                if(dep.Length != 0)
+                 dep = dep.Substring(0, dep.Length - 1);
+            }
             List<Departure> deps = new List<Departure>();
             deps = db.Departures.GetAll().Where(u => u.IDDay == day.IDDay).ToList();
             
@@ -186,7 +189,7 @@ namespace WebApp.Controllers
             else
             {
                 int id = db.TypesOfLine.GetAll().FirstOrDefault(u => u.typeOfLine == linePlus.TypeOfLine).IDtypeOfLine;
-                Line newLine = new Line() { Number = linePlus.Number, IDtypeOfLine = id };
+                Line newLine = new Line() { Number = linePlus.Number, IDtypeOfLine = id, Version=0 };
                 newLine.Stations = new List<Station>();
                 foreach(Station s in linePlus.Stations)
                 {
@@ -220,6 +223,11 @@ namespace WebApp.Controllers
             }
             else
             {
+                if (line.Version != linePlus.Version)
+                {
+                    return "Data was modified in meantime, please try again!";
+                }
+
                 int id = db.TypesOfLine.GetAll().FirstOrDefault(u => u.typeOfLine == linePlus.TypeOfLine).IDtypeOfLine;
                 line.IDtypeOfLine = id;
                 line.Stations = new List<Station>();
@@ -229,6 +237,7 @@ namespace WebApp.Controllers
                     line.Stations.Add(station);
                     db.Stations.Update(station);
                 }
+                line.Version++;
                 db.Lines.Update(line);
                 result = db.Complete();
                 if (result == 0)

@@ -25,6 +25,7 @@ import { AdminStationComponent } from './admin-station/admin-station.component';
 import { MapComponent } from './admin-station/map/map.component';
 import { LineMeshComponent } from './line-mesh/line-mesh.component';
 import { LineMeshAdminComponent } from './components/line-mesh-admin/line-mesh-admin.component';
+import { VehicleLocationComponent } from './vehicle-location/vehicle-location.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { LineMeshAdminComponent } from './components/line-mesh-admin/line-mesh-a
     MapComponent,
     PriceListAdminComponent,
     LineMeshComponent,
-    LineMeshAdminComponent
+    LineMeshAdminComponent,
+    VehicleLocationComponent
   ],
   imports: [
     BrowserModule,

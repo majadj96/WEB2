@@ -97,13 +97,13 @@ public editForm: FormGroup;
 
   
   public  editLine(scheduleLine){
-    
+    let t=new Date(scheduleLine.Time).toLocaleTimeString();
     this.isBtnEditClicked = true;
     this.editForm = this.fb.group({
       id:[scheduleLine.IDDay],
       line: [scheduleLine.Number],
       day: [scheduleLine.Day],
-      time: [scheduleLine.Time]
+      time: [t]
 
     });
   }

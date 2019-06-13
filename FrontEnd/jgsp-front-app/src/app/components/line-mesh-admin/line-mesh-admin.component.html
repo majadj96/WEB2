@@ -16,7 +16,7 @@
       </div>
 
       <div class="form-group">
-          <label for="stations">Stations:</label>
+          <label style="color: rgb(72, 187, 72); font-size: 15px"  for="stations">Stations:&nbsp;</label>
           <label  *ngFor="let station of stations; let i= index">
               <input type="checkbox"  (change)="onChange(station)">
               &nbsp;  {{station.Name}}&nbsp;&nbsp;
@@ -34,7 +34,7 @@
     <form [formGroup]="editForm" (ngSubmit)="onSubmitEdit()">
         <div class="form-group">
             <label for="number">Number</label>
-            <input formControlName="number" type="number" [disabled] ="true" required  name="number" class="form-control" id="number">
+            <input formControlName="number" type="number" readonly  name="number" class="form-control" id="number">
          
           </div>
       
@@ -47,28 +47,29 @@
           </div>
 
           <div class="form-group">
-            <label for="currentStations">Current Stations:</label>
-            <label  *ngFor="let currentStation of currentStations"> &nbsp;{{currentStation.Name}}</label>
+            <label style="color: rgb(72, 187, 72); font-size: 15px" for="currentStations">Current stations:</label>
+            <label  *ngFor="let currentStation of currentStations"> &nbsp;{{currentStation.Name}}&nbsp;<b style="color: rgb(72, 187, 72); font-size: 20px">--</b></label>
     
           </div>
 
           <div class="form-group">
-              <label for="stations">Stations:</label>
+              <label style="color: rgb(72, 187, 72); font-size: 15px" for="stations">Stations: &nbsp;</label>
               <label  *ngFor="let station of stations; let i= index">
                   <input type="checkbox"  (change)="onChange(station)">
-                  &nbsp; {{station.Name}}&nbsp;&nbsp;
+                  {{station.Name}}&nbsp;&nbsp;&nbsp;
                 </label>
     
             </div>
-          <p>{{messageEdit}}</p>
       <button class="btn btn-success" [disabled]="!editForm.valid" >Edit</button>
     </form>
   </div>
 
 <div class="col-md-6 user-container">
+  <br>
     <h2 style="margin: auto">Lines</h2>
+    <hr>
     
-    <button class="btn btn-danger" style="width:140px" (click)="addLine()"> Add Line </button>
+    <button class="btn btn-danger" style="width:140px; background-color: #f3c239; border-color: wheat" (click)="addLine()"> Add Line </button>
     <table class="table table-striped">
       <thead>
       <tr>
@@ -79,7 +80,8 @@
       </thead>
       <tbody>
       <tr *ngFor="let line of lines">
-        <td class="hidden">{{line.IDtypeOfLine}}</td>
+          <td class="hidden">{{line.Version}}</td>
+          <td class="hidden">{{line.IDtypeOfLine}}</td>
         <td>{{line.Number}}</td>
         <td>{{line.TypeOfLine}}</td>
         <td><button class="btn btn-success" (click)="deleteLine(line)"> Delete </button>
@@ -87,5 +89,6 @@
       </tr>
       </tbody>
     </table>
+    <!-- <p>{{messageEdit}}</p> -->
+
   </div>
-  

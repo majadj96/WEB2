@@ -19,12 +19,13 @@ export class PriceListAdminService {
    }
 
    public addPriceListLine(priceListLine :PriceListLine){
-     alert(priceListLine.ValidFrom);
      return this.client.post<any>(this.baseUrl+"api/PriceList/PostPriceListLine",priceListLine, {'headers': {'Content-type': 'application/json'}});
    }
 
    public editLine(priceListLine: PriceListLine){
-    return this.client.post<any>(this.baseUrl+"api/PriceList/EditLine",priceListLine, {'headers': {'Content-type': 'application/json'}});
+    return this.client.post<any>(this.baseUrl+"api/PriceList/PostPriceListLine",priceListLine, {'headers': {'Content-type': 'application/json'}});
+   
+   // return this.client.post<any>(this.baseUrl+"api/PriceList/EditLine",priceListLine, {'headers': {'Content-type': 'application/json'}});
   }
 
   public deleteLine(priceListLine: PriceListLine){

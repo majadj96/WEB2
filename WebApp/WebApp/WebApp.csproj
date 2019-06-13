@@ -322,6 +322,26 @@
     <Compile Include="Migrations\201906121551284_plz.Designer.cs">
       <DependentUpon>201906121551284_plz.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201906130808484_proveraa.cs" />
+    <Compile Include="Migrations\201906130808484_proveraa.Designer.cs">
+      <DependentUpon>201906130808484_proveraa.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201906130809251_proveraaaa.cs" />
+    <Compile Include="Migrations\201906130809251_proveraaaa.Designer.cs">
+      <DependentUpon>201906130809251_proveraaaa.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201906130810429_proveraaaaaaa.cs" />
+    <Compile Include="Migrations\201906130810429_proveraaaaaaa.Designer.cs">
+      <DependentUpon>201906130810429_proveraaaaaaa.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201906130812362_timestampforlines.cs" />
+    <Compile Include="Migrations\201906130812362_timestampforlines.Designer.cs">
+      <DependentUpon>201906130812362_timestampforlines.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201906131311302_asistent.cs" />
+    <Compile Include="Migrations\201906131311302_asistent.Designer.cs">
+      <DependentUpon>201906131311302_asistent.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -503,6 +523,21 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201906121551284_plz.resx">
       <DependentUpon>201906121551284_plz.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906130808484_proveraa.resx">
+      <DependentUpon>201906130808484_proveraa.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906130809251_proveraaaa.resx">
+      <DependentUpon>201906130809251_proveraaaa.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906130810429_proveraaaaaaa.resx">
+      <DependentUpon>201906130810429_proveraaaaaaa.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906130812362_timestampforlines.resx">
+      <DependentUpon>201906130812362_timestampforlines.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906131311302_asistent.resx">
+      <DependentUpon>201906131311302_asistent.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
